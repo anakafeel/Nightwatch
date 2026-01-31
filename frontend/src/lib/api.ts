@@ -4,33 +4,35 @@ import { mockRouteResult, simulateDelay } from "./mockRoute";
 
 /**
  * API configuration
+ * Set in frontend/.env.local:
+ * NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/v1
+ * NEXT_PUBLIC_USE_MOCK=false
  */
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
-const USE_MOCK = !API_URL || process.env.NEXT_PUBLIC_USE_MOCK === "true";
+const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === "true" || !API_URL;
 
 /** Check if running in demo mode (no backend) */
 export const isDemoMode = USE_MOCK;
+console.log("[API]", {
+  API_URL,
+  USE_MOCK,
+  NEXT_PUBLIC_USE_MOCK: process.env.NEXT_PUBLIC_USE_MOCK,
+});
 
-/**
- * Custom error class for API errors
- */
 export class ApiError extends Error {
   constructor(
     message: string,
     public status?: number,
-    public code?: string
+    public code?: string,
   ) {
     super(message);
     this.name = "ApiError";
   }
 }
 
-/**
- * Base fetch wrapper with error handling
- */
 async function fetchApi<T>(
   endpoint: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
 ): Promise<T> {
   const url = `${API_URL}${endpoint}`;
 
@@ -44,9 +46,10 @@ async function fetchApi<T>(
     });
 
     if (!response.ok) {
+      const text = await response.text().catch(() => "");
       throw new ApiError(
-        `API request failed: ${response.statusText}`,
-        response.status
+        `API request failed: ${response.status} ${response.statusText} ${text ? `- ${text}` : ""}`,
+        response.status,
       );
     }
 
@@ -54,54 +57,43 @@ async function fetchApi<T>(
   } catch (error) {
     if (error instanceof ApiError) throw error;
     throw new ApiError(
-      error instanceof Error ? error.message : "Network error"
+      error instanceof Error ? error.message : "Network error",
     );
   }
 }
 
-/**
- * Fetch route recommendation from the backend
- */
 export async function fetchRoute(request: RouteRequest): Promise<RouteResult> {
-  // Use mock data in development or when mock mode is enabled
   if (USE_MOCK) {
-    await simulateDelay(1500);
+    await simulateDelay(800);
     return mockRouteResult;
   }
 
-  const response = await fetchApi<RouteResult>("/v1/route/compare", {
+  const response = await fetchApi<RouteResult>("/route/compare", {
     method: "POST",
     body: JSON.stringify(request),
   });
 
-  // Validate response with Zod
   const parsed = routeResultSchema.safeParse(response);
   if (!parsed.success) {
+    // This makes debugging 10x easier
+    // eslint-disable-next-line no-console
+    console.error(
+      "Invalid API response (zod)",
+      parsed.error.flatten(),
+      response,
+    );
     throw new ApiError("Invalid response format from API");
   }
 
   return parsed.data as RouteResult;
 }
 
-/**
- * Health check endpoint
- */
 export async function checkHealth(): Promise<{ status: string }> {
-  if (USE_MOCK) {
-    return { status: "ok" };
-  }
-
+  if (USE_MOCK) return { status: "ok" };
   return fetchApi<{ status: string }>("/health");
 }
 
-/**
- * API client object for organized access
- */
 export const api = {
-  route: {
-    fetch: fetchRoute,
-  },
-  health: {
-    check: checkHealth,
-  },
+  route: { fetch: fetchRoute },
+  health: { check: checkHealth },
 };
