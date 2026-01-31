@@ -143,6 +143,24 @@ input[type="range"]::-moz-range-track {
   }
 }
 
+/* Hero Background Depth Effect */
+.hero-bg-depth {
+  position: relative;
+}
+
+.hero-bg-depth::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 60%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, rgba(19, 200, 236, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* SVG Route Draw Animation */
 .route-draw {
   stroke-dasharray: 1000;
