@@ -8,6 +8,7 @@ This file can switch between mock vs real later without changing endpoints.
 from typing import Any, Dict, Tuple
 
 from app.api.schemas import RouteRequest, RouteResult, RouteData
+from app.settings import demo_mode
 
 # Person B engine (real later). Keep import even if unused for now.
 from app.services import routing_engine
@@ -54,24 +55,7 @@ MOCK_SHORTEST_GEOJSON = {
 }
 
 
-def compare_routes(req: RouteRequest) -> RouteResult:
-    """
-    Returns safest + shortest.
-    For now: ALWAYS mock.
-    Later: call routing_engine.compare_routes(...) and return real.
-    """
-
-    # Keep signature stable: (lat, lng) tuples
-    start: Tuple[float, float] = (req.start.lat, req.start.lng)
-    end: Tuple[float, float] = (req.end.lat, req.end.lng)
-
-    weights: Dict[str, Any] = {}
-    if req.weights is not None:
-        weights = {"lights": req.weights.lights, "cameras": req.weights.cameras}
-
-    # --- Phase 1 (now): return mock always ---
-    _ = (start, end, weights, req.mode, req.maxDetour, req.useCctv)  # silence unused for now
-
+def _mock_result() -> RouteResult:
     return RouteResult(
         safest=RouteData(
             geojson=MOCK_SAFEST_GEOJSON,
@@ -97,12 +81,33 @@ def compare_routes(req: RouteRequest) -> RouteResult:
         ),
     )
 
-    # --- Phase 2 (later): real engine (uncomment when ready) ---
-    # return routing_engine.compare_routes(
-    #     start=start,
-    #     end=end,
-    #     weights=weights,
-    #     mode=req.mode,
-    #     max_detour=req.maxDetour,
-    #     use_cctv=req.useCctv,
-    # )
+
+def compare_routes(req: RouteRequest) -> RouteResult:
+    """
+    Returns safest + shortest.
+
+    DEMO_MODE=1 (default): always returns mock.
+    DEMO_MODE=0: calls routing_engine.compare_routes(...) (Person B later).
+    """
+
+    # Always safe demo behavior unless explicitly disabled
+    if demo_mode():
+        return _mock_result()
+
+    # Keep signature stable: (lat, lng) tuples
+    start: Tuple[float, float] = (req.start.lat, req.start.lng)
+    end: Tuple[float, float] = (req.end.lat, req.end.lng)
+
+    weights: Dict[str, Any] = {}
+    if req.weights is not None:
+        weights = {"lights": req.weights.lights, "cameras": req.weights.cameras}
+
+    # Phase 2 (later): real engine
+    return routing_engine.compare_routes(
+        start=start,
+        end=end,
+        weights=weights,
+        mode=req.mode,
+        max_detour=req.maxDetour,
+        use_cctv=req.useCctv,
+    )
