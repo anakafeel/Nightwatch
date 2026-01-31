@@ -10,15 +10,39 @@ export default function LandingPage() {
 
       <main className="relative z-10">
         {/* Hero Section */}
-        <section className="relative h-screen w-full overflow-hidden">
-          {/* Background Image */}
+        <section className="relative h-screen w-full overflow-hidden isolate">
+          {/* Abstract City Background */}
           <div className="absolute inset-0">
-            <img
-              src="/placeholders/hero-city.png"
-              alt=""
-              className="w-full h-full object-cover opacity-40"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-background-dark/60 via-background-dark/20 to-background-dark" />
+            {/* Base gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#050A14] via-[#0a1628] to-[#0B1221]" />
+
+            {/* City silhouette shapes */}
+            <div className="absolute bottom-0 left-0 right-0 h-[60%]">
+              {/* Building silhouettes */}
+              <div className="absolute bottom-0 left-[5%] w-16 h-[45%] bg-[#0c1a2a] rounded-t-sm" />
+              <div className="absolute bottom-0 left-[10%] w-24 h-[65%] bg-[#0a1525] rounded-t-sm" />
+              <div className="absolute bottom-0 left-[18%] w-12 h-[35%] bg-[#0d1c2d] rounded-t-sm" />
+              <div className="absolute bottom-0 left-[25%] w-20 h-[55%] bg-[#091320] rounded-t-sm" />
+              <div className="absolute bottom-0 right-[30%] w-32 h-[70%] bg-[#0b1826] rounded-t-sm" />
+              <div className="absolute bottom-0 right-[20%] w-16 h-[50%] bg-[#0c1a29] rounded-t-sm" />
+              <div className="absolute bottom-0 right-[10%] w-28 h-[60%] bg-[#0a1422] rounded-t-sm" />
+              <div className="absolute bottom-0 right-[5%] w-14 h-[40%] bg-[#0d1d2f] rounded-t-sm" />
+
+              {/* Window lights */}
+              <div className="absolute bottom-[20%] left-[11%] w-1 h-1 bg-primary/60 rounded-full shadow-[0_0_6px_#13c8ec]" />
+              <div className="absolute bottom-[35%] left-[12%] w-1 h-1 bg-noor-gold/50 rounded-full shadow-[0_0_4px_#fffacd]" />
+              <div className="absolute bottom-[25%] right-[32%] w-1 h-1 bg-primary/40 rounded-full shadow-[0_0_6px_#13c8ec]" />
+              <div className="absolute bottom-[45%] right-[33%] w-1 h-1 bg-white/30 rounded-full" />
+              <div className="absolute bottom-[30%] right-[12%] w-1 h-1 bg-noor-gold/40 rounded-full shadow-[0_0_4px_#fffacd]" />
+              <div className="absolute bottom-[15%] right-[22%] w-1 h-1 bg-primary/50 rounded-full shadow-[0_0_6px_#13c8ec]" />
+            </div>
+
+            {/* Ambient glows */}
+            <div className="absolute top-[20%] right-[20%] w-[500px] h-[300px] bg-primary/5 rounded-full blur-3xl" />
+            <div className="absolute top-[40%] left-[10%] w-[400px] h-[250px] bg-noor-gold/3 rounded-full blur-3xl" />
+            <div className="absolute bottom-[30%] right-[30%] w-[300px] h-[200px] bg-primary/8 rounded-full blur-2xl" />
+
+            {/* Bottom fade */}
             <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent" />
           </div>
 
@@ -37,7 +61,15 @@ export default function LandingPage() {
                 {/* Headline */}
                 <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight text-white drop-shadow-2xl">
                   Walk with <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-noor-gold">
+                  <span
+                    className="inline-block"
+                    style={{
+                      background: "linear-gradient(to right, #13c8ec, #fffacd)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
                     confidence
                   </span>{" "}
                   <br />
@@ -81,7 +113,7 @@ export default function LandingPage() {
                     {[1, 2, 3].map((i) => (
                       <img
                         key={i}
-                        src={`/placeholders/avatar-${i}.svg`}
+                        src={`/images/avatar-${i}.svg`}
                         alt={`User ${i}`}
                         className="w-10 h-10 rounded-full border-2 border-background-dark"
                       />
@@ -113,7 +145,7 @@ export default function LandingPage() {
           <div className="flex flex-col md:flex-row items-center gap-16 lg:gap-24">
             <div className="flex-1 w-full order-2 md:order-1">
               <div className="relative group aspect-[4/3] rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-surface-dark">
-                <img src="/placeholders/map-card-1.png" alt="Smart routing" className="w-full h-full object-cover opacity-60" />
+                <img src="/images/map-card-1.png" alt="Smart routing" className="w-full h-full object-cover opacity-60" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background-dark/80 to-transparent" />
                 <div className="absolute bottom-8 left-8 flex items-center gap-4">
                   <div className="w-16 h-16 rounded-2xl bg-primary/20 backdrop-blur-md border border-primary/30 flex items-center justify-center text-primary shadow-glow shadow-primary/20">
@@ -150,7 +182,7 @@ export default function LandingPage() {
             </div>
             <div className="flex-1 w-full">
               <div className="relative group aspect-[4/3] rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-surface-dark">
-                <img src="/placeholders/map-card-2.png" alt="Safety preferences" className="w-full h-full object-cover opacity-60" />
+                <img src="/images/map-card-2.png" alt="Safety preferences" className="w-full h-full object-cover opacity-60" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background-dark/80 to-transparent" />
                 <div className="absolute bottom-8 right-8 flex items-center gap-4">
                   <div className="w-16 h-16 rounded-2xl bg-noor-gold/20 backdrop-blur-md border border-noor-gold/30 flex items-center justify-center text-noor-gold shadow-glow shadow-noor-gold/20">
