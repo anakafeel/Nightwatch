@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AppNav } from "@/components/layout/AppNav";
 import { Button, Input, Slider } from "@/components/ui";
@@ -19,11 +19,26 @@ interface RouteFormData {
 }
 
 export default function AppPage() {
+  // USED FOR TESTING FRONT END AND BACK END CONNECTION !!!!!!!!!!!!!!!!!!!!!!!!!!
+  //  useEffect(() => {
+  //    console.log("[CLIENT DEBUG] isDemoMode:", isDemoMode);
+  //    console.log(
+  //      "[CLIENT DEBUG] NEXT_PUBLIC_API_URL:",
+  //      process.env.NEXT_PUBLIC_API_URL,
+  //    );
+  //    console.log(
+  //      "[CLIENT DEBUG] NEXT_PUBLIC_USE_MOCK:",
+  //      process.env.NEXT_PUBLIC_USE_MOCK,
+  //    );
+  //  }, []);
+
   const [mode, setMode] = useState<RouteMode>("night");
   const [maxDetour, setMaxDetour] = useState(15);
   const [lightsWeight, setLightsWeight] = useState(80);
   const [observabilityWeight, setObservabilityWeight] = useState(45);
-  const [selectedRoute, setSelectedRoute] = useState<"safest" | "shortest">("safest");
+  const [selectedRoute, setSelectedRoute] = useState<"safest" | "shortest">(
+    "safest",
+  );
 
   const { fetchRoute, data: routeData, isLoading } = useRouteQuery();
   const showCctv = usePreferencesStore((state) => state.showCctvIndicators);
@@ -186,7 +201,9 @@ export default function AppPage() {
                       <span className="material-symbols-outlined text-[18px]">
                         lightbulb
                       </span>
-                      <span className="text-xs font-medium">Street Lighting</span>
+                      <span className="text-xs font-medium">
+                        Street Lighting
+                      </span>
                     </div>
                     <span className="text-xs text-white">
                       {getWeightLabel(lightsWeight)}
@@ -208,7 +225,10 @@ export default function AppPage() {
                     />
                     <div
                       className="absolute size-3 bg-primary rounded-full"
-                      style={{ left: `${lightsWeight}%`, transform: "translateX(-50%)" }}
+                      style={{
+                        left: `${lightsWeight}%`,
+                        transform: "translateX(-50%)",
+                      }}
                     />
                   </div>
                 </div>
@@ -237,12 +257,17 @@ export default function AppPage() {
                       min={0}
                       max={100}
                       value={observabilityWeight}
-                      onChange={(e) => setObservabilityWeight(Number(e.target.value))}
+                      onChange={(e) =>
+                        setObservabilityWeight(Number(e.target.value))
+                      }
                       className="absolute w-full opacity-0 cursor-pointer"
                     />
                     <div
                       className="absolute size-3 bg-primary rounded-full"
-                      style={{ left: `${observabilityWeight}%`, transform: "translateX(-50%)" }}
+                      style={{
+                        left: `${observabilityWeight}%`,
+                        transform: "translateX(-50%)",
+                      }}
                     />
                   </div>
                 </div>
@@ -266,10 +291,7 @@ export default function AppPage() {
         {/* Map View */}
         <main className="flex-1 relative bg-[#0b1215] overflow-hidden hidden md:block">
           {/* Map Canvas or Fallback */}
-          <MapCanvas
-            routeData={routeData}
-            className="absolute inset-0 z-0"
-          />
+          <MapCanvas routeData={routeData} className="absolute inset-0 z-0" />
 
           {/* Fallback Map Background (shown when no Mapbox token) */}
           <div className="absolute inset-0 z-0 bg-map-pattern">
@@ -280,9 +302,21 @@ export default function AppPage() {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <defs>
-                  <linearGradient id="safeRouteGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style={{ stopColor: "#13c8ec", stopOpacity: 1 }} />
-                    <stop offset="100%" style={{ stopColor: "#0ea5e9", stopOpacity: 1 }} />
+                  <linearGradient
+                    id="safeRouteGradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="0%"
+                  >
+                    <stop
+                      offset="0%"
+                      style={{ stopColor: "#13c8ec", stopOpacity: 1 }}
+                    />
+                    <stop
+                      offset="100%"
+                      style={{ stopColor: "#0ea5e9", stopOpacity: 1 }}
+                    />
                   </linearGradient>
                   <filter id="glow">
                     <feGaussianBlur stdDeviation="4" result="coloredBlur" />
@@ -311,9 +345,23 @@ export default function AppPage() {
                   filter="url(#glow)"
                 />
                 {/* Start Point */}
-                <circle cx="450" cy="600" r="8" fill="#13c8ec" stroke="white" strokeWidth="3" />
+                <circle
+                  cx="450"
+                  cy="600"
+                  r="8"
+                  fill="#13c8ec"
+                  stroke="white"
+                  strokeWidth="3"
+                />
                 {/* End Point */}
-                <circle cx="1100" cy="400" r="8" fill="#ef4444" stroke="white" strokeWidth="3" />
+                <circle
+                  cx="1100"
+                  cy="400"
+                  r="8"
+                  fill="#ef4444"
+                  stroke="white"
+                  strokeWidth="3"
+                />
               </svg>
             )}
           </div>
@@ -361,8 +409,12 @@ export default function AppPage() {
             {routeData ? (
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-primary font-bold text-lg">Safest Route</span>
-                  <span className="text-white font-bold">{routeData.safest.eta_min} min</span>
+                  <span className="text-primary font-bold text-lg">
+                    Safest Route
+                  </span>
+                  <span className="text-white font-bold">
+                    {routeData.safest.eta_min} min
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="h-1.5 flex-1 bg-surface-dark rounded-full overflow-hidden">
