@@ -1,0 +1,180 @@
+/* Pathify Noor Design Tokens */
+
+:root {
+  /* Primary Colors */
+  --color-primary: #13c8ec;
+  --color-primary-glow: rgba(19, 200, 236, 0.5);
+  --color-primary-dark: #0ea5c3;
+
+  /* Accent Colors */
+  --color-noor-gold: #fffacd;
+  --color-secondary: #fbbf24;
+
+  /* Background Colors */
+  --color-background-light: #f6f8f8;
+  --color-background-dark: #050a14;
+  --color-background-dark-end: #0b1221;
+
+  /* Surface Colors */
+  --color-surface-dark: #1c2e33;
+  --color-surface-darker: #111f22;
+
+  /* Border Colors */
+  --color-border-dark: #2a4248;
+  --color-glass-border: rgba(255, 255, 255, 0.1);
+  --color-glass-bg: rgba(255, 255, 255, 0.03);
+
+  /* Text Colors */
+  --color-text-muted: #92c0c9;
+}
+
+/* Glass Panel Effect */
+.glass-panel {
+  background: rgba(16, 31, 34, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Navigation Glass Effect */
+.nav-glass {
+  background: rgba(5, 10, 20, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Text Glow Effect */
+.text-glow {
+  text-shadow: 0 0 20px rgba(19, 200, 236, 0.4);
+}
+
+/* Map Pattern Background */
+.bg-map-pattern {
+  background-color: #0e1a1d;
+  background-image: radial-gradient(#192f33 1px, transparent 1px),
+    radial-gradient(#192f33 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--color-background-dark);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Range Slider Styling */
+input[type="range"] {
+  -webkit-appearance: none;
+  background: transparent;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  margin-top: -8px;
+  box-shadow: 0 0 10px rgba(19, 200, 236, 0.5);
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  background: #334155;
+  border-radius: 2px;
+}
+
+input[type="range"]::-moz-range-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 10px rgba(19, 200, 236, 0.5);
+}
+
+input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  background: #334155;
+  border-radius: 2px;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Loading Animation for Path */
+.path-line {
+  stroke-dasharray: 10;
+  animation: dash 3s linear infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+/* SVG Route Draw Animation */
+.route-draw {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw-route 2s ease-out forwards;
+}
+
+@keyframes draw-route {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Pulse Animation for Points */
+.pulse-point {
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+  0% {
+    r: 4;
+    opacity: 1;
+    filter: drop-shadow(0 0 4px #13c8ec);
+  }
+  50% {
+    r: 6;
+    opacity: 0.6;
+    filter: drop-shadow(0 0 8px #13c8ec);
+  }
+  100% {
+    r: 4;
+    opacity: 1;
+    filter: drop-shadow(0 0 4px #13c8ec);
+  }
+}
