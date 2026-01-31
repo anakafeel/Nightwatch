@@ -1,0 +1,8 @@
+{
+  "start": { "lat": 45.4215, "lng": -75.6972 },
+  "end": { "lat": 45.4275, "lng": -75.6880 },
+  "mode": "night",
+  "maxDetour": 15,
+  "weights": { "lights": 80, "cameras": 45 },
+  "useCctv": false
+}

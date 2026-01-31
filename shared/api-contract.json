@@ -1,0 +1,39 @@
+{
+  "version": "v1",
+  "basePath": "/v1",
+  "endpoints": {
+    "GET /v1/health": {
+      "response": {
+        "status": "ok"
+      }
+    },
+    "POST /v1/route/compare": {
+      "request": {
+        "start": { "lat": 45.4215, "lng": -75.6972 },
+        "end": { "lat": 45.4275, "lng": -75.688 },
+        "mode": "night",
+        "maxDetour": 15,
+        "weights": { "lights": 80, "cameras": 45 },
+        "useCctv": false
+      },
+      "response": {
+        "safest": {
+          "geojson": { "type": "FeatureCollection", "features": [] },
+          "distance_m": 2400,
+          "eta_min": 12,
+          "safety_score": 98,
+          "coverage": "high",
+          "reasons": ["Well-lit main avenues"]
+        },
+        "shortest": {
+          "geojson": { "type": "FeatureCollection", "features": [] },
+          "distance_m": 1800,
+          "eta_min": 9,
+          "safety_score": 45,
+          "coverage": "low",
+          "reasons": ["Some unlit segments"]
+        }
+      }
+    }
+  }
+}
