@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pathify Noor - Route Planning</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#13c8ec",
+              "background-light": "#f6f8f8",
+              "background-dark": "#101f22",
+              "surface-dark": "#1c2e33",
+              "border-dark": "#2a4248",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            boxShadow: {
+                'glow': '0 0 15px rgba(19, 200, 236, 0.4)',
+                'glow-sm': '0 0 8px rgba(19, 200, 236, 0.3)',
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(16, 31, 34, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .map-pattern {
+            background-color: #0f172a;
+            background-image: radial-gradient(#1e293b 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-white font-display overflow-hidden h-screen flex flex-col selection:bg-primary selection:text-black">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-border-dark bg-background-dark px-6 py-3 z-30 shrink-0">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-tight">Pathify Noor</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<nav class="hidden md:flex items-center gap-1">
+<a class="text-primary bg-primary/10 px-4 py-2 rounded-lg text-sm font-semibold leading-normal transition-colors" href="#">Route</a>
+<a class="text-[#92c0c9] hover:text-white hover:bg-white/5 px-4 py-2 rounded-lg text-sm font-medium leading-normal transition-colors" href="#">Insights</a>
+<a class="text-[#92c0c9] hover:text-white hover:bg-white/5 px-4 py-2 rounded-lg text-sm font-medium leading-normal transition-colors" href="#">Saved</a>
+<a class="text-[#92c0c9] hover:text-white hover:bg-white/5 px-4 py-2 rounded-lg text-sm font-medium leading-normal transition-colors" href="#">Settings</a>
+</nav>
+<div class="h-8 w-px bg-border-dark mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 ring-2 ring-border-dark" data-alt="User profile avatar showing a stylized silhouette" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAXBMHJEHhCKwpwKh2RF4w_YPKCWBUt7jJKdFnpOnbgBOFi5kFOd6qTuizbSabdbE6mGARtmLsZeOE0s2to7-cu-S-txl9XVbAoVGrKNnv1wUXMTvzI_cjqtpmPKiIsaQluMI2pm9EYYGBwTHdZqs19LUh4-VM0InffSIDalSFnFNBqAukAHH_m1cWvJbKswV1bHIrBrK1-NrsLMLpoUrQSauiiyZLBYVGLJzjioMTagqKidjAxKipb3oEwgfgQRTOqCYuLNM9IEPjK");'></div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<div class="flex flex-1 overflow-hidden relative">
+<!-- Sidebar (Glassmorphism) -->
+<aside class="w-[420px] flex flex-col z-20 glass-panel border-r border-border-dark h-full overflow-y-auto custom-scrollbar shadow-2xl">
+<div class="p-6 space-y-8">
+<!-- Inputs Section -->
+<div class="space-y-4">
+<h3 class="text-[#92c0c9] text-xs font-bold uppercase tracking-wider">Navigation</h3>
+<!-- Start Location -->
+<div class="group">
+<label class="block text-sm font-medium text-white mb-2">Start Location</label>
+<div class="flex items-center bg-surface-dark rounded-lg border border-border-dark focus-within:border-primary/50 focus-within:ring-1 focus-within:ring-primary/50 transition-all">
+<span class="material-symbols-outlined text-[#92c0c9] pl-3">my_location</span>
+<input class="flex-1 bg-transparent border-none text-white placeholder-[#5a7a82] focus:ring-0 text-sm h-12" placeholder="Enter start point..." type="text" value="Central Station"/>
+<button class="p-2 mr-1 text-primary hover:bg-primary/10 rounded-md transition-colors" title="Locate Me">
+<span class="material-symbols-outlined text-[20px]">gps_fixed</span>
+</button>
+</div>
+</div>
+<!-- Destination -->
+<div class="group">
+<label class="block text-sm font-medium text-white mb-2">Destination</label>
+<div class="flex items-center bg-surface-dark rounded-lg border border-border-dark focus-within:border-primary/50 focus-within:ring-1 focus-within:ring-primary/50 transition-all">
+<span class="material-symbols-outlined text-[#92c0c9] pl-3">location_on</span>
+<input class="flex-1 bg-transparent border-none text-white placeholder-[#5a7a82] focus:ring-0 text-sm h-12" placeholder="Where to?" type="text" value="Riverside Plaza"/>
+</div>
+</div>
+</div>
+<div class="h-px bg-border-dark w-full"></div>
+<!-- Preferences Section -->
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="text-[#92c0c9] text-xs font-bold uppercase tracking-wider">Preferences</h3>
+<!-- Day/Night Toggle -->
+<div class="flex bg-surface-dark p-1 rounded-lg border border-border-dark">
+<button class="flex items-center gap-1 px-3 py-1 rounded text-xs font-medium text-[#92c0c9] hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[16px]">light_mode</span>
+                                Day
+                            </button>
+<button class="flex items-center gap-1 px-3 py-1 rounded bg-[#2a4248] text-white shadow-sm text-xs font-medium transition-colors">
+<span class="material-symbols-outlined text-[16px]">dark_mode</span>
+                                Night
+                            </button>
+</div>
+</div>
+<!-- Max Detour Slider -->
+<div>
+<div class="flex justify-between mb-2">
+<span class="text-sm font-medium text-white">Max Detour</span>
+<span class="text-sm font-bold text-primary">15%</span>
+</div>
+<div class="relative flex items-center h-4 w-full cursor-pointer group">
+<div class="absolute h-1.5 w-full bg-[#2a4248] rounded-full"></div>
+<div class="absolute h-1.5 bg-primary rounded-full" style="width: 50%"></div>
+<div class="absolute size-4 bg-primary rounded-full shadow-glow transform -translate-x-1/2 left-1/2 group-hover:scale-110 transition-transform"></div>
+</div>
+</div>
+<!-- Safety Weights -->
+<div class="space-y-4">
+<label class="text-sm font-medium text-white block mb-2">Safety Priorities</label>
+<!-- Lighting Slider -->
+<div class="bg-surface-dark p-3 rounded-lg border border-border-dark">
+<div class="flex justify-between items-center mb-2">
+<div class="flex items-center gap-2 text-[#92c0c9]">
+<span class="material-symbols-outlined text-[18px]">lightbulb</span>
+<span class="text-xs font-medium">Street Lighting</span>
+</div>
+<span class="text-xs text-white">High</span>
+</div>
+<div class="relative flex items-center h-2 w-full">
+<div class="absolute h-1 w-full bg-[#2a4248] rounded-full"></div>
+<div class="absolute h-1 bg-primary/70 rounded-full" style="width: 80%"></div>
+<div class="absolute size-3 bg-primary rounded-full transform -translate-x-1/2 left-[80%]"></div>
+</div>
+</div>
+<!-- Observability Slider -->
+<div class="bg-surface-dark p-3 rounded-lg border border-border-dark">
+<div class="flex justify-between items-center mb-2">
+<div class="flex items-center gap-2 text-[#92c0c9]">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+<span class="text-xs font-medium">Observability</span>
+</div>
+<span class="text-xs text-white">Medium</span>
+</div>
+<div class="relative flex items-center h-2 w-full">
+<div class="absolute h-1 w-full bg-[#2a4248] rounded-full"></div>
+<div class="absolute h-1 bg-primary/70 rounded-full" style="width: 45%"></div>
+<div class="absolute size-3 bg-primary rounded-full transform -translate-x-1/2 left-[45%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Primary Action -->
+<button class="w-full bg-primary hover:bg-[#0ebbdc] text-background-dark font-bold text-base py-4 rounded-xl shadow-glow transition-all hover:translate-y-[-1px] flex items-center justify-center gap-2 mt-auto">
+<span class="material-symbols-outlined">security</span>
+                    Find Safest Route
+                </button>
+</div>
+</aside>
+<!-- Main Map View -->
+<main class="flex-1 relative bg-[#0b1215] overflow-hidden">
+<!-- Map Background Image -->
+<div class="absolute inset-0 z-0 bg-cover bg-center opacity-60" data-alt="Dark stylized map background of a city grid layout" data-location="New York City" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBXMqxExEvlT1_Caydbxr901axCSABZ4x_DJwTjEhpzoasSAa8tHUwCNsbRpzAN33Zm0UOiuUupUVq9KLWTnMLYCv0PN1MxrbDukLswIX5oT08mQHtv2djrgnaWaqzMXuTNOerl8t0ygwyOZIKf9y2mOYcU5fYzoIfyN_8jqN0lTOvulWSczrYXqINzuPG5JwAcKYsfr3CAZISQ3mb_2AC0-sO2cYwFzBl8VkbiefvBTlfhWbDe9gBeYJE7viXl9nYY0mOxHL0weV0f"); filter: grayscale(100%) invert(90%) contrast(120%);'>
+</div>
+<!-- Map Overlay Gradient for depth -->
+<div class="absolute inset-0 z-0 bg-gradient-to-r from-background-dark/80 via-transparent to-transparent pointer-events-none"></div>
+<!-- Route Visualization (SVG Overlay) -->
+<svg class="absolute inset-0 w-full h-full z-10 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="safeRouteGradient" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" style="stop-color:#13c8ec;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#0ea5e9;stop-opacity:1"></stop>
+</lineargradient>
+<filter id="glow">
+<fegaussianblur result="coloredBlur" stddeviation="4"></fegaussianblur>
+<femerge>
+<femergenode in="coloredBlur"></femergenode>
+<femergenode in="SourceGraphic"></femergenode>
+</femerge>
+</filter>
+</defs>
+<!-- Shortest Route (Dashed Gray) -->
+<!-- Example Path: Start roughly middle left, end roughly middle right -->
+<path d="M 450 600 Q 600 550 700 650 T 1100 400" fill="none" stroke="#94a3b8" stroke-dasharray="8,8" stroke-opacity="0.6" stroke-width="3"></path>
+<!-- Safest Route (Glowing Teal) -->
+<!-- Example Path: A bit longer, winding around -->
+<path d="M 450 600 C 500 500, 650 350, 800 400 S 1000 300, 1100 400" fill="none" filter="url(#glow)" stroke="url(#safeRouteGradient)" stroke-linecap="round" stroke-width="6"></path>
+<!-- Start Point Pin -->
+<circle cx="450" cy="600" fill="#13c8ec" r="8" stroke="white" stroke-width="3"></circle>
+<!-- End Point Pin -->
+<circle cx="1100" cy="400" fill="#ef4444" r="8" stroke="white" stroke-width="3"></circle>
+</svg>
+<!-- Map Overlays -->
+<!-- 1. Floating Result Card -->
+<div class="absolute top-8 left-8 z-20 w-[340px] glass-panel border border-border-dark rounded-xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-700">
+<div class="p-4 border-b border-border-dark/50 flex justify-between items-center bg-white/5">
+<h4 class="text-white font-semibold text-sm">Route Recommendation</h4>
+<span class="text-[#92c0c9] text-xs">Updated 1m ago</span>
+</div>
+<!-- Option A: Safest -->
+<div class="p-4 bg-primary/10 border-l-4 border-primary relative cursor-pointer hover:bg-primary/15 transition-colors">
+<div class="absolute top-3 right-3">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-primary font-bold text-lg">Safest</span>
+<span class="bg-primary text-background-dark text-[10px] font-bold px-2 py-0.5 rounded-full">RECOMMENDED</span>
+</div>
+<div class="flex items-center gap-4 text-sm mb-2">
+<span class="font-medium text-white">12 min</span>
+<span class="text-[#92c0c9]">2.4 km</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="h-1.5 flex-1 bg-background-dark rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[98%]"></div>
+</div>
+<span class="text-primary font-bold text-xs">98% Safety</span>
+</div>
+<div class="mt-2 flex gap-2 text-[10px] text-[#92c0c9]">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">lightbulb</span> High Lighting</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">security</span> Patrolled</span>
+</div>
+</div>
+<!-- Option B: Shortest -->
+<div class="p-4 hover:bg-white/5 cursor-pointer transition-colors border-l-4 border-transparent opacity-70 hover:opacity-100">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-white font-bold text-lg">Shortest</span>
+</div>
+<div class="flex items-center gap-4 text-sm mb-2">
+<span class="font-medium text-white">9 min</span>
+<span class="text-[#92c0c9]">1.8 km</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="h-1.5 flex-1 bg-background-dark rounded-full overflow-hidden">
+<div class="h-full bg-gray-500 w-[45%]"></div>
+</div>
+<span class="text-gray-400 font-bold text-xs">45% Safety</span>
+</div>
+</div>
+</div>
+<!-- 2. Context Tooltip (Positioned on the Safest Route curve) -->
+<div class="absolute top-[35%] left-[50%] z-20 transform -translate-x-1/2 -translate-y-full mb-4 animate-in fade-in zoom-in duration-500 delay-300">
+<div class="bg-background-dark border border-primary/30 text-white text-xs px-3 py-2 rounded-lg shadow-glow max-w-[160px]">
+<p class="font-medium mb-1 text-primary">Why this route?</p>
+<p class="text-gray-300 leading-tight">High visibility zone, 12+ streetlights.</p>
+</div>
+<!-- Triangle Pointer -->
+<div class="size-3 bg-background-dark border-r border-b border-primary/30 transform rotate-45 absolute -bottom-1.5 left-1/2 -translate-x-1/2"></div>
+</div>
+<!-- 3. Map Controls -->
+<div class="absolute bottom-8 right-8 z-20 flex flex-col gap-2">
+<button class="size-10 bg-surface-dark hover:bg-border-dark border border-border-dark text-white rounded-lg flex items-center justify-center shadow-lg transition-colors" title="Zoom In">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="size-10 bg-surface-dark hover:bg-border-dark border border-border-dark text-white rounded-lg flex items-center justify-center shadow-lg transition-colors" title="Zoom Out">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<div class="h-2"></div>
+<button class="size-10 bg-surface-dark hover:bg-border-dark border border-border-dark text-primary rounded-lg flex items-center justify-center shadow-lg transition-colors" title="Re-center">
+<span class="material-symbols-outlined">near_me</span>
+</button>
+</div>
+<!-- Map Attribution (Subtle) -->
+<div class="absolute bottom-2 right-2 z-10 text-[10px] text-gray-500 opacity-50 px-2 pointer-events-none select-none">
+                © Mapbox © OpenStreetMap
+            </div>
+</main>
+</div>
+</body></html>

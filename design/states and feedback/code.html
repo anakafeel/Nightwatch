@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pathify Noor - States</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13c8ec",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#111f22",
+                        "surface-dark": "#192f33",
+                        "border-dark": "#234248",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Loading Animation Styles */
+        .path-line {
+            stroke-dasharray: 10;
+            animation: dash 3s linear infinite;
+        }
+        @keyframes dash {
+            to { stroke-dashoffset: -100; }
+        }
+        .pulse-point {
+            animation: pulse-glow 2s infinite;
+        }
+        @keyframes pulse-glow {
+            0% { r: 4; opacity: 1; filter: drop-shadow(0 0 4px #13c8ec); }
+            50% { r: 6; opacity: 0.6; filter: drop-shadow(0 0 8px #13c8ec); }
+            100% { r: 4; opacity: 1; filter: drop-shadow(0 0 4px #13c8ec); }
+        }
+        
+        /* Map pattern simulation */
+        .bg-map-pattern {
+            background-color: #0e1a1d;
+            background-image: 
+                radial-gradient(#192f33 1px, transparent 1px),
+                radial-gradient(#192f33 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+    </style>
+</head>
+<body class="bg-[#0b1416] text-white font-display overflow-x-hidden">
+<!-- VARIANT 1: LOADING STATE -->
+<div class="flex flex-col w-full h-screen max-h-[900px] border-b border-gray-800 mb-10">
+<div class="px-6 py-4 bg-[#0b1416] text-gray-500 text-sm font-bold uppercase tracking-wider">
+            Variant 1: Loading (Skeleton + AI Animation)
+        </div>
+<!-- Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#234248] bg-[#111f22] px-10 py-3">
+<div class="flex items-center gap-4 text-white">
+<div class="size-6 text-primary">
+<span class="material-symbols-outlined">share_location</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Pathify Noor</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 bg-surface-dark animate-pulse"></div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Sidebar Skeleton -->
+<div class="w-96 bg-[#111f22] flex flex-col p-6 border-r border-[#234248] gap-6 z-10">
+<div class="h-6 w-32 bg-surface-dark rounded animate-pulse"></div>
+<div class="flex flex-col gap-4">
+<div class="h-14 w-full bg-surface-dark rounded-lg animate-pulse"></div>
+<div class="h-14 w-full bg-surface-dark rounded-lg animate-pulse"></div>
+</div>
+<div class="flex flex-col gap-4 mt-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-surface-dark animate-pulse"></div>
+<div class="h-4 w-40 bg-surface-dark rounded animate-pulse"></div>
+</div>
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-surface-dark animate-pulse"></div>
+<div class="h-4 w-32 bg-surface-dark rounded animate-pulse"></div>
+</div>
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-surface-dark animate-pulse"></div>
+<div class="h-4 w-24 bg-surface-dark rounded animate-pulse"></div>
+</div>
+</div>
+</div>
+<!-- Map Area Loading -->
+<div class="flex-1 bg-map-pattern relative flex items-center justify-center">
+<!-- Central Loading Visual -->
+<div class="flex flex-col items-center justify-center p-8 bg-[#111f22]/90 backdrop-blur-sm rounded-2xl border border-[#234248] shadow-2xl">
+<div class="relative w-64 h-32 flex items-center justify-center mb-6">
+<svg class="w-full h-full overflow-visible" viewbox="0 0 200 100">
+<!-- Background Path -->
+<path d="M10,50 C50,10 90,90 130,50 S190,10 190,50" fill="none" stroke="#234248" stroke-linecap="round" stroke-width="4"></path>
+<!-- Glowing Path -->
+<path class="path-line opacity-50" d="M10,50 C50,10 90,90 130,50 S190,10 190,50" fill="none" stroke="#13c8ec" stroke-width="2"></path>
+<!-- Moving Dot -->
+<circle class="pulse-point" fill="#13c8ec" r="6">
+<animatemotion dur="2.5s" path="M10,50 C50,10 90,90 130,50 S190,10 190,50" repeatcount="indefinite"></animatemotion>
+</circle>
+</svg>
+</div>
+<h3 class="text-white text-lg font-medium mb-2">Calculating optimal safety path...</h3>
+<p class="text-[#92c0c9] text-sm">Analyzing street lighting and crowd density</p>
+</div>
+</div>
+</div>
+</div>
+<!-- VARIANT 2: ERROR STATE -->
+<div class="flex flex-col w-full h-screen max-h-[900px] border-b border-gray-800 mb-10">
+<div class="px-6 py-4 bg-[#0b1416] text-gray-500 text-sm font-bold uppercase tracking-wider">
+            Variant 2: No Route Found (Error)
+        </div>
+<!-- Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#234248] bg-[#111f22] px-10 py-3">
+<div class="flex items-center gap-4 text-white">
+<div class="size-6 text-primary">
+<span class="material-symbols-outlined">share_location</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Pathify Noor</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuChsokku3MXnaCbDkC7KUZw5o_0axR0GEHqkCexyzvLEscBFCUQjK_at6L5apJf2RthQ-gq3tN4nF3_XGMaIzNAsmt5dPzI70_pKe_RqzvgFNTNKvDDHRVT0NNA0K2huxvW8edtvnd46gx7XShjAAwTprWnaPzLe8jySj_QcDGEokYQH12rCBkTmNafmczy9Mb6NfF9sa-Jr_cBcBA6u9NsLE7je0mv7Ko0RqV3oRHVw4ZTjZiIWKQGIpnfqQsI-D2CUtAktlokKgTo");'></div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Sidebar -->
+<div class="w-96 bg-[#111f22] flex flex-col p-6 border-r border-[#234248] gap-6 z-10">
+<h1 class="text-white text-base font-medium leading-normal">Plan Your Route</h1>
+<div class="flex flex-col gap-4">
+<label class="flex flex-col flex-1">
+<p class="text-[#92c0c9] text-xs font-medium leading-normal pb-2 uppercase tracking-wide">Origin</p>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-3.5 text-[#92c0c9]">my_location</span>
+<input class="w-full rounded-lg text-white focus:outline-0 border border-[#325e67] bg-[#192f33] focus:border-primary h-12 pl-12 pr-4 text-sm" value="Central Station"/>
+</div>
+</label>
+<label class="flex flex-col flex-1">
+<p class="text-[#92c0c9] text-xs font-medium leading-normal pb-2 uppercase tracking-wide">Destination</p>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-3.5 text-[#92c0c9]">location_on</span>
+<input class="w-full rounded-lg text-white focus:outline-0 border border-[#325e67] bg-[#192f33] focus:border-primary h-12 pl-12 pr-4 text-sm" value="Shadow District, Sector 4"/>
+</div>
+</label>
+</div>
+<hr class="border-[#234248]"/>
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between py-2">
+<span class="text-sm text-gray-300">Max Detour</span>
+<span class="text-sm font-bold text-primary">5 min</span>
+</div>
+<div class="flex items-center justify-between py-2">
+<span class="text-sm text-gray-300">Min Lighting Score</span>
+<span class="text-sm font-bold text-primary">8/10</span>
+</div>
+</div>
+<button class="mt-auto w-full cursor-pointer flex items-center justify-center rounded-lg h-12 bg-[#234248] text-[#92c0c9] hover:text-white transition-colors text-sm font-bold">
+                    Reset Parameters
+                </button>
+</div>
+<!-- Map Area Error -->
+<div class="flex-1 relative bg-cover bg-center" data-alt="Dark abstract city map with muted streets" data-location="City Map Dark Mode" style='background-image: url("https://placeholder.pics/svg/300");'>
+<div class="absolute inset-0 bg-[#111f22]/40"></div>
+<!-- Error Card -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] bg-[#192f33] border border-[#234248] rounded-xl shadow-2xl p-6 flex flex-col items-center text-center gap-4">
+<div class="size-14 rounded-full bg-red-500/10 flex items-center justify-center mb-1">
+<span class="material-symbols-outlined text-red-400 text-3xl">wrong_location</span>
+</div>
+<h3 class="text-white text-xl font-bold">No safe route found in this radius</h3>
+<p class="text-[#92c0c9] text-sm leading-relaxed">
+                        We couldn't identify a path that meets your safety threshold of <strong>Lighting Score &gt; 8</strong> within the 5 minute detour limit.
+                    </p>
+<div class="flex flex-col w-full gap-3 mt-4">
+<button class="w-full bg-primary hover:bg-[#0ebac9] text-[#111f22] font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-lg">timeline</span>
+                            Increase Max Detour
+                        </button>
+<button class="w-full bg-transparent border border-[#325e67] text-white hover:bg-[#234248] font-medium py-3 px-4 rounded-lg transition-colors">
+                            Check Destination
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- VARIANT 3: LOW COVERAGE STATE -->
+<div class="flex flex-col w-full h-screen max-h-[900px] border-b border-gray-800">
+<div class="px-6 py-4 bg-[#0b1416] text-gray-500 text-sm font-bold uppercase tracking-wider">
+            Variant 3: Low Coverage (Warning)
+        </div>
+<!-- Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#234248] bg-[#111f22] px-10 py-3">
+<div class="flex items-center gap-4 text-white">
+<div class="size-6 text-primary">
+<span class="material-symbols-outlined">share_location</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Pathify Noor</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBwCOf2C7UhWgudZ9ZZPP2LU2mK-xcsxWXeI8VrXW-m8IzlYgQ5zXkDy4yvpZ3QtLP8udwC5zjk2PXdywErL-4cASaK0V98YNT9V5M91oz6lGc_1V11qKszV8O11a49gR9plZE74ZQjLbPjM9SzAYS7_qZIvbhzX9v4ynHwnrJvtiBObAz6WKRdTT5tHsKh6Ben4ksL-Pan9C-Y1cWNmIXb_t5auLto7rKDn6DznyCxjqCbuemTaYC9QI2DHAvJNQN6QcsJJpPWbKjj");'></div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Sidebar -->
+<div class="w-96 bg-[#111f22] flex flex-col p-6 border-r border-[#234248] gap-6 z-10">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary">verified</span>
+<h1 class="text-white text-base font-medium">Route Confirmed</h1>
+</div>
+<!-- Route Step List -->
+<div class="flex flex-col relative pl-4 border-l border-[#234248] gap-8 py-2">
+<div class="flex flex-col gap-1 relative">
+<div class="absolute -left-[21px] top-1 size-3 rounded-full bg-primary ring-4 ring-[#111f22]"></div>
+<p class="text-white text-sm font-bold">Start: Central Station</p>
+<p class="text-[#92c0c9] text-xs">18:45 PM</p>
+</div>
+<div class="flex flex-col gap-1 relative">
+<div class="absolute -left-[21px] top-1 size-3 rounded-full bg-yellow-500 ring-4 ring-[#111f22]"></div>
+<p class="text-white text-sm font-bold">Via North Park</p>
+<div class="flex items-center gap-1 text-yellow-500 text-xs bg-yellow-500/10 px-2 py-1 rounded w-fit">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span>Limited Data</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 relative">
+<div class="absolute -left-[21px] top-1 size-3 rounded-full border-2 border-[#92c0c9] bg-[#111f22] ring-4 ring-[#111f22]"></div>
+<p class="text-white text-sm font-bold">End: 42 Wallaby Way</p>
+<p class="text-[#92c0c9] text-xs">19:12 PM</p>
+</div>
+</div>
+<div class="mt-auto bg-[#192f33] p-4 rounded-lg flex gap-3 items-start border border-[#325e67]">
+<span class="material-symbols-outlined text-primary shrink-0">safety_check</span>
+<div>
+<p class="text-sm text-white font-medium">Safety Score: 78%</p>
+<p class="text-xs text-[#92c0c9] mt-1">Route optimized for visibility, but includes low coverage zones.</p>
+</div>
+</div>
+<button class="w-full bg-primary text-[#111f22] font-bold py-3 rounded-lg mt-2">
+                    Start Navigation
+                </button>
+</div>
+<!-- Map Area Warning -->
+<div class="flex-1 relative bg-cover bg-center" data-alt="Map showing a path through a dark city" data-location="Map with route" style='background-image: url("https://placeholder.pics/svg/300");'>
+<div class="absolute inset-0 bg-[#111f22]/20"></div>
+<!-- Low Coverage Banner -->
+<div class="absolute top-6 left-1/2 -translate-x-1/2 w-auto min-w-[380px] max-w-[90%] z-20">
+<div class="flex items-center gap-3 bg-[#2A2210] border border-yellow-600/30 text-[#FFD580] px-4 py-3 rounded-lg shadow-lg">
+<span class="material-symbols-outlined text-yellow-500">signal_cellular_connected_no_internet_4_bar</span>
+<div class="flex flex-col">
+<p class="text-sm font-bold text-yellow-500">Data coverage low for this area</p>
+<p class="text-xs text-[#FFD580]/80">Lighting information may be outdated. Exercise caution.</p>
+</div>
+<button class="ml-auto text-yellow-500 hover:bg-yellow-500/10 p-1 rounded">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+<!-- Floating map controls -->
+<div class="absolute bottom-6 right-6 flex flex-col gap-2">
+<button class="size-10 bg-[#192f33] hover:bg-[#234248] text-white rounded-lg shadow-lg flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+<button class="size-10 bg-[#192f33] hover:bg-[#234248] text-white rounded-lg shadow-lg flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="size-10 bg-[#192f33] hover:bg-[#234248] text-white rounded-lg shadow-lg flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">remove</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

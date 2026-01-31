@@ -1,0 +1,574 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Pathify Noor Design System</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Material Symbols -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#13c8ec",
+              "primary-dark": "#0ea5c3",
+              secondary: "#2dd4bf",
+              "background-light": "#f6f8f8",
+              "background-dark": "#111f22", // Midnight
+              "surface-dark": "#1a2c32",
+              glass: "rgba(255, 255, 255, 0.05)",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+              body: ["Inter", "sans-serif"],
+            },
+            boxShadow: {
+              glow: "0 0 15px rgba(19, 200, 236, 0.5)",
+              "glow-sm": "0 0 8px rgba(19, 200, 236, 0.4)",
+              "glow-secondary": "0 0 15px rgba(45, 212, 191, 0.4)",
+              "glow-success": "0 0 12px rgba(52, 211, 153, 0.3)",
+              "glow-warning": "0 0 12px rgba(251, 191, 36, 0.3)",
+              "glow-danger": "0 0 12px rgba(244, 63, 94, 0.3)",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      /* Custom range slider styling */
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        background: #13c8ec;
+        cursor: pointer;
+        margin-top: -8px;
+        box-shadow: 0 0 10px rgba(19, 200, 236, 0.8);
+      }
+
+      input[type="range"]::-moz-range-thumb {
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        background: #13c8ec;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(19, 200, 236, 0.8);
+      }
+
+      input[type="range"]::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 4px;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased overflow-x-hidden"
+  >
+    <div class="relative flex min-h-screen w-full flex-col">
+      <!-- Main Layout Container -->
+      <div class="layout-container flex h-full grow flex-col">
+        <!-- Top Navigation -->
+        <div
+          class="flex justify-center w-full border-b border-[#234248] bg-[#111f22]/90 backdrop-blur-md sticky top-0 z-50"
+        >
+          <div
+            class="flex w-full max-w-[1440px] items-center justify-between px-6 py-4 lg:px-10"
+          >
+            <div class="flex items-center gap-4 text-white">
+              <div class="size-6 text-primary animate-pulse">
+                <span class="material-symbols-outlined text-3xl"
+                  >light_mode</span
+                >
+              </div>
+              <h2
+                class="text-white text-xl font-bold leading-tight tracking-[-0.015em]"
+              >
+                Pathify Noor
+              </h2>
+            </div>
+            <button
+              class="flex items-center justify-center overflow-hidden rounded-lg h-10 px-6 bg-primary text-[#111f22] text-sm font-bold shadow-glow hover:bg-primary/90 transition-all"
+            >
+              <span class="material-symbols-outlined text-[18px] mr-2"
+                >download</span
+              >
+              <span class="truncate">Download Assets</span>
+            </button>
+          </div>
+        </div>
+        <!-- Content Area -->
+        <div class="flex flex-1 justify-center py-10 px-6 lg:px-10">
+          <div
+            class="layout-content-container flex flex-col w-full max-w-[1080px] flex-1 gap-12"
+          >
+            <!-- Page Heading -->
+            <div class="flex flex-col gap-4 border-b border-white/5 pb-8">
+              <h1
+                class="text-white text-5xl font-black leading-tight tracking-[-0.033em]"
+              >
+                Pathify Noor
+                <span class="text-primary font-light">DS v1.0</span>
+              </h1>
+              <p
+                class="text-[#92c0c9] text-lg font-normal leading-normal max-w-2xl"
+              >
+                A comprehensive guide to the visual language of the Pathify Noor
+                interface. Built for high-contrast, data-heavy environments with
+                a futuristic aesthetic.
+              </p>
+            </div>
+            <!-- Color Palette Section -->
+            <section class="flex flex-col gap-6">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary"
+                  >palette</span
+                >
+                <h2 class="text-white text-2xl font-bold tracking-tight">
+                  Color Palette
+                </h2>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Swatch: Midnight -->
+                <div class="group flex flex-col gap-3">
+                  <div
+                    class="h-32 w-full rounded-xl bg-[#111f22] border border-white/10 shadow-lg relative overflow-hidden"
+                  >
+                    <div
+                      class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"
+                    ></div>
+                  </div>
+                  <div class="flex flex-col px-1">
+                    <span class="text-white font-bold">Midnight</span>
+                    <span class="text-slate-400 text-sm font-mono"
+                      >#111f22</span
+                    >
+                    <span class="text-slate-500 text-xs mt-1"
+                      >Background / Surface</span
+                    >
+                  </div>
+                </div>
+                <!-- Swatch: Noor Glow -->
+                <div class="group flex flex-col gap-3">
+                  <div
+                    class="h-32 w-full rounded-xl bg-[#13c8ec] shadow-glow relative overflow-hidden"
+                  >
+                    <div
+                      class="absolute inset-0 bg-gradient-to-tr from-transparent to-white/30"
+                    ></div>
+                  </div>
+                  <div class="flex flex-col px-1">
+                    <span class="text-white font-bold">Noor Glow</span>
+                    <span class="text-slate-400 text-sm font-mono"
+                      >#13c8ec</span
+                    >
+                    <span class="text-slate-500 text-xs mt-1"
+                      >Primary / Action</span
+                    >
+                  </div>
+                </div>
+                <!-- Swatch: Teal Beacon -->
+                <div class="group flex flex-col gap-3">
+                  <div
+                    class="h-32 w-full rounded-xl bg-[#2dd4bf] shadow-glow-secondary relative overflow-hidden"
+                  ></div>
+                  <div class="flex flex-col px-1">
+                    <span class="text-white font-bold">Teal Beacon</span>
+                    <span class="text-slate-400 text-sm font-mono"
+                      >#2dd4bf</span
+                    >
+                    <span class="text-slate-500 text-xs mt-1"
+                      >Secondary / Success</span
+                    >
+                  </div>
+                </div>
+                <!-- Swatch: Glass -->
+                <div class="group flex flex-col gap-3">
+                  <div
+                    class="h-32 w-full rounded-xl bg-white/5 border border-white/10 backdrop-blur-md relative flex items-center justify-center overflow-hidden"
+                  >
+                    <!-- Background pattern to show transparency -->
+                    <div
+                      class="absolute inset-0 -z-10 bg-[radial-gradient(#13c8ec_1px,transparent_1px)] [background-size:16px_16px] opacity-20"
+                    ></div>
+                    <span class="text-white/50 text-sm">Translucent</span>
+                  </div>
+                  <div class="flex flex-col px-1">
+                    <span class="text-white font-bold">Glass</span>
+                    <span class="text-slate-400 text-sm font-mono"
+                      >rgba(255,255,255,0.05)</span
+                    >
+                    <span class="text-slate-500 text-xs mt-1"
+                      >Overlays / Cards</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- Typography Section -->
+            <section class="flex flex-col gap-6">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary"
+                  >text_fields</span
+                >
+                <h2 class="text-white text-2xl font-bold tracking-tight">
+                  Typography
+                </h2>
+              </div>
+              <div
+                class="flex flex-col gap-8 p-8 rounded-2xl border border-white/5 bg-white/[0.02]"
+              >
+                <!-- H1 -->
+                <div
+                  class="flex flex-col md:flex-row md:items-baseline gap-4 border-b border-white/5 pb-6"
+                >
+                  <div class="w-48 shrink-0 text-slate-500 font-mono text-sm">
+                    <span class="block text-primary">Header 1</span>
+                    Inter Black / 48px
+                  </div>
+                  <h1 class="text-5xl font-black text-white">
+                    The quick brown fox jumps over the lazy dog.
+                  </h1>
+                </div>
+                <!-- H2 -->
+                <div
+                  class="flex flex-col md:flex-row md:items-baseline gap-4 border-b border-white/5 pb-6"
+                >
+                  <div class="w-48 shrink-0 text-slate-500 font-mono text-sm">
+                    <span class="block text-primary">Header 2</span>
+                    Inter Bold / 32px
+                  </div>
+                  <h2 class="text-3xl font-bold text-white">
+                    The quick brown fox jumps over the lazy dog.
+                  </h2>
+                </div>
+                <!-- H3 -->
+                <div
+                  class="flex flex-col md:flex-row md:items-baseline gap-4 border-b border-white/5 pb-6"
+                >
+                  <div class="w-48 shrink-0 text-slate-500 font-mono text-sm">
+                    <span class="block text-primary">Header 3</span>
+                    Inter Bold / 24px
+                  </div>
+                  <h3 class="text-2xl font-bold text-white">
+                    The quick brown fox jumps over the lazy dog.
+                  </h3>
+                </div>
+                <!-- Body -->
+                <div
+                  class="flex flex-col md:flex-row md:items-baseline gap-4 border-b border-white/5 pb-6"
+                >
+                  <div class="w-48 shrink-0 text-slate-500 font-mono text-sm">
+                    <span class="block text-primary">Body</span>
+                    Inter Regular / 16px
+                  </div>
+                  <p class="text-base font-normal text-slate-300 max-w-2xl">
+                    Design is not just what it looks like and feels like. Design
+                    is how it works. Good design is obvious. Great design is
+                    transparent.
+                  </p>
+                </div>
+                <!-- Caption -->
+                <div class="flex flex-col md:flex-row md:items-baseline gap-4">
+                  <div class="w-48 shrink-0 text-slate-500 font-mono text-sm">
+                    <span class="block text-primary">Caption</span>
+                    Inter Medium / 12px
+                  </div>
+                  <p
+                    class="text-xs font-medium text-slate-400 tracking-wide uppercase"
+                  >
+                    System Status: Operational
+                  </p>
+                </div>
+              </div>
+            </section>
+            <!-- Interactive Components -->
+            <section class="flex flex-col gap-6">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary"
+                  >smart_button</span
+                >
+                <h2 class="text-white text-2xl font-bold tracking-tight">
+                  Components
+                </h2>
+              </div>
+              <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Buttons Card -->
+                <div
+                  class="flex flex-col gap-6 p-6 rounded-2xl border border-white/10 bg-surface-dark/50 backdrop-blur-sm"
+                >
+                  <h3
+                    class="text-sm font-bold text-slate-400 uppercase tracking-wider"
+                  >
+                    Buttons
+                  </h3>
+                  <div class="flex flex-col gap-4 items-start">
+                    <!-- Primary -->
+                    <button
+                      class="flex items-center justify-center rounded-lg h-10 px-6 bg-primary text-[#111f22] text-sm font-bold shadow-glow hover:bg-primary/90 hover:scale-105 transition-all duration-200"
+                    >
+                      Primary Action
+                    </button>
+                    <!-- Secondary -->
+                    <button
+                      class="flex items-center justify-center rounded-lg h-10 px-6 border border-primary text-primary text-sm font-bold hover:bg-primary/10 transition-all duration-200"
+                    >
+                      Secondary Action
+                    </button>
+                    <!-- Tertiary -->
+                    <button
+                      class="flex items-center justify-center rounded-lg h-10 px-4 text-slate-300 text-sm font-medium hover:text-white hover:bg-white/5 transition-all duration-200"
+                    >
+                      Tertiary Action
+                    </button>
+                  </div>
+                </div>
+                <!-- Form Elements Card -->
+                <div
+                  class="flex flex-col gap-6 p-6 rounded-2xl border border-white/10 bg-surface-dark/50 backdrop-blur-sm lg:col-span-2"
+                >
+                  <h3
+                    class="text-sm font-bold text-slate-400 uppercase tracking-wider"
+                  >
+                    Form Elements
+                  </h3>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Search Input -->
+                    <div class="flex flex-col gap-2">
+                      <label class="text-xs font-medium text-slate-400"
+                        >Search</label
+                      >
+                      <div class="relative">
+                        <div
+                          class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                        >
+                          <span class="material-symbols-outlined text-slate-500"
+                            >search</span
+                          >
+                        </div>
+                        <input
+                          class="block w-full pl-10 pr-3 py-2.5 border border-white/10 rounded-lg leading-5 bg-[#0B1120] text-slate-300 placeholder-slate-600 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary sm:text-sm transition-colors"
+                          placeholder="Search keywords..."
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                    <!-- Slider -->
+                    <div class="flex flex-col gap-4">
+                      <div class="flex justify-between items-center">
+                        <label class="text-xs font-medium text-slate-400"
+                          >Intensity</label
+                        >
+                        <span
+                          class="text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded"
+                          >75%</span
+                        >
+                      </div>
+                      <input
+                        class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer"
+                        max="100"
+                        min="0"
+                        type="range"
+                        value="75"
+                      />
+                    </div>
+                    <!-- Toggles -->
+                    <div class="flex flex-col gap-4">
+                      <label class="text-xs font-medium text-slate-400"
+                        >Preferences</label
+                      >
+                      <div class="flex items-center gap-8">
+                        <!-- Toggle ON -->
+                        <label
+                          class="inline-flex items-center cursor-pointer group"
+                        >
+                          <input
+                            checked=""
+                            class="sr-only peer"
+                            type="checkbox"
+                          />
+                          <div
+                            class="relative w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary peer-checked:shadow-glow-sm"
+                          ></div>
+                          <span
+                            class="ms-3 text-sm font-medium text-slate-300 group-hover:text-white"
+                            >Notifications</span
+                          >
+                        </label>
+                        <!-- Toggle OFF -->
+                        <label
+                          class="inline-flex items-center cursor-pointer group"
+                        >
+                          <input class="sr-only peer" type="checkbox" />
+                          <div
+                            class="relative w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"
+                          ></div>
+                          <span
+                            class="ms-3 text-sm font-medium text-slate-300 group-hover:text-white"
+                            >Auto-save</span
+                          >
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- Status Badges -->
+            <section class="flex flex-col gap-6">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary"
+                  >verified</span
+                >
+                <h2 class="text-white text-2xl font-bold tracking-tight">
+                  Status Badges
+                </h2>
+              </div>
+              <div
+                class="flex flex-wrap gap-4 p-8 rounded-2xl border border-white/5 bg-white/[0.02] items-center"
+              >
+                <!-- High Coverage -->
+                <span
+                  class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-glow-success"
+                >
+                  <span
+                    class="size-1.5 rounded-full bg-emerald-400 animate-pulse"
+                  ></span>
+                  High Coverage
+                </span>
+                <!-- Medium Coverage -->
+                <span
+                  class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 shadow-glow-warning"
+                >
+                  <span class="size-1.5 rounded-full bg-amber-400"></span>
+                  Medium
+                </span>
+                <!-- Low Coverage -->
+                <span
+                  class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-glow-danger"
+                >
+                  <span class="size-1.5 rounded-full bg-rose-400"></span>
+                  Low
+                </span>
+                <!-- Info -->
+                <span
+                  class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                >
+                  <span class="material-symbols-outlined text-[14px]"
+                    >info</span
+                  >
+                  System Info
+                </span>
+              </div>
+            </section>
+            <!-- Layout Grid Visualization -->
+            <section class="flex flex-col gap-6">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary"
+                  >grid_on</span
+                >
+                <h2 class="text-white text-2xl font-bold tracking-tight">
+                  Layout Grid
+                </h2>
+              </div>
+              <div
+                class="relative h-64 w-full rounded-2xl border border-white/10 bg-[#0B1120] overflow-hidden flex flex-col justify-center items-center"
+              >
+                <!-- Grid Overlay -->
+                <div
+                  class="absolute inset-0 flex px-6 gap-2 sm:gap-4 lg:gap-6 opacity-30 pointer-events-none"
+                >
+                  <!-- 12 Column Grid -->
+                  <div
+                    class="flex-1 h-full bg-primary/20 border-x border-primary/30"
+                  ></div>
+                  <div
+                    class="flex-1 h-full bg-primary/20 border-x border-primary/30 hidden sm:block"
+                  ></div>
+                  <div
+                    class="flex-1 h-full bg-primary/20 border-x border-primary/30 hidden sm:block"
+                  ></div>
+                  <div
+                    class="flex-1 h-full bg-primary/20 border-x border-primary/30 hidden md:block"
+                  ></div>
+                  <div
+                    class="flex-1 h-full bg-primary/20 border-x border-primary/30 hidden md:block"
+                  ></div>
+                  <div
+                    class="flex-1 h-full bg-primary/20 border-x border-primary/30 hidden md:block"
+                  ></div>
+                  <div
+                    class="flex-1 h-full bg-primary/20 border-x border-primary/30 hidden lg:block"
+                  ></div>
+                  <div
+                    class="flex-1 h-full bg-primary/20 border-x border-primary/30 hidden lg:block"
+                  ></div>
+                  <div
+                    class="flex-1 h-full bg-primary/20 border-x border-primary/30 hidden lg:block"
+                  ></div>
+                  <div
+                    class="flex-1 h-full bg-primary/20 border-x border-primary/30 hidden xl:block"
+                  ></div>
+                  <div
+                    class="flex-1 h-full bg-primary/20 border-x border-primary/30 hidden xl:block"
+                  ></div>
+                  <div
+                    class="flex-1 h-full bg-primary/20 border-x border-primary/30 hidden xl:block"
+                  ></div>
+                </div>
+                <div
+                  class="z-10 text-center bg-[#111f22]/90 p-6 rounded-xl border border-white/10 backdrop-blur shadow-2xl max-w-sm"
+                >
+                  <h4 class="text-primary font-bold text-lg mb-2">
+                    12 Column Grid
+                  </h4>
+                  <ul class="text-slate-400 text-sm space-y-1">
+                    <li>
+                      Max Width:
+                      <span class="text-white font-mono">1440px</span>
+                    </li>
+                    <li>
+                      Base Spacing:
+                      <span class="text-white font-mono">8pt</span>
+                    </li>
+                    <li>
+                      Gutter: <span class="text-white font-mono">24px</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+        <!-- Simple Footer -->
+        <footer
+          class="border-t border-[#234248] py-8 text-center text-slate-500 text-sm"
+        >
+          <p>© 2024 Pathify Noor Design System. Internal Use Only.</p>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

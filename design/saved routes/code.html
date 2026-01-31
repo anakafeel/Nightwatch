@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pathify Noor - Saved Routes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13c8ec",
+                        "secondary": "#f59e0b", // Gold color for accents
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#101f22",
+                        "surface-dark": "#192f33",
+                        "surface-darker": "#111f22",
+                        "border-dark": "#234248",
+                        "text-muted": "#92c0c9",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "sans": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased min-h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 w-full border-b border-border-dark bg-background-dark/95 backdrop-blur supports-[backdrop-filter]:bg-background-dark/60">
+<div class="flex items-center justify-between px-6 py-4 lg:px-10">
+<div class="flex items-center gap-8">
+<!-- Logo -->
+<div class="flex items-center gap-3 text-white">
+<div class="size-8 text-primary">
+<svg class="h-full w-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-tight">Pathify Noor</h2>
+</div>
+<!-- Search Bar -->
+<div class="hidden md:flex items-center">
+<div class="relative w-64">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-text-muted">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="block w-full rounded-lg border-0 bg-surface-dark py-2 pl-10 pr-4 text-sm text-white placeholder-text-muted focus:ring-2 focus:ring-primary" placeholder="Search routes, places..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Nav Links & Profile -->
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-sm font-medium text-text-muted hover:text-white transition-colors" href="#">Dashboard</a>
+<a class="text-sm font-medium text-white" href="#">Routes</a>
+<a class="text-sm font-medium text-text-muted hover:text-white transition-colors" href="#">Safety Map</a>
+<a class="text-sm font-medium text-text-muted hover:text-white transition-colors" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-4 border-l border-border-dark pl-6">
+<button class="relative rounded-full bg-surface-dark p-2 text-text-muted hover:text-white">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute right-2 top-2 h-2 w-2 rounded-full bg-primary"></span>
+</button>
+<div class="h-9 w-9 overflow-hidden rounded-full border border-border-dark bg-surface-dark bg-cover bg-center" data-alt="User profile picture placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCuk88b4F9YUgN7_YOkcjOc-4VC3OOufoXGssUNUxyhIPTJNViyl3Pr6bAbN2TXHrTyvuWwR8UzwZebJMG_u53n1nZtVB54KXjTSUD0crFUYtZomVN-eWKcPx6naiDvf95z5Lm87j3vSq0OAvPD35VAPMxQZ7_FzXPH0o3wKXMrX2O9QRM1TL6HfJ8XygoowImem4Vg-YiDe6AUDkVd_BeP2lziM_XZn8p-W0ozZRywIcsphYwrq5hBwj3q5CQqF302FmmPyXdATt0K");'></div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 px-6 py-8 lg:px-40">
+<div class="mx-auto max-w-6xl">
+<!-- Page Heading -->
+<div class="mb-8 flex flex-col gap-1 md:flex-row md:items-end md:justify-between">
+<div>
+<h1 class="text-3xl font-black text-white md:text-4xl tracking-tight">Your Journeys</h1>
+<p class="mt-2 text-text-muted">Manage your saved routes and view recent history.</p>
+</div>
+<button class="mt-4 flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-background-dark transition hover:bg-opacity-90 md:mt-0">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                    Create New Route
+                </button>
+</div>
+<!-- Tabs -->
+<div class="mb-8 border-b border-border-dark">
+<div class="flex gap-8">
+<button class="border-b-2 border-primary pb-3 text-sm font-bold text-white transition-colors">
+                        Saved Routes
+                    </button>
+<button class="border-b-2 border-transparent pb-3 text-sm font-medium text-text-muted hover:text-white transition-colors">
+                        Recent History
+                    </button>
+<button class="border-b-2 border-transparent pb-3 text-sm font-medium text-text-muted hover:text-white transition-colors">
+                        Favorites
+                    </button>
+</div>
+</div>
+<!-- Content Grid -->
+<div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+<!-- Card 1: Home to Office -->
+<article class="group relative flex flex-col overflow-hidden rounded-xl bg-surface-dark border border-border-dark shadow-lg transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-primary/10">
+<div class="relative h-40 w-full overflow-hidden bg-surface-darker">
+<div class="absolute inset-0 bg-cover bg-center opacity-80 transition-transform duration-700 group-hover:scale-105" data-alt="Dark map view showing a route path in city" data-location="New York" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBXMqxExEvlT1_Caydbxr901axCSABZ4x_DJwTjEhpzoasSAa8tHUwCNsbRpzAN33Zm0UOiuUupUVq9KLWTnMLYCv0PN1MxrbDukLswIX5oT08mQHtv2djrgnaWaqzMXuTNOerl8t0ygwyOZIKf9y2mOYcU5fYzoIfyN_8jqN0lTOvulWSczrYXqINzuPG5JwAcKYsfr3CAZISQ3mb_2AC0-sO2cYwFzBl8VkbiefvBTlfhWbDe9gBeYJE7viXl9nYY0mOxHL0weV0f");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dark to-transparent"></div>
+<div class="absolute top-3 right-3 flex items-center gap-1 rounded-full bg-background-dark/80 px-2 py-1 text-xs font-bold text-primary backdrop-blur-sm border border-primary/20">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+                            94/100
+                        </div>
+</div>
+<div class="flex flex-1 flex-col p-5">
+<div class="flex items-start justify-between">
+<h3 class="text-lg font-bold text-white">Home to Office</h3>
+<button class="text-text-muted hover:text-secondary transition-colors">
+<span class="material-symbols-outlined text-[20px]">star</span>
+</button>
+</div>
+<div class="mt-4 flex flex-col gap-3">
+<div class="flex items-start gap-3">
+<div class="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-500">
+<span class="material-symbols-outlined text-[14px]">trip_origin</span>
+</div>
+<div>
+<p class="text-xs font-medium text-text-muted uppercase tracking-wider">Start</p>
+<p class="text-sm font-medium text-white">123 Maple Ave</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+</div>
+<div>
+<p class="text-xs font-medium text-text-muted uppercase tracking-wider">End</p>
+<p class="text-sm font-medium text-white">Tech Park B</p>
+</div>
+</div>
+</div>
+<div class="mt-6 flex items-center justify-between border-t border-border-dark pt-4">
+<div class="flex items-center gap-1.5 text-text-muted">
+<span class="material-symbols-outlined text-[18px]">straighten</span>
+<span class="text-sm">8.2 km</span>
+</div>
+<button class="flex items-center gap-1.5 rounded bg-primary/10 px-3 py-1.5 text-xs font-bold text-primary transition-colors hover:bg-primary hover:text-background-dark">
+<span class="material-symbols-outlined text-[16px]">play_arrow</span>
+                                Re-run
+                            </button>
+</div>
+</div>
+</article>
+<!-- Card 2: Gym to Home -->
+<article class="group relative flex flex-col overflow-hidden rounded-xl bg-surface-dark border border-border-dark shadow-lg transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-primary/10">
+<div class="relative h-40 w-full overflow-hidden bg-surface-darker">
+<div class="absolute inset-0 bg-cover bg-center opacity-80 transition-transform duration-700 group-hover:scale-105" data-alt="Dark map view showing streets and route line" data-location="Los Angeles" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAFTjwF0h4s-sAmQJOgaYnM1zzKt0NNdeE-MP8bxGt-RV_5eTpv67hs7AZWFbMo9d60XSQz4XYEzEiNXKs9vBmGypBjNVA-mQ-o-f-rsbyqSYQhUyv08UoTsKMyayD5BXb14OzmJN3xHWuYBp8esBTIwCqoNfwb3dMsbQJeSRWtILskIyAFkpVzLG2m1BvqTbazyTuAL1ul5k-JRkJDO0Wyjeul0bQZXCGKRgVvAEHBOLMsZ7QhrkJoupuSN7_LASaa6FJwXMv138s4");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dark to-transparent"></div>
+<div class="absolute top-3 right-3 flex items-center gap-1 rounded-full bg-background-dark/80 px-2 py-1 text-xs font-bold text-yellow-500 backdrop-blur-sm border border-yellow-500/20">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+                            88/100
+                        </div>
+</div>
+<div class="flex flex-1 flex-col p-5">
+<div class="flex items-start justify-between">
+<h3 class="text-lg font-bold text-white">Gym to Home</h3>
+<button class="text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined fill-current text-[20px]">star</span>
+</button>
+</div>
+<div class="mt-4 flex flex-col gap-3">
+<div class="flex items-start gap-3">
+<div class="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-500">
+<span class="material-symbols-outlined text-[14px]">trip_origin</span>
+</div>
+<div>
+<p class="text-xs font-medium text-text-muted uppercase tracking-wider">Start</p>
+<p class="text-sm font-medium text-white">Iron Gym</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+</div>
+<div>
+<p class="text-xs font-medium text-text-muted uppercase tracking-wider">End</p>
+<p class="text-sm font-medium text-white">123 Maple Ave</p>
+</div>
+</div>
+</div>
+<div class="mt-6 flex items-center justify-between border-t border-border-dark pt-4">
+<div class="flex items-center gap-1.5 text-text-muted">
+<span class="material-symbols-outlined text-[18px]">straighten</span>
+<span class="text-sm">3.5 km</span>
+</div>
+<button class="flex items-center gap-1.5 rounded bg-primary/10 px-3 py-1.5 text-xs font-bold text-primary transition-colors hover:bg-primary hover:text-background-dark">
+<span class="material-symbols-outlined text-[16px]">play_arrow</span>
+                                Re-run
+                            </button>
+</div>
+</div>
+</article>
+<!-- Card 3: Weekend Route -->
+<article class="group relative flex flex-col overflow-hidden rounded-xl bg-surface-dark border border-border-dark shadow-lg transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-primary/10">
+<div class="relative h-40 w-full overflow-hidden bg-surface-darker">
+<div class="absolute inset-0 bg-cover bg-center opacity-80 transition-transform duration-700 group-hover:scale-105" data-alt="Dark map view of a long route" data-location="Chicago" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAbMcltfSk88A6uys9Ra2pnMls1oW217yZ8werVL0C3_Yu8NwpBIElT6vgEanXj7xChTdnFZcOYl01mDhjmtNL2w76RjIY3HlzjIsVYQ7mR74HtR3v0fpZ5VWkZThbDbzaB4DLLhEBWt8WKUA09bXgBXZiqynHuqze_oKfE5BmlWf51pU4TjHVblKxnCoVT3uuGR_FrbHINCQ3y2dpw4BusB1fkyQ-mZHrcCI3SRliU3Ry3sh1qEbU_XPI9gq7xDFxOT9cNgaaE79v6");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dark to-transparent"></div>
+<div class="absolute top-3 right-3 flex items-center gap-1 rounded-full bg-background-dark/80 px-2 py-1 text-xs font-bold text-emerald-500 backdrop-blur-sm border border-emerald-500/20">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+                            98/100
+                        </div>
+<div class="absolute bottom-3 left-3">
+<span class="inline-flex items-center rounded bg-secondary/20 px-2 py-0.5 text-xs font-medium text-secondary border border-secondary/30">
+                                Scenic Drive
+                            </span>
+</div>
+</div>
+<div class="flex flex-1 flex-col p-5">
+<div class="flex items-start justify-between">
+<h3 class="text-lg font-bold text-white">Weekend Route</h3>
+<button class="text-text-muted hover:text-secondary transition-colors">
+<span class="material-symbols-outlined text-[20px]">star</span>
+</button>
+</div>
+<div class="mt-4 flex flex-col gap-3">
+<div class="flex items-start gap-3">
+<div class="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-500">
+<span class="material-symbols-outlined text-[14px]">trip_origin</span>
+</div>
+<div>
+<p class="text-xs font-medium text-text-muted uppercase tracking-wider">Start</p>
+<p class="text-sm font-medium text-white">Downtown</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+</div>
+<div>
+<p class="text-xs font-medium text-text-muted uppercase tracking-wider">End</p>
+<p class="text-sm font-medium text-white">Lake View Point</p>
+</div>
+</div>
+</div>
+<div class="mt-6 flex items-center justify-between border-t border-border-dark pt-4">
+<div class="flex items-center gap-1.5 text-text-muted">
+<span class="material-symbols-outlined text-[18px]">straighten</span>
+<span class="text-sm">12.0 km</span>
+</div>
+<button class="flex items-center gap-1.5 rounded bg-primary/10 px-3 py-1.5 text-xs font-bold text-primary transition-colors hover:bg-primary hover:text-background-dark">
+<span class="material-symbols-outlined text-[16px]">play_arrow</span>
+                                Re-run
+                            </button>
+</div>
+</div>
+</article>
+</div>
+<!-- Empty State Illustration (Contextual) -->
+<div class="mt-12 flex flex-col items-center justify-center rounded-2xl border border-dashed border-border-dark bg-surface-dark/30 p-12 text-center">
+<div class="relative mb-6 h-48 w-48">
+<!-- Abstract glowing beacon illustration using CSS gradients -->
+<div class="absolute left-1/2 top-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/20 blur-3xl"></div>
+<div class="absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-gradient-to-br from-surface-dark to-background-dark shadow-2xl border border-border-dark">
+<span class="material-symbols-outlined text-[48px] text-primary animate-pulse">location_searching</span>
+</div>
+</div>
+<h3 class="text-xl font-bold text-white">Discover New Paths</h3>
+<p class="mt-2 max-w-sm text-text-muted">Your safe paths will appear here. Start a journey or search for a destination to build your history.</p>
+<button class="mt-6 text-sm font-bold text-primary hover:text-white transition-colors">
+                    Browse Popular Routes →
+                </button>
+</div>
+</div>
+</main>
+</body></html>

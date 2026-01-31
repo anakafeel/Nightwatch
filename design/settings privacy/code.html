@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pathify Noor Settings &amp; Privacy</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13c8ec",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#101f22",
+                        "glass-dark": "rgba(30, 41, 59, 0.4)",
+                        "glass-border": "rgba(255, 255, 255, 0.08)",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                    backdropBlur: {
+                        'xs': '2px',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom range slider styling */
+        input[type=range] {
+            -webkit-appearance: none; 
+            background: transparent; 
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #13c8ec;
+            cursor: pointer;
+            margin-top: -8px; 
+            box-shadow: 0 0 10px rgba(19, 200, 236, 0.5);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #334155;
+            border-radius: 2px;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101f22; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased min-h-screen flex flex-col selection:bg-primary/30">
+<!-- Top Navbar -->
+<header class="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-white/10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex h-16 items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Pathify Noor</span>
+</div>
+<button class="flex items-center justify-center p-2 rounded-full text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors bg-transparent hover:bg-slate-200 dark:hover:bg-white/5">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-[960px] mx-auto px-4 sm:px-6 py-10 lg:py-12 flex flex-col gap-10">
+<!-- Page Header -->
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl md:text-4xl font-black tracking-tight text-slate-900 dark:text-white">Settings &amp; Privacy</h1>
+<p class="text-slate-500 dark:text-slate-400 text-lg">Manage your routing preferences, privacy controls, and accessibility options.</p>
+</div>
+<!-- Privacy Section -->
+<section class="flex flex-col gap-6 p-6 md:p-8 rounded-xl border border-gray-200 dark:border-glass-border bg-white dark:bg-glass-dark backdrop-blur-sm shadow-sm dark:shadow-none">
+<div class="flex flex-col gap-4">
+<h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">shield_lock</span>
+                    Data &amp; Privacy
+                </h2>
+<!-- Privacy Badge/Card -->
+<div class="flex flex-col md:flex-row gap-6 items-start md:items-center p-5 rounded-lg bg-primary/10 border border-primary/20 mt-2">
+<div class="flex-shrink-0 bg-primary/20 p-3 rounded-full text-primary">
+<span class="material-symbols-outlined text-3xl">visibility_off</span>
+</div>
+<div class="flex-1">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">No Personal Data Collected</h3>
+<p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                            Pathify Noor operates entirely on client-side processing. We utilize OpenStreetMap for routing data and do not store, track, or share your location history on any server.
+                        </p>
+</div>
+</div>
+</div>
+<!-- List Item: CCTV Toggle -->
+<div class="border-t border-gray-200 dark:border-white/10 pt-6 mt-2">
+<div class="flex items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<p class="text-base font-medium text-slate-900 dark:text-white">Show Observability Indicators (CCTV)</p>
+<div class="group relative flex items-center">
+<span class="material-symbols-outlined text-slate-400 text-[18px] cursor-help">info</span>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 bg-slate-800 text-white text-xs rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 pointer-events-none">
+                                    Enabling this highlights areas with surveillance cameras. This data is crowd-sourced from OSM and used for safety awareness.
+                                    <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800"></div>
+</div>
+</div>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">Enables tags for cameras on the map.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/30 dark:peer-focus:ring-primary/20 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- Preferences Section -->
+<section class="flex flex-col gap-6 p-6 md:p-8 rounded-xl border border-gray-200 dark:border-glass-border bg-white dark:bg-glass-dark backdrop-blur-sm shadow-sm dark:shadow-none">
+<h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">tune</span>
+                Routing Preferences
+            </h2>
+<div class="grid gap-8 mt-2">
+<!-- Slider 1: Lighting -->
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<label class="text-base font-medium text-slate-900 dark:text-white" for="lighting-range">Prefer well-lit routes</label>
+<span class="text-sm text-primary font-semibold">High Priority</span>
+</div>
+<div class="relative w-full h-6 flex items-center">
+<input class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer dark:bg-slate-700" id="lighting-range" max="100" min="0" type="range" value="75"/>
+</div>
+<div class="flex justify-between text-xs text-slate-400 font-medium px-1">
+<span>Ignore Lighting</span>
+<span>Prioritize Light</span>
+</div>
+</div>
+<!-- Slider 2: Detours -->
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<label class="text-base font-medium text-slate-900 dark:text-white" for="detour-range">Reduce detours</label>
+<span class="text-sm text-slate-500 dark:text-slate-400">Balanced</span>
+</div>
+<div class="relative w-full h-6 flex items-center">
+<input class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer dark:bg-slate-700" id="detour-range" max="100" min="0" type="range" value="50"/>
+</div>
+<div class="flex justify-between text-xs text-slate-400 font-medium px-1">
+<span>Direct Route</span>
+<span>Safer / Scenic</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Accessibility Section -->
+<section class="flex flex-col gap-6 p-6 md:p-8 rounded-xl border border-gray-200 dark:border-glass-border bg-white dark:bg-glass-dark backdrop-blur-sm shadow-sm dark:shadow-none">
+<h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">accessibility_new</span>
+                Accessibility &amp; Performance
+            </h2>
+<div class="flex flex-col gap-6 mt-2">
+<!-- Large Text Toggle -->
+<div class="flex items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<p class="text-base font-medium text-slate-900 dark:text-white">Large Text Mode</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">Increases font size for better readability across the interface.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/30 dark:peer-focus:ring-primary/20 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Reduce Motion Toggle -->
+<div class="border-t border-gray-200 dark:border-white/10 pt-6">
+<div class="flex items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<p class="text-base font-medium text-slate-900 dark:text-white">Reduce Motion</p>
+<p class="text-sm text-slate-500 dark:text-slate-400 max-w-[500px]">Disables GSAP animations and Spline 3D elements to improve performance and comfort for motion sensitivity.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/30 dark:peer-focus:ring-primary/20 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="mt-4 pb-8 border-t border-gray-200 dark:border-white/10 pt-8">
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+<p>© 2024 Pathify Noor. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Contact Support</a>
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+</div>
+</div>
+</footer>
+</main>
+</body></html>
