@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { BrandLogo } from "./BrandLogo";
 
 function Footer() {
   return (
@@ -9,18 +10,13 @@ function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-start gap-16 mb-20">
           {/* Brand */}
           <div className="flex flex-col gap-6 max-w-sm">
-            <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-primary text-3xl">
-                light_mode
-              </span>
-              <h3 className="text-white font-bold text-2xl">Pathify Noor</h3>
-            </div>
+            <BrandLogo variant="lockup" size={40} href="/" />
             <p className="text-base text-gray-500 leading-relaxed">
               Empowering communities with safe, light-guided navigation. Because
               safety shouldn&apos;t stop when the sun goes down.
             </p>
             <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 w-fit">
-              <span className="material-symbols-outlined text-noor-gold text-sm">
+              <span className="material-symbols-outlined text-primary text-sm">
                 hotel_class
               </span>
               <span className="text-xs font-bold uppercase tracking-widest text-gray-300">
@@ -100,7 +96,7 @@ function Footer() {
         {/* Bottom */}
         <div className="flex flex-col md:flex-row items-center justify-between pt-10 border-t border-white/5 gap-6">
           <p className="text-gray-600 text-sm font-medium">
-            &copy; 2024 Pathify Noor Inc. All rights reserved.
+            &copy; 2024 Nightwing Inc. All rights reserved.
           </p>
           <div className="flex gap-8">
             <a

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui";
-import { Logo } from "./Logo";
+import { BrandLogo } from "./BrandLogo";
 
 const navLinks = [
   { href: "#how-it-works", label: "How it Works" },
@@ -18,7 +18,7 @@ function MarketingNav() {
   return (
     <nav className="fixed top-0 w-full z-50 nav-glass transition-all duration-300">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <Logo />
+        <BrandLogo variant="lockup" size={32} href="/" />
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">

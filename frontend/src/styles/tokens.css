@@ -1,4 +1,4 @@
-/* Pathify Noor Design Tokens */
+/* Nightwing Design Tokens */
 
 :root {
   /* Primary Colors */
@@ -194,5 +194,19 @@ input[type="range"]::-moz-range-track {
     r: 4;
     opacity: 1;
     filter: drop-shadow(0 0 4px #13c8ec);
+  }
+}
+
+/* Float Animation for Loading Overlay */
+.animate-float {
+  animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
   }
 }

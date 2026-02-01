@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { AppNav } from "@/components/layout/AppNav";
 import { Toggle, Slider, Tooltip } from "@/components/ui";
+import { BrandLogo } from "@/components/layout/BrandLogo";
 import { usePreferencesStore } from "@/lib/stores/preferences";
 
 export default function SettingsPage() {
@@ -25,21 +25,7 @@ export default function SettingsPage() {
       <header className="sticky top-0 z-50 w-full border-b border-border-dark bg-background-dark/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Link href="/" className="size-8 text-primary">
-                <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </Link>
-              <Link href="/">
-                <span className="text-xl font-bold tracking-tight text-white hover:text-primary transition-colors">
-                  Pathify Noor
-                </span>
-              </Link>
-            </div>
+            <BrandLogo variant="lockup" size={32} href="/" />
             <Link
               href="/settings"
               className="flex items-center justify-center p-2 rounded-full text-text-muted hover:text-white transition-colors hover:bg-white/5"
@@ -81,7 +67,7 @@ export default function SettingsPage() {
                   No Personal Data Collected
                 </h3>
                 <p className="text-sm text-gray-300 leading-relaxed">
-                  Pathify Noor operates entirely on client-side processing. We utilize
+                  Nightwing operates entirely on client-side processing. We utilize
                   OpenStreetMap for routing data and do not store, track, or share your
                   location history on any server.
                 </p>
@@ -203,7 +189,7 @@ export default function SettingsPage() {
         {/* Footer */}
         <footer className="mt-4 pb-8 border-t border-border-dark pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-text-muted">
-            <p>&copy; 2024 Pathify Noor. All rights reserved.</p>
+            <p>&copy; 2024 Nightwing. All rights reserved.</p>
             <div className="flex gap-6">
               <a href="#" className="hover:text-primary transition-colors">
                 Terms of Service

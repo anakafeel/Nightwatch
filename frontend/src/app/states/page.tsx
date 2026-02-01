@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Button, Skeleton, SkeletonInput, Toast } from "@/components/ui";
+import { BrandLogo } from "@/components/layout/BrandLogo";
 
 export default function StatesPage() {
   const [showToasts, setShowToasts] = useState(true);
@@ -32,14 +33,7 @@ export default function StatesPage() {
 
         {/* Header */}
         <header className="flex items-center justify-between whitespace-nowrap border-b border-border-dark bg-background-dark px-10 py-3">
-          <div className="flex items-center gap-4 text-white">
-            <div className="size-6 text-primary">
-              <span className="material-symbols-outlined">share_location</span>
-            </div>
-            <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em]">
-              Pathify Noor
-            </h2>
-          </div>
+          <BrandLogo variant="lockup" size={24} href="/" />
           <div className="flex flex-1 justify-end gap-8">
             <Skeleton variant="circular" width={40} height={40} />
           </div>
@@ -109,12 +103,7 @@ export default function StatesPage() {
         </div>
 
         <header className="flex items-center justify-between whitespace-nowrap border-b border-border-dark bg-background-dark px-10 py-3">
-          <div className="flex items-center gap-4 text-white">
-            <div className="size-6 text-primary">
-              <span className="material-symbols-outlined">share_location</span>
-            </div>
-            <h2 className="text-white text-lg font-bold">Pathify Noor</h2>
-          </div>
+          <BrandLogo variant="lockup" size={24} href={undefined} />
         </header>
 
         <div className="flex flex-1 overflow-hidden">
@@ -208,12 +197,7 @@ export default function StatesPage() {
         </div>
 
         <header className="flex items-center justify-between whitespace-nowrap border-b border-border-dark bg-background-dark px-10 py-3">
-          <div className="flex items-center gap-4 text-white">
-            <div className="size-6 text-primary">
-              <span className="material-symbols-outlined">share_location</span>
-            </div>
-            <h2 className="text-white text-lg font-bold">Pathify Noor</h2>
-          </div>
+          <BrandLogo variant="lockup" size={24} href={undefined} />
         </header>
 
         <div className="flex flex-1 overflow-hidden">

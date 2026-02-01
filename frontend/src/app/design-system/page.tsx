@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Button, Badge, Input, Toggle, Slider, Skeleton, Card, CardContent } from "@/components/ui";
+import { Button, Badge, Input, Toggle, Card } from "@/components/ui";
+import { BrandLogo } from "@/components/layout/BrandLogo";
 
 export default function DesignSystemPage() {
   return (
@@ -7,14 +8,7 @@ export default function DesignSystemPage() {
       {/* Top Navigation */}
       <div className="flex justify-center w-full border-b border-border-dark bg-background-dark/90 backdrop-blur-md sticky top-0 z-50">
         <div className="flex w-full max-w-[1440px] items-center justify-between px-6 py-4 lg:px-10">
-          <div className="flex items-center gap-4 text-white">
-            <div className="size-6 text-primary animate-pulse">
-              <span className="material-symbols-outlined text-3xl">light_mode</span>
-            </div>
-            <h2 className="text-white text-xl font-bold leading-tight tracking-[-0.015em]">
-              Pathify Noor
-            </h2>
-          </div>
+          <BrandLogo variant="lockup" size={32} href="/" />
           <Link href="/">
             <Button
               leftIcon={<span className="material-symbols-outlined text-[18px]">arrow_back</span>}
@@ -31,10 +25,10 @@ export default function DesignSystemPage() {
           {/* Page Heading */}
           <div className="flex flex-col gap-4 border-b border-white/5 pb-8">
             <h1 className="text-white text-5xl font-black leading-tight tracking-[-0.033em]">
-              Pathify Noor <span className="text-primary font-light">DS v1.0</span>
+              Nightwing <span className="text-primary font-light">DS v1.0</span>
             </h1>
             <p className="text-text-muted text-lg font-normal leading-normal max-w-2xl">
-              A comprehensive guide to the visual language of the Pathify Noor interface.
+              A comprehensive guide to the visual language of the Nightwing interface.
               Built for high-contrast, data-heavy environments with a futuristic aesthetic.
             </p>
           </div>
@@ -55,20 +49,20 @@ export default function DesignSystemPage() {
                   <span className="text-text-muted text-xs mt-1">Background / Surface</span>
                 </div>
               </div>
-              {/* Noor Glow */}
+              {/* Owl Cyan */}
               <div className="flex flex-col gap-3">
                 <div className="h-32 w-full rounded-xl bg-primary shadow-glow-primary" />
                 <div className="flex flex-col px-1">
-                  <span className="text-white font-bold">Noor Glow</span>
+                  <span className="text-white font-bold">Owl Cyan</span>
                   <span className="text-text-muted text-sm font-mono">#13c8ec</span>
                   <span className="text-text-muted text-xs mt-1">Primary / Action</span>
                 </div>
               </div>
-              {/* Noor Gold */}
+              {/* Owl Gold */}
               <div className="flex flex-col gap-3">
                 <div className="h-32 w-full rounded-xl bg-noor-gold shadow-glow-warning" />
                 <div className="flex flex-col px-1">
-                  <span className="text-white font-bold">Noor Gold</span>
+                  <span className="text-white font-bold">Owl Gold</span>
                   <span className="text-text-muted text-sm font-mono">#FFFACD</span>
                   <span className="text-text-muted text-xs mt-1">Accent / Highlight</span>
                 </div>
@@ -192,7 +186,7 @@ export default function DesignSystemPage() {
 
           {/* Footer */}
           <footer className="border-t border-border-dark py-8 text-center text-text-muted text-sm">
-            <p>&copy; 2024 Pathify Noor Design System. Internal Use Only.</p>
+            <p>&copy; 2024 Nightwing Design System. Internal Use Only.</p>
           </footer>
         </div>
       </div>

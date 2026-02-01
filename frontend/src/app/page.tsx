@@ -80,7 +80,7 @@ export default function LandingPage() {
                 <p className="text-xl text-gray-200 max-w-2xl leading-relaxed font-medium drop-shadow-md">
                   AI-driven navigation that prioritizes well-lit streets over
                   shortcuts. Let{" "}
-                  <span className="text-noor-gold font-bold">Noor</span> guide
+                  <span className="text-primary font-bold">Nightwing</span> guide
                   your way home safely.
                 </p>
 
@@ -257,7 +257,7 @@ export default function LandingPage() {
               </h2>
               <p className="text-xl text-gray-400 max-w-md leading-relaxed">
                 Experience the difference. While standard maps send you through
-                dark alleys to save 30 seconds, Noor finds the path where you can
+                dark alleys to save 30 seconds, Nightwing finds the path where you can
                 walk with your head up.
               </p>
               <div className="flex flex-col gap-6 pt-4">
@@ -338,7 +338,7 @@ export default function LandingPage() {
                 </h2>
                 <p className="text-gray-400 max-w-lg mx-auto text-xl">
                   Join thousands of users who are reclaiming the night. Try
-                  Pathify Noor today.
+                  Nightwing today.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-6 mt-4 w-full justify-center">
