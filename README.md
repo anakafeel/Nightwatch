@@ -1,6 +1,6 @@
 ![IMG_7055](https://github.com/user-attachments/assets/33e223f9-de34-4883-b40c-2d8b41af8b04)
-![IMG_7052](https://github.com/user-attachments/assets/271c9376-9f05-4c09-abf7-b58164c69fd2)
-![IMG_4447](https://github.com/user-attachments/assets/fc2fbaa5-4738-4d3e-a4dc-0104791cd2e3)
+![new](https://github.com/user-attachments/assets/019d26dd-d166-4eb5-aa5b-2ee25f752381)
+
 # Nightwatch
 
 Nightwatch keeps nighttime walkers safe by finding routes that maximize streetlight 
