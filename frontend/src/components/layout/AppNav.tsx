@@ -16,8 +16,11 @@ function AppNav() {
   const pathname = usePathname();
 
   return (
-    <header className="flex items-center justify-between whitespace-nowrap border-b border-border-dark bg-background-dark px-6 py-3 z-30 shrink-0">
-      <div className="flex items-center gap-4 text-white">
+    <header className="flex items-center justify-between whitespace-nowrap 
+                      bg-gradient-to-r from-[#0F2326]/95 to-[#1A363B]/90 
+                      backdrop-blur-xl border-b border-[#0F7A82]/30 
+                      px-8 py-2 z-30 shrink-0 shadow-lg ring-1 ring-[#0F7A82]/20">
+     <div className="flex items-center gap-4 text-white">
         <BrandLogo variant="lockup" size={32} href="/" />
       </div>
 
