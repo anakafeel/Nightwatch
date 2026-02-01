@@ -1,7 +1,7 @@
 from geo import create_mock_graph, get_random_nodes, print_graph_stats
 from safety_model import *
 import networkx as nx    
-
+from typing import Tuple, Dict, Any, Optional
 
 class RoutingEngine:
     """
@@ -175,23 +175,59 @@ class RoutingEngine:
             'light_density': round(light_density, 2), # round to two decimal places
             'segments': segments
         }
+        
+class SafeRouter:
+    """
+    High-level router that combines safety scoring with pathfinding.
     
-    def compare_paths(self, shortest_path, safest_path):
+    router.py will call this.
+    """
+    
+    def __init__(self, graph, alpha=1.0):
+        self.graph = graph
+        self.scorer = SafetyScorer(alpha=alpha)
+        self.scorer.add_safety_scores_to_graph(self.graph)
+        self.engine = RoutingEngine(self.graph)
+        
+    def get_safest_route(self, start, end):
+        """Find safest route."""
+        path = self.engine.find_safest_path(start, end)
+        if not path:
+            return None
+        metrics = self.engine.calculate_path_metrics(path)
+        if metrics:
+            metrics['type'] = 'safest'
+        return metrics
+    
+    def get_shortest_route(self, start, end):
+        """Find shortest route."""
+        path = self.engine.find_shortest_path(start, end)
+        if not path:
+            return None
+        metrics = self.engine.calculate_path_metrics(path)
+        if metrics:
+            metrics['type'] = 'shortest'
+        return metrics
+    
+    def compare_paths(self, start, end):
         """
         compare two paths side-by-side to show the tradeoff between shortest and safest routes.
         
         args:
-            shortest_path: path from find_shortest_path()
-            safest_path: path from find_safest_path()
+            start: starting node ID
+            end: ending node ID
         
         returns:
             dict: comparison metrics
         """
+        shortest_path = self.get_shortest_route(start, end)
+        safest_path = self.get_safest_route(start, end)
+        
         if not shortest_path or not safest_path:
             return None
         
-        shortest_metrics = self.calculate_path_metrics(shortest_path)
-        safest_metrics = self.calculate_path_metrics(safest_path)
+        shortest_metrics = self.get_shortest_route(start, end)
+        safest_metrics = self.get_safest_route(start, end)
         
         distance_diff = safest_metrics['distance'] - shortest_metrics['distance']
         lights_diff = safest_metrics['lights'] - shortest_metrics['lights']
@@ -205,12 +241,81 @@ class RoutingEngine:
         return {
             'shortest': shortest_metrics,
             'safest': safest_metrics,
-            'distance_difference': round(distance_diff, 1), # round to one decimal place
-            'distance_increase_percentage': round(distance_increase_percentage, 1), # round to one decimal place
-            'lights_difference': lights_diff,
-            'safety_improvement': round(safety_diff, 2), # round to two decimal places
-            'same_route': shortest_path == safest_path
+            'comparison': {
+                'distance_difference': round(safest_metrics['distance'] - shortest_metrics['distance'], 1),
+                'distance_increase_percentage': round(distance_increase_percentage, 1),
+                'lights_difference': safest_metrics['lights'] - shortest_metrics['lights'],
+                'safety_improvement': round(safety_diff, 2),
+                'same_route': shortest_metrics['path'] == safest_metrics['path']
+            }
         }
+    
+# ============================================================================
+# API ADAPTER FUNCTIONS (what router.py will call)
+# ============================================================================
+
+# Global router instance
+_router: Optional[SafeRouter] = None
+
+def init_router(graph=None, alpha=1.0):
+    """
+    initialize the global router instance.
+    
+    args:
+        graph: networkx graph (if None, creates mock graph)
+        alpha: weight for streetlights
+    """
+    global _router
+    
+    if graph is None:
+        # use mock data for now
+        # import load_osm_graph("Ottawa") later
+        graph = create_mock_graph(num_nodes=100, seed=42)
+    
+    _router = SafeRouter(graph, alpha=alpha)
+    print(f"Routing engine initialized with {graph.number_of_nodes()} nodes")
+
+def compare_routes(
+    start: Tuple[float, float],
+    end: Tuple[float, float],
+) -> Dict[str, Any]:
+    """
+    compare safest vs shortest routes.
+    
+    this is the function that router.py calls when demo_mode=0.
+    
+    Args:
+        start: (lat, lng) tuple for start point
+        end: (lat, lng) tuple for end point
+    
+    Returns:
+        dict with 'shortest' and 'safest' route data
+    """
+    global _router
+    
+    # Initialize router if not already done
+    if _router is None:
+        init_router()
+    
+    # TODO: Convert lat/lng to node IDs
+    # for now, use placeholder nodes
+    # senura will provide: start_node = lat_lng_to_node(graph, start[0], start[1])
+    start = 0   # Placeholder
+    end = 50    # Placeholder
+    
+    # reinitialize with new weights if they changed
+    init_router(graph=_router.graph, alpha=_router.scorer.alpha)
+    
+    # call routing logic for mock data
+    comparison = _router.compare_routes(start, end)
+    
+    if not comparison:
+        return None
+    
+    return comparison
+
+
+'''   
     
     def get_path_description(self, path):
         """
@@ -382,3 +487,5 @@ if __name__ == "__main__":
     print("\n" + "=" * 70)
     print("All tests completed!")
     print("=" * 70)
+    
+'''
