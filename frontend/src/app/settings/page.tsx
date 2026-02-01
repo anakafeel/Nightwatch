@@ -67,7 +67,7 @@ export default function SettingsPage() {
                   No Personal Data Collected
                 </h3>
                 <p className="text-sm text-gray-300 leading-relaxed">
-                  Nightwing operates entirely on client-side processing. We utilize
+                  Nightwatch operates entirely on client-side processing. We utilize
                   OpenStreetMap for routing data and do not store, track, or share your
                   location history on any server.
                 </p>
@@ -189,7 +189,7 @@ export default function SettingsPage() {
         {/* Footer */}
         <footer className="mt-4 pb-8 border-t border-border-dark pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-text-muted">
-            <p>&copy; 2024 Nightwing. All rights reserved.</p>
+            <p>&copy; 2024 Nightwatch. All rights reserved.</p>
             <div className="flex gap-6">
               <a href="#" className="hover:text-primary transition-colors">
                 Terms of Service

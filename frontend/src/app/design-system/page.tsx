@@ -25,10 +25,10 @@ export default function DesignSystemPage() {
           {/* Page Heading */}
           <div className="flex flex-col gap-4 border-b border-white/5 pb-8">
             <h1 className="text-white text-5xl font-black leading-tight tracking-[-0.033em]">
-              Nightwing <span className="text-primary font-light">DS v1.0</span>
+              Nightwatch <span className="text-primary font-light">DS v1.0</span>
             </h1>
             <p className="text-text-muted text-lg font-normal leading-normal max-w-2xl">
-              A comprehensive guide to the visual language of the Nightwing interface.
+              A comprehensive guide to the visual language of the Nightwatch interface.
               Built for high-contrast, data-heavy environments with a futuristic aesthetic.
             </p>
           </div>
@@ -186,7 +186,7 @@ export default function DesignSystemPage() {
 
           {/* Footer */}
           <footer className="border-t border-border-dark py-8 text-center text-text-muted text-sm">
-            <p>&copy; 2024 Nightwing Design System. Internal Use Only.</p>
+            <p>&copy; 2024 Nightwatch Design System. Internal Use Only.</p>
           </footer>
         </div>
       </div>

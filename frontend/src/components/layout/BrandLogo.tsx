@@ -41,7 +41,7 @@ function OwlIcon({ size = 32, className }: { size?: number; className?: string }
 
 /**
  * Main brand logo component used across the app.
- * Renders the owl icon with optional "Nightwing" wordmark.
+ * Renders the owl icon with optional "Nightwatch" wordmark.
  */
 export function BrandLogo({
   variant = "icon",
@@ -81,7 +81,7 @@ export function BrandLogo({
       {/* Wordmark for lockup variant */}
       {variant === "lockup" && (
         <span className="text-white font-bold text-xl tracking-tight group-hover:text-primary transition-colors duration-300">
-          Nightwing
+          Nightwatch
         </span>
       )}
     </div>

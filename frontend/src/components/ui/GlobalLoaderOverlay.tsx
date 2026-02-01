@@ -42,7 +42,7 @@ function AnimatedOwl() {
 }
 
 /**
- * Global loading overlay with animated Nightwing owl logo.
+ * Global loading overlay with animated Nightwatch owl logo.
  * Shows during page transitions and API calls.
  *
  * UX features:
@@ -77,7 +77,7 @@ export function GlobalLoaderOverlay() {
         {/* Wordmark */}
         <div className="flex flex-col items-center gap-2">
           <h2 className="text-white text-xl font-bold tracking-wide">
-            Nightwing
+            Nightwatch
           </h2>
           <p className="text-text-muted text-sm animate-pulse">
             Finding your safest path...

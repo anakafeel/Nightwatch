@@ -10,13 +10,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Nightwing - Safe Walking Routes",
+  title: "Nightwatch - Safe Walking Routes",
   description:
     "AI-driven navigation that prioritizes well-lit streets over shortcuts. Walk with confidence after dark.",
-  keywords: ["walking", "navigation", "safety", "night", "routes", "AI", "nightwing"],
-  authors: [{ name: "Nightwing" }],
+  keywords: ["walking", "navigation", "safety", "night", "routes", "AI", "nightwatch"],
+  authors: [{ name: "Nightwatch" }],
   openGraph: {
-    title: "Nightwing - Safe Walking Routes",
+    title: "Nightwatch - Safe Walking Routes",
     description:
       "AI-driven navigation that prioritizes well-lit streets over shortcuts.",
     type: "website",

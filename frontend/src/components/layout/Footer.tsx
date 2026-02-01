@@ -96,7 +96,7 @@ function Footer() {
         {/* Bottom */}
         <div className="flex flex-col md:flex-row items-center justify-between pt-10 border-t border-white/5 gap-6">
           <p className="text-gray-600 text-sm font-medium">
-            &copy; 2024 Nightwing Inc. All rights reserved.
+            &copy; 2024 Nightwatch Inc. All rights reserved.
           </p>
           <div className="flex gap-8">
             <a
