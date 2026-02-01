@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { AppNav } from "@/components/layout/AppNav";
-import { Button, Input, Slider } from "@/components/ui";
+import { Button, Slider } from "@/components/ui";
 import { MapCanvas } from "@/components/map/MapCanvas";
 import { MapControls } from "@/components/map/MapControls";
 import { RouteCard } from "@/components/map/RouteCard";
@@ -13,25 +12,66 @@ import { usePreferencesStore } from "@/lib/stores/preferences";
 import { isDemoMode } from "@/lib/api";
 import type { RouteMode } from "@/lib/routes";
 
-interface RouteFormData {
-  start: string;
-  end: string;
+/**
+ * Demo: Ottawa-only dropdown choices measured from Carleton University.
+ * No geocoding required — each option includes lat/lng.
+ */
+
+type DemoLocation = {
+  id: string;
+  label: string;
+  lat: number;
+  lng: number;
+};
+
+const CARLETON: DemoLocation = {
+  id: "carleton",
+  label: "Carleton University",
+  lat: 45.3876,
+  lng: -75.696,
+};
+
+const OTTAWA_LOCATIONS: DemoLocation[] = [
+  CARLETON,
+  { id: "uottawa", label: "University of Ottawa", lat: 45.4231, lng: -75.6831 },
+  { id: "rideau", label: "CF Rideau Centre", lat: 45.4256, lng: -75.6924 },
+  { id: "byward", label: "ByWard Market", lat: 45.4277, lng: -75.6922 },
+  { id: "parliament", label: "Parliament Hill", lat: 45.4236, lng: -75.7009 },
+  { id: "lansdowne", label: "Lansdowne Park", lat: 45.3989, lng: -75.6833 },
+  {
+    id: "ottawa_station",
+    label: "Ottawa Station (VIA Rail)",
+    lat: 45.4166,
+    lng: -75.6513,
+  },
+];
+
+/** Simple distance helpers (for “X km from Carleton”) */
+function haversineMeters(
+  a: { lat: number; lng: number },
+  b: { lat: number; lng: number },
+) {
+  const R = 6371000;
+  const toRad = (x: number) => (x * Math.PI) / 180;
+
+  const dLat = toRad(b.lat - a.lat);
+  const dLng = toRad(b.lng - a.lng);
+  const lat1 = toRad(a.lat);
+  const lat2 = toRad(b.lat);
+
+  const s =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+
+  return 2 * R * Math.asin(Math.sqrt(s));
+}
+
+function formatKm(meters: number) {
+  const km = meters / 1000;
+  return km >= 10 ? `${km.toFixed(0)} km` : `${km.toFixed(1)} km`;
 }
 
 export default function AppPage() {
-  // USED FOR TESTING FRONT END AND BACK END CONNECTION !!!!!!!!!!!!!!!!!!!!!!!!!!
-  //  useEffect(() => {
-  //    console.log("[CLIENT DEBUG] isDemoMode:", isDemoMode);
-  //    console.log(
-  //      "[CLIENT DEBUG] NEXT_PUBLIC_API_URL:",
-  //      process.env.NEXT_PUBLIC_API_URL,
-  //    );
-  //    console.log(
-  //      "[CLIENT DEBUG] NEXT_PUBLIC_USE_MOCK:",
-  //      process.env.NEXT_PUBLIC_USE_MOCK,
-  //    );
-  //  }, []);
-
   const [mode, setMode] = useState<RouteMode>("night");
   const [maxDetour, setMaxDetour] = useState(15);
   const [lightsWeight, setLightsWeight] = useState(80);
@@ -40,21 +80,25 @@ export default function AppPage() {
     "safest",
   );
 
+  // Ottawa dropdown state
+  const [startId, setStartId] = useState<string>("carleton");
+  const [endId, setEndId] = useState<string>("byward");
+
   const { fetchRoute, data: routeData, isLoading } = useRouteQuery();
   const showCctv = usePreferencesStore((state) => state.showCctvIndicators);
 
-  const { register, handleSubmit } = useForm<RouteFormData>({
-    defaultValues: {
-      start: "Central Station",
-      end: "Riverside Plaza",
-    },
-  });
+  const startLoc = OTTAWA_LOCATIONS.find((l) => l.id === startId) ?? CARLETON;
 
-  const onSubmit = (data: RouteFormData) => {
-    // In a real app, we'd geocode these addresses first
+  // If endId was filtered out (same as start), pick first available non-start
+  const endChoices = OTTAWA_LOCATIONS.filter((l) => l.id !== startId);
+  const endLoc =
+    endChoices.find((l) => l.id === endId) ?? endChoices[0] ?? CARLETON;
+
+  const onSubmit = () => {
+    setSelectedRoute("safest");
     fetchRoute({
-      start: { lat: 40.7484, lng: -73.9857 },
-      end: { lat: 40.7612, lng: -73.9678 },
+      start: { lat: startLoc.lat, lng: startLoc.lng },
+      end: { lat: endLoc.lat, lng: endLoc.lng },
       mode,
       maxDetour,
       weights: {
@@ -93,47 +137,74 @@ export default function AppPage() {
       <div className="flex flex-1 overflow-hidden relative">
         {/* Sidebar */}
         <aside className="w-full md:w-[420px] flex flex-col z-20 glass-panel border-r border-border-dark h-full overflow-y-auto custom-scrollbar shadow-2xl">
-          <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-8">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              onSubmit();
+            }}
+            className="p-6 space-y-8"
+          >
             {/* Navigation Inputs */}
             <div className="space-y-4">
               <h3 className="text-text-muted text-xs font-bold uppercase tracking-wider">
                 Navigation
               </h3>
 
-              {/* Start Location */}
-              <Input
-                label="Start Location"
-                placeholder="Enter start point..."
-                leftIcon={
-                  <span className="material-symbols-outlined text-[20px]">
-                    my_location
-                  </span>
-                }
-                rightIcon={
-                  <button
-                    type="button"
-                    className="p-1 text-primary hover:bg-primary/10 rounded-md transition-colors"
-                    title="Locate Me"
-                  >
-                    <span className="material-symbols-outlined text-[18px]">
-                      gps_fixed
-                    </span>
-                  </button>
-                }
-                {...register("start")}
-              />
+              {/* Start Location Dropdown */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-white block">
+                  Start Location
+                </label>
+                <select
+                  value={startId}
+                  onChange={(e) => {
+                    const nextStart = e.target.value;
+                    setStartId(nextStart);
 
-              {/* Destination */}
-              <Input
-                label="Destination"
-                placeholder="Where to?"
-                leftIcon={
-                  <span className="material-symbols-outlined text-[20px]">
-                    location_on
-                  </span>
-                }
-                {...register("end")}
-              />
+                    // If destination equals new start, reset destination to first valid option
+                    if (endId === nextStart) {
+                      const nextEnd = OTTAWA_LOCATIONS.find(
+                        (l) => l.id !== nextStart,
+                      )?.id;
+                      if (nextEnd) setEndId(nextEnd);
+                    }
+                  }}
+                  className="w-full rounded-lg border border-border-dark bg-surface-dark px-3 py-3 text-white outline-none"
+                >
+                  {OTTAWA_LOCATIONS.map((loc) => {
+                    const d = haversineMeters(CARLETON, loc);
+                    return (
+                      <option key={loc.id} value={loc.id}>
+                        {loc.label}
+                        {loc.id === "carleton"
+                          ? ""
+                          : ` • ${formatKm(d)} from Carleton`}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+
+              {/* Destination Dropdown */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-white block">
+                  Destination
+                </label>
+                <select
+                  value={endLoc.id}
+                  onChange={(e) => setEndId(e.target.value)}
+                  className="w-full rounded-lg border border-border-dark bg-surface-dark px-3 py-3 text-white outline-none"
+                >
+                  {endChoices.map((loc) => {
+                    const d = haversineMeters(CARLETON, loc);
+                    return (
+                      <option key={loc.id} value={loc.id}>
+                        {loc.label} • {formatKm(d)} from Carleton
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
             </div>
 
             <div className="h-px bg-border-dark w-full" />
@@ -291,7 +362,15 @@ export default function AppPage() {
         {/* Map View */}
         <main className="flex-1 relative bg-[#0b1215] overflow-hidden hidden md:block">
           {/* Map Canvas */}
-          <MapCanvas routeData={routeData} className="absolute inset-0 z-10" />
+          <MapCanvas
+            routeData={routeData}
+            // ✅ pass dropdown coords so markers + fitBounds update even before calling the API
+            start={{ lat: startLoc.lat, lng: startLoc.lng }}
+            end={{ lat: endLoc.lat, lng: endLoc.lng }}
+            center={[startLoc.lng, startLoc.lat]}
+            zoom={13}
+            className="absolute inset-0 z-10"
+          />
 
           {/* Route Recommendation Card */}
           {routeData && (
@@ -318,10 +397,9 @@ export default function AppPage() {
             onZoomOut={() => console.log("Zoom out")}
             onRecenter={() => console.log("Recenter")}
           />
-
         </main>
 
-        {/* Mobile Map (Full Screen with Bottom Sheet) */}
+        {/* Mobile Map (UI placeholder) */}
         <div className="flex-1 relative bg-[#0b1215] md:hidden">
           <div className="absolute inset-0 bg-map-pattern" />
           <div className="absolute bottom-0 left-0 right-0 bg-background-dark/95 backdrop-blur-lg border-t border-border-dark rounded-t-3xl p-6 z-20">
@@ -350,7 +428,7 @@ export default function AppPage() {
               </div>
             ) : (
               <p className="text-text-muted text-center">
-                Enter locations and find your safest route
+                Pick locations and find your safest route
               </p>
             )}
           </div>

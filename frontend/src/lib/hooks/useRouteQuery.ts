@@ -21,25 +21,37 @@ export function useRouteQuery() {
   const queryClient = useQueryClient();
   const { start, stop } = useLoadingStore();
 
-  const mutation = useMutation({
-    mutationFn: (request: RouteRequest) => fetchRoute(request),
+  const mutation = useMutation<RouteResult, Error, RouteRequest>({
+    mutationFn: async (request: RouteRequest) => {
+      // Central place to hit backend (implementation lives in ../api fetchRoute)
+      return await fetchRoute(request);
+    },
     onMutate: () => {
-      // Show loading overlay when route request starts
       start(ROUTE_SOURCE);
     },
     onSuccess: (data) => {
-      // Store in cache for access by other pages (like insights)
       queryClient.setQueryData(ROUTE_QUERY_KEY, data);
+
+      // Helpful for debugging
+      // eslint-disable-next-line no-console
+      console.log("[useRouteQuery] routeData received:", data);
+    },
+    onError: (err) => {
+      // eslint-disable-next-line no-console
+      console.error("[useRouteQuery] fetchRoute error:", err);
     },
     onSettled: () => {
-      // Hide loading overlay on success or error
       stop(ROUTE_SOURCE);
     },
   });
 
   return {
-    fetchRoute: mutation.mutate,
+    // Prefer async version so callers can await it
     fetchRouteAsync: mutation.mutateAsync,
+
+    // Keep sync mutate for convenience if you still want it
+    fetchRoute: mutation.mutate,
+
     data: mutation.data,
     isLoading: mutation.isPending,
     isError: mutation.isError,

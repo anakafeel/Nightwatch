@@ -33,11 +33,18 @@ export const routeRequestSchema = z.object({
  */
 export const routeDataSchema = z.object({
   geojson: z.any(), // GeoJSON validation is complex, accept any
-  distance_m: z.number().min(0),
-  eta_min: z.number().min(0),
-  safety_score: z.number().min(0).max(100),
-  coverage: z.enum(["high", "medium", "low"]).optional(),
-  reasons: z.array(z.string()).optional(),
+
+  // Use coerce to be resilient if backend sends strings
+  distance_m: z.coerce.number().min(0),
+  eta_min: z.coerce.number().min(0),
+  safety_score: z.coerce.number().min(0).max(100),
+
+  // ✅ FIX: backend returns values like "graph+routing_engine" / "mock+lights"
+  // so this cannot be enum(["high","medium","low"])
+  coverage: z.string().optional(),
+
+  // Default to [] so components can safely render
+  reasons: z.array(z.string()).optional().default([]),
 });
 
 /**
