@@ -1,8 +1,3 @@
-"""
-Core routing engine.
-Implements pathfinding algorithms such as djikstras algorithm for safe route planning.
-"""
-
 from geo import create_mock_graph, get_random_nodes, print_graph_stats
 from safety_model import *
 import networkx as nx    
