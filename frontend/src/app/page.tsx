@@ -51,12 +51,12 @@ export default function LandingPage() {
             <div className="max-w-7xl mx-auto px-6 w-full pb-20 lg:pb-32">
               <div className="max-w-4xl space-y-8">
                 {/* Live Badge */}
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-md">
+                {/*                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-md">
                   <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                   <span className="text-xs font-medium text-primary uppercase tracking-wider">
                     Live in 12 Cities
                   </span>
-                </div>
+                </div> */}
 
                 {/* Headline */}
                 <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight text-white drop-shadow-2xl">
@@ -80,8 +80,8 @@ export default function LandingPage() {
                 <p className="text-xl text-gray-200 max-w-2xl leading-relaxed font-medium drop-shadow-md">
                   AI-driven navigation that prioritizes well-lit streets over
                   shortcuts. Let{" "}
-                  <span className="text-primary font-bold">Nightwatch</span> guide
-                  your way home safely.
+                  <span className="text-primary font-bold">Nightwatch</span>{" "}
+                  guide your way home safely.
                 </p>
 
                 {/* CTAs */}
@@ -127,7 +127,9 @@ export default function LandingPage() {
                       />
                     ))}
                   </div>
-                  <p className="font-medium">Trusted by 10,000+ nightly walkers</p>
+                  <p className="font-medium">
+                    Trusted by 3+ people ( Us )
+                  </p>
                 </div>
               </div>
             </div>
@@ -144,23 +146,31 @@ export default function LandingPage() {
               Illuminating the unseen
             </h2>
             <p className="text-gray-400 text-xl">
-              Our AI analyzes multiple layers of city data to ensure your journey
-              is as safe as it is efficient.
+              Our AI analyzes multiple layers of city data to ensure your
+              journey is as safe as it is efficient.
             </p>
           </div>
 
           {/* Feature 1: Smart Routing */}
           <div className="flex flex-col md:flex-row items-center gap-16 lg:gap-24">
             <div className="flex-1 w-full order-2 md:order-1">
-              <div className="relative group aspect-[4/3] rounded-2xl overflow-hidden
+              <div
+                className="relative group aspect-[4/3] rounded-2xl overflow-hidden
                              border border-[#0F7A82]/40 shadow-2xl bg-[#1A363B]/50
-                             hover:border-[#0F7A82]/60 transition-all duration-300">
-                <img src="/images/map-card-1.png" alt="Smart routing" className="w-full h-full object-cover opacity-60" />
+                             hover:border-[#0F7A82]/60 transition-all duration-300"
+              >
+                <img
+                  src="/images/map-card-1.png"
+                  alt="Smart routing"
+                  className="w-full h-full object-cover opacity-60"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0F2326]/90 to-transparent" />
                 <div className="absolute bottom-8 left-8 flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-xl bg-[#0F7A82]/20 backdrop-blur-md
+                  <div
+                    className="w-16 h-16 rounded-xl bg-[#0F7A82]/20 backdrop-blur-md
                                  border border-[#0F7A82]/40 flex items-center justify-center
-                                 text-[#37B8A6] shadow-lg shadow-[#0F7A82]/20">
+                                 text-[#37B8A6] shadow-lg shadow-[#0F7A82]/20"
+                  >
                     <span className="material-symbols-outlined text-4xl">
                       location_on
                     </span>
@@ -173,8 +183,8 @@ export default function LandingPage() {
                 Smart Routing
               </h3>
               <p className="text-xl text-text-muted leading-relaxed">
-                Analyzes municipal street light data and real-time foot traffic to
-                find the most illuminated paths.
+                Analyzes municipal street light data and real-time foot traffic
+                to find the most illuminated paths.
               </p>
               <div className="w-20 h-1 bg-gradient-to-r from-[#0F7A82] to-[#37B8A6] rounded-full" />
             </div>
@@ -187,21 +197,29 @@ export default function LandingPage() {
                 Safety vs Speed
               </h3>
               <p className="text-xl text-text-muted leading-relaxed">
-                Customize your preference. Choose the brightest path, not just the
-                fastest one available.
+                Customize your preference. Choose the brightest path, not just
+                the fastest one available.
               </p>
               <div className="w-20 h-1 bg-gradient-to-r from-noor-gold/50 to-noor-gold/20 rounded-full" />
             </div>
             <div className="flex-1 w-full">
-              <div className="relative group aspect-[4/3] rounded-2xl overflow-hidden
+              <div
+                className="relative group aspect-[4/3] rounded-2xl overflow-hidden
                              border border-[#0F7A82]/40 shadow-2xl bg-[#1A363B]/50
-                             hover:border-[#0F7A82]/60 transition-all duration-300">
-                <img src="/images/map-card-2.png" alt="Safety preferences" className="w-full h-full object-cover opacity-60" />
+                             hover:border-[#0F7A82]/60 transition-all duration-300"
+              >
+                <img
+                  src="/images/map-card-2.png"
+                  alt="Safety preferences"
+                  className="w-full h-full object-cover opacity-60"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0F2326]/90 to-transparent" />
                 <div className="absolute bottom-8 right-8 flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-xl bg-noor-gold/15 backdrop-blur-md
+                  <div
+                    className="w-16 h-16 rounded-xl bg-noor-gold/15 backdrop-blur-md
                                  border border-noor-gold/30 flex items-center justify-center
-                                 text-noor-gold shadow-lg shadow-noor-gold/15">
+                                 text-noor-gold shadow-lg shadow-noor-gold/15"
+                  >
                     <span className="material-symbols-outlined text-4xl">
                       balance
                     </span>
@@ -214,15 +232,21 @@ export default function LandingPage() {
           {/* Feature 3: Community Verified */}
           <div className="flex flex-col md:flex-row items-center gap-16 lg:gap-24">
             <div className="flex-1 w-full order-2 md:order-1">
-              <div className="relative group aspect-[4/3] rounded-2xl overflow-hidden
+              <div
+                className="relative group aspect-[4/3] rounded-2xl overflow-hidden
                              border border-[#0F7A82]/40 shadow-2xl bg-[#1A363B]/50
-                             hover:border-[#0F7A82]/60 transition-all duration-300">
+                             hover:border-[#0F7A82]/60 transition-all duration-300"
+              >
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="bg-[#1A363B]/90 backdrop-blur-xl p-6 rounded-xl
-                                 border border-[#0F7A82]/40 shadow-lg">
+                  <div
+                    className="bg-[#1A363B]/90 backdrop-blur-xl p-6 rounded-xl
+                                 border border-[#0F7A82]/40 shadow-lg"
+                  >
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 rounded-lg bg-[#0F7A82]/20 flex items-center justify-center text-[#37B8A6]">
-                        <span className="material-symbols-outlined">shield</span>
+                        <span className="material-symbols-outlined">
+                          shield
+                        </span>
                       </div>
                       <div>
                         <p className="text-white font-bold">Community Alert</p>
@@ -234,9 +258,11 @@ export default function LandingPage() {
                   </div>
                 </div>
                 <div className="absolute bottom-8 left-8">
-                  <div className="w-16 h-16 rounded-xl bg-[#0F7A82]/20 backdrop-blur-md
+                  <div
+                    className="w-16 h-16 rounded-xl bg-[#0F7A82]/20 backdrop-blur-md
                                  border border-[#0F7A82]/40 flex items-center justify-center
-                                 text-[#37B8A6] shadow-lg shadow-[#0F7A82]/20">
+                                 text-[#37B8A6] shadow-lg shadow-[#0F7A82]/20"
+                  >
                     <span className="material-symbols-outlined text-4xl">
                       verified_user
                     </span>
@@ -279,18 +305,24 @@ export default function LandingPage() {
               </h2>
               <p className="text-xl text-text-muted max-w-md leading-relaxed">
                 Experience the difference. While standard maps send you through
-                dark alleys to save 30 seconds, Nightwatch finds the path where you can
-                walk with your head up.
+                dark alleys to save 30 seconds, Nightwatch finds the path where
+                you can walk with your head up.
               </p>
               <div className="flex flex-col gap-6 pt-4">
                 {/* Safest Route Card */}
-                <div className="flex items-center gap-4 p-6 rounded-xl bg-[#1A363B]/80
+                <div
+                  className="flex items-center gap-4 p-6 rounded-xl bg-[#1A363B]/80
                                border border-[#0F7A82]/50 shadow-lg shadow-[#0F7A82]/10
-                               hover:border-[#0F7A82]/70 transition-all duration-200">
-                  <div className="w-2 h-12 rounded-full bg-gradient-to-b from-[#0F7A82] to-[#37B8A6]
-                                 shadow-[0_0_15px_rgba(15,122,130,0.6)]" />
+                               hover:border-[#0F7A82]/70 transition-all duration-200"
+                >
+                  <div
+                    className="w-2 h-12 rounded-full bg-gradient-to-b from-[#0F7A82] to-[#37B8A6]
+                                 shadow-[0_0_15px_rgba(15,122,130,0.6)]"
+                  />
                   <div>
-                    <h4 className="text-white text-lg font-bold">Safest Route</h4>
+                    <h4 className="text-white text-lg font-bold">
+                      Safest Route
+                    </h4>
                     <p className="text-sm text-text-muted">
                       Well-lit main avenues • 12 mins
                     </p>
@@ -303,14 +335,18 @@ export default function LandingPage() {
                     <h4 className="text-white text-lg font-bold">
                       Shortest Route
                     </h4>
-                    <p className="text-sm text-text-muted">Unlit shortcuts • 9 mins</p>
+                    <p className="text-sm text-text-muted">
+                      Unlit shortcuts • 9 mins
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
             <div className="flex-1 w-full">
-              <div className="relative rounded-2xl overflow-hidden border border-[#0F7A82]/40
-                             shadow-2xl shadow-[#0F7A82]/10 bg-[#0F2326] aspect-[4/3]">
+              <div
+                className="relative rounded-2xl overflow-hidden border border-[#0F7A82]/40
+                             shadow-2xl shadow-[#0F7A82]/10 bg-[#0F2326] aspect-[4/3]"
+              >
                 {/* Map Preview */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#1A363B]/60 to-[#0F2326]/80 opacity-60" />
                 <svg
@@ -327,7 +363,13 @@ export default function LandingPage() {
                     className="route-draw"
                   />
                   <defs>
-                    <linearGradient id="routeGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <linearGradient
+                      id="routeGradient"
+                      x1="0%"
+                      y1="100%"
+                      x2="100%"
+                      y2="0%"
+                    >
                       <stop offset="0%" stopColor="#0F7A82" />
                       <stop offset="100%" stopColor="#37B8A6" />
                     </linearGradient>
@@ -335,8 +377,10 @@ export default function LandingPage() {
                   <circle cx="350" cy="50" fill="#37B8A6" r="8" />
                   <circle cx="50" cy="250" fill="white" r="8" />
                 </svg>
-                <div className="absolute bottom-8 left-8 right-8 p-6 bg-[#0F2326]/95 backdrop-blur-xl
-                               border border-[#0F7A82]/40 rounded-xl flex items-center justify-between">
+                <div
+                  className="absolute bottom-8 left-8 right-8 p-6 bg-[#0F2326]/95 backdrop-blur-xl
+                               border border-[#0F7A82]/40 rounded-xl flex items-center justify-between"
+                >
                   <div className="flex items-center gap-4">
                     <div className="p-3 rounded-lg bg-[#0F7A82]/20 text-[#37B8A6]">
                       <span className="material-symbols-outlined text-2xl font-bold">
@@ -347,7 +391,9 @@ export default function LandingPage() {
                       <p className="text-white text-base font-bold">
                         Navigating to Home
                       </p>
-                      <p className="text-sm text-[#37B8A6]">Via Main St (Lit)</p>
+                      <p className="text-sm text-[#37B8A6]">
+                        Via Main St (Lit)
+                      </p>
                     </div>
                   </div>
                   <span className="text-white text-lg font-bold">12 min</span>
@@ -359,11 +405,15 @@ export default function LandingPage() {
 
         {/* CTA Section */}
         <section className="w-full py-32 px-6">
-          <div className="max-w-5xl mx-auto rounded-2xl relative overflow-hidden p-16 lg:p-24 text-center
+          <div
+            className="max-w-5xl mx-auto rounded-2xl relative overflow-hidden p-16 lg:p-24 text-center
                          border border-[#0F7A82]/40 bg-gradient-to-b from-[#1A363B]/50 to-[#0F2326]/80
-                         shadow-2xl shadow-[#0F7A82]/10">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full
-                           bg-gradient-radial from-[#0F7A82]/15 to-transparent opacity-50" />
+                         shadow-2xl shadow-[#0F7A82]/10"
+          >
+            <div
+              className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full
+                           bg-gradient-radial from-[#0F7A82]/15 to-transparent opacity-50"
+            />
             <div className="relative z-10 flex flex-col items-center gap-10">
               <span className="material-symbols-outlined text-7xl text-noor-gold">
                 lightbulb

@@ -1,3 +1,9 @@
+/**
+ * Insights Page - Route safety analysis and comparison
+ *
+ * Exports: default InsightsPage component
+ * Data flow: Reads routeData from routeSessionStore -> Displays safety metrics and map
+ */
 "use client";
 
 import Link from "next/link";
@@ -72,13 +78,6 @@ export default function InsightsPage() {
   const distanceDelta = safestDistance - shortestDistance;
   const etaDelta = safestEta - shortestEta;
   const safetyDelta = safetyScore - shortestSafetyScore;
-
-  // Weights from request
-  const lights = request?.weights?.lights ?? 70;
-  const cams = request?.weights?.cameras ?? 30;
-  const sum = Math.max(1, lights + cams);
-  const lightingPercentage = Math.round((lights / sum) * 100);
-  const infrastructurePercentage = 100 - lightingPercentage;
 
   // Radial chart
   const CIRC = 502;
@@ -447,30 +446,6 @@ export default function InsightsPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 mt-4">
-                <div className="flex flex-col gap-0.5 p-2.5 rounded-lg bg-background-dark/50 border border-border-dark">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                    <span className="text-[10px] font-medium text-text-muted uppercase tracking-wide">
-                      Lighting
-                    </span>
-                  </div>
-                  <span className="text-base font-bold pl-3 text-white">
-                    {lightingPercentage}%
-                  </span>
-                </div>
-                <div className="flex flex-col gap-0.5 p-2.5 rounded-lg bg-background-dark/50 border border-border-dark">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
-                    <span className="text-[10px] font-medium text-text-muted uppercase tracking-wide">
-                      Infra
-                    </span>
-                  </div>
-                  <span className="text-base font-bold pl-3 text-white">
-                    {infrastructurePercentage}%
-                  </span>
-                </div>
-              </div>
             </div>
 
             {/* Route Comparison */}

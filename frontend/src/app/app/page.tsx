@@ -1,18 +1,23 @@
+/**
+ * App Page - Main route planning interface
+ *
+ * Exports: default AppPage component
+ * Data flow: User selects start/end locations -> onSubmit calls fetchRouteAsync ->
+ *            Result stored in routeSession store -> MapCanvas renders routes
+ */
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
 import { AppNav } from "@/components/layout/AppNav";
-import { Button, Slider } from "@/components/ui";
+import { Button } from "@/components/ui";
 import { MapCanvas } from "@/components/map/MapCanvas";
 import { MapControls } from "@/components/map/MapControls";
 import { RouteCard } from "@/components/map/RouteCard";
 import { WhyThisRoute } from "@/components/map/WhyThisRoute";
 import { useRouteQuery } from "@/lib/hooks/useRouteQuery";
-import { usePreferencesStore } from "@/lib/stores/preferences";
 import { useRouteSessionStore } from "@/lib/stores/routeSession";
 import { useSavedRoutesStore } from "@/lib/stores/savedRoutes";
 import { isDemoMode } from "@/lib/api";
-import type { RouteMode } from "@/lib/routes";
 
 /**
  * Demo: Ottawa-only dropdown choices measured from Carleton University.
@@ -79,10 +84,6 @@ function makeRouteId() {
 }
 
 export default function AppPage() {
-  const [mode, setMode] = useState<RouteMode>("night");
-  const [maxDetour, setMaxDetour] = useState(15);
-  const [lightsWeight, setLightsWeight] = useState(80);
-  const [observabilityWeight, setObservabilityWeight] = useState(45);
   const [selectedRoute, setSelectedRoute] = useState<"safest" | "shortest">(
     "safest",
   );
@@ -95,7 +96,6 @@ export default function AppPage() {
   const [rerunNotice, setRerunNotice] = useState<string | null>(null);
 
   const { fetchRouteAsync, data: routeData, isLoading } = useRouteQuery();
-  const showCctv = usePreferencesStore((state) => state.showCctvIndicators);
 
   const setSession = useRouteSessionStore((s) => s.setSession);
   const consumeRerunData = useSavedRoutesStore((s) => s.consumeRerunData);
@@ -127,9 +127,6 @@ export default function AppPage() {
       if (startMatch && endMatch) {
         setStartId(startMatch.id);
         setEndId(endMatch.id);
-        if (rerunData.mode) {
-          setMode(rerunData.mode);
-        }
         setRerunNotice(`Loaded route: ${rerunData.startAddress} to ${rerunData.endAddress}`);
       } else {
         // Coordinates don't match known locations
@@ -166,13 +163,6 @@ export default function AppPage() {
     const req = {
       start: { lat: startLoc.lat, lng: startLoc.lng },
       end: { lat: endLoc.lat, lng: endLoc.lng },
-      mode,
-      maxDetour,
-      weights: {
-        lights: lightsWeight,
-        cameras: observabilityWeight,
-      },
-      useCctv: showCctv,
     };
 
     // IMPORTANT: use mutateAsync so we can await the result
@@ -200,23 +190,8 @@ export default function AppPage() {
         distance_m: result.safest.distance_m,
         safety_score: result.safest.safety_score,
         createdAt: new Date().toISOString(),
-        mode: req.mode,
       });
     }
-  };
-
-  const getDetourLabel = (value: number) => {
-    if (value <= 5) return "5%";
-    if (value <= 10) return "10%";
-    if (value <= 15) return "15%";
-    if (value <= 20) return "20%";
-    return `${value}%`;
-  };
-
-  const getWeightLabel = (value: number) => {
-    if (value <= 30) return "Low";
-    if (value <= 60) return "Medium";
-    return "High";
   };
 
   return (
@@ -318,139 +293,6 @@ export default function AppPage() {
                     );
                   })}
                 </select>
-              </div>
-            </div>
-
-            <div className="h-px bg-border-dark w-full" />
-
-            {/* Preferences Section */}
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h3 className="text-text-muted text-xs font-bold uppercase tracking-wider">
-                  Preferences
-                </h3>
-
-                {/* Day/Night Toggle */}
-                <div className="flex bg-surface-dark p-1 rounded-lg border border-border-dark">
-                  <button
-                    type="button"
-                    onClick={() => setMode("day")}
-                    className={`flex items-center gap-1 px-3 py-1 rounded text-xs font-medium transition-colors ${
-                      mode === "day"
-                        ? "bg-border-dark text-white shadow-sm"
-                        : "text-text-muted hover:text-white"
-                    }`}
-                  >
-                    <span className="material-symbols-outlined text-[16px]">
-                      light_mode
-                    </span>
-                    Day
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setMode("night")}
-                    className={`flex items-center gap-1 px-3 py-1 rounded text-xs font-medium transition-colors ${
-                      mode === "night"
-                        ? "bg-border-dark text-white shadow-sm"
-                        : "text-text-muted hover:text-white"
-                    }`}
-                  >
-                    <span className="material-symbols-outlined text-[16px]">
-                      dark_mode
-                    </span>
-                    Night
-                  </button>
-                </div>
-              </div>
-
-              {/* Max Detour Slider */}
-              <Slider
-                label="Max Detour"
-                valueLabel={getDetourLabel(maxDetour)}
-                min={0}
-                max={30}
-                value={maxDetour}
-                onChange={(e) => setMaxDetour(Number(e.target.value))}
-              />
-
-              {/* Safety Weights */}
-              <div className="space-y-4">
-                <label className="text-sm font-medium text-white block">
-                  Safety Priorities
-                </label>
-
-               {/* Lighting Slider */}
-                <div className="bg-[#1A363B]/90 p-4 rounded-xl border border-[#0F7A82]/60 shadow-md">
-                  <div className="flex justify-between items-center mb-2">
-                    <div className="flex items-center gap-2 text-text-muted">
-                      <span className="material-symbols-outlined text-[18px]">lightbulb</span>
-                      <span className="text-xs font-medium">Street Lighting</span>
-                    </div>
-                    <span className="text-xs text-white">{getWeightLabel(lightsWeight)}</span>
-                  </div>
-                  <div className="relative flex items-center h-2 w-full">
-                    {/* Track */}
-                    <div className="absolute h-1.5 w-full bg-[#0F7A82]/40 rounded-full" />
-                    {/* Fill */}
-                    <div
-                      className="absolute h-1.5 bg-gradient-to-r from-[#0F7A82] to-[#37B8A6] rounded-full shadow-inner"
-                      style={{ width: `${lightsWeight}%` }}
-                    />
-                    <input
-                      type="range"
-                      min={0}
-                      max={100}
-                      value={lightsWeight}
-                      onChange={(e) => setLightsWeight(Number(e.target.value))}
-                      className="absolute w-full opacity-0 cursor-pointer"
-                    />
-                    {/* Thumb */}
-                    <div
-                      className="absolute size-4 bg-gradient-to-r from-[#0F7A82] to-[#37B8A6] rounded-full shadow-lg border border-white/30"
-                      style={{
-                        left: `${lightsWeight}%`,
-                        transform: "translateX(-50%)",
-                      }}
-                    />
-                  </div>
-                </div>
-
-                {/* Observability Slider */}
-                <div className="bg-[#1A363B]/90 p-4 rounded-xl border border-[#0F7A82]/60 shadow-md">
-                  <div className="flex justify-between items-center mb-2">
-                    <div className="flex items-center gap-2 text-text-muted">
-                      <span className="material-symbols-outlined text-[18px]">visibility</span>
-                      <span className="text-xs font-medium">Observability</span>
-                    </div>
-                    <span className="text-xs text-white">{getWeightLabel(observabilityWeight)}</span>
-                  </div>
-                  <div className="relative flex items-center h-2 w-full">
-                    {/* Track */}
-                    <div className="absolute h-1.5 w-full bg-[#0F7A82]/40 rounded-full" />
-                    {/* Fill */}
-                    <div
-                      className="absolute h-1.5 bg-gradient-to-r from-[#0F7A82] to-[#37B8A6] rounded-full shadow-inner"
-                      style={{ width: `${observabilityWeight}%` }}
-                    />
-                    <input
-                      type="range"
-                      min={0}
-                      max={100}
-                      value={observabilityWeight}
-                      onChange={(e) => setObservabilityWeight(Number(e.target.value))}
-                      className="absolute w-full opacity-0 cursor-pointer"
-                    />
-                    {/* Thumb */}
-                    <div
-                      className="absolute size-4 bg-gradient-to-r from-[#0F7A82] to-[#37B8A6] rounded-full shadow-lg border border-white/30"
-                      style={{
-                        left: `${observabilityWeight}%`,
-                        transform: "translateX(-50%)",
-                      }}
-                    />
-                  </div>
-                </div>
-
               </div>
             </div>
 

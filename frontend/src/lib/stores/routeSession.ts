@@ -1,15 +1,17 @@
+/**
+ * Route session store for Nightwatch
+ *
+ * Exports: useRouteSessionStore, RouteRequestSnapshot
+ * Data flow: Stores current route request + result in sessionStorage for insights page
+ */
 import { create } from "zustand";
-import type { RouteResult, RouteMode } from "@/lib/routes";
+import type { RouteResult } from "@/lib/routes";
 
 type LatLng = { lat: number; lng: number };
 
 export type RouteRequestSnapshot = {
   start: LatLng;
   end: LatLng;
-  mode: RouteMode;
-  maxDetour: number;
-  weights: { lights: number; cameras: number };
-  useCctv: boolean;
   createdAt: number;
   routeId: string;
 };

@@ -1,3 +1,9 @@
+/**
+ * API client for Nightwatch backend
+ *
+ * Exports: fetchRoute, checkHealth, api, ApiError, isDemoMode
+ * Data flow: RouteRequest (start/end) -> POST /route/compare -> RouteResult (safest/shortest)
+ */
 import { routeResultSchema } from "./schemas";
 import type { RouteRequest, RouteResult } from "./routes";
 import { mockRouteResult, simulateDelay } from "./mockRoute";

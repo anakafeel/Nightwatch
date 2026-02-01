@@ -1,3 +1,9 @@
+/**
+ * Zod validation schemas for Nightwatch API
+ *
+ * Exports: latLngSchema, routeRequestSchema, routeDataSchema, routeResultSchema
+ * Used by: API client for request/response validation
+ */
 import { z } from "zod";
 
 /**
@@ -9,23 +15,11 @@ export const latLngSchema = z.object({
 });
 
 /**
- * Safety weights validation
- */
-export const safetyWeightsSchema = z.object({
-  lights: z.number().min(0).max(100),
-  cameras: z.number().min(0).max(100),
-});
-
-/**
- * Route request validation
+ * Route request validation - minimal payload
  */
 export const routeRequestSchema = z.object({
   start: latLngSchema,
   end: latLngSchema,
-  mode: z.enum(["day", "night"]),
-  maxDetour: z.number().min(0).max(50),
-  weights: safetyWeightsSchema,
-  useCctv: z.boolean(),
 });
 
 /**
@@ -55,17 +49,5 @@ export const routeResultSchema = z.object({
   shortest: routeDataSchema,
 });
 
-/**
- * User preferences validation
- */
-export const userPreferencesSchema = z.object({
-  reduceMotion: z.boolean(),
-  showCctvIndicators: z.boolean(),
-  preferredMode: z.enum(["day", "night"]),
-  defaultMaxDetour: z.number().min(0).max(50),
-  defaultWeights: safetyWeightsSchema,
-});
-
 export type RouteRequestInput = z.infer<typeof routeRequestSchema>;
 export type RouteResultInput = z.infer<typeof routeResultSchema>;
-export type UserPreferencesInput = z.infer<typeof userPreferencesSchema>;

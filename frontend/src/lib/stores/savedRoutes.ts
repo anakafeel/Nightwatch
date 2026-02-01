@@ -1,8 +1,14 @@
+/**
+ * Saved routes store for Nightwatch
+ *
+ * Exports: useSavedRoutesStore, RerunData, HistoryEntry, createSavedRouteFromSession
+ * Data flow: Routes saved/history stored in localStorage, rerunData passed transiently to app page
+ */
 "use client";
 
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import type { SavedRoute, LatLng, RouteMode, SafetyWeights } from "../routes";
+import type { SavedRoute, LatLng } from "../routes";
 
 /**
  * Rerun data stored temporarily to hand off route params to the app page
@@ -12,9 +18,6 @@ export interface RerunData {
   end: LatLng;
   startAddress: string;
   endAddress: string;
-  mode?: RouteMode;
-  weights?: SafetyWeights;
-  useCctv?: boolean;
   routeId?: string;
 }
 
@@ -30,7 +33,6 @@ export interface HistoryEntry {
   distance_m: number;
   safety_score: number;
   createdAt: string;
-  mode: RouteMode;
 }
 
 /**

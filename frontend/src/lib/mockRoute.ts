@@ -1,3 +1,9 @@
+/**
+ * Mock data for Nightwatch demo mode
+ *
+ * Exports: mockRouteResult, mockSavedRoutes, mockRouteInsights, simulateDelay
+ * Used when NEXT_PUBLIC_USE_MOCK=true to provide sample route data
+ */
 import type { RouteResult, SavedRoute, RouteInsights } from "./routes";
 
 /**

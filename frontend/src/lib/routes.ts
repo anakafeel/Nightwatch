@@ -1,3 +1,9 @@
+/**
+ * Core route types for Nightwatch
+ *
+ * Exports: LatLng, CoverageLevel, RouteRequest, RouteData, RouteResult, SavedRoute, RouteInsights
+ * Data flow: RouteRequest sent to API -> RouteResult returned with safest/shortest routes
+ */
 import type { GeoJSON } from "geojson";
 
 /**
@@ -9,43 +15,16 @@ export interface LatLng {
 }
 
 /**
- * Route mode (day or night)
- */
-export type RouteMode = "day" | "night";
-
-/**
  * Coverage level for safety analysis
  */
 export type CoverageLevel = "high" | "medium" | "low";
 
 /**
- * Safety weight preferences
- */
-export interface SafetyWeights {
-  lights: number; // 0-100, weight for street lighting
-  cameras: number; // 0-100, weight for CCTV/observability
-}
-
-/**
- * Route request preferences
- */
-export interface RoutePreferences {
-  mode: RouteMode;
-  maxDetour: number; // percentage, e.g., 15 means 15% max detour
-  weights: SafetyWeights;
-  useCctv: boolean;
-}
-
-/**
- * Route request payload
+ * Route request payload - minimal fields for backend
  */
 export interface RouteRequest {
   start: LatLng;
   end: LatLng;
-  mode: RouteMode;
-  maxDetour: number;
-  weights: SafetyWeights;
-  useCctv: boolean;
 }
 
 /**

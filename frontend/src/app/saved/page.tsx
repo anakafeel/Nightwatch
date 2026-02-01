@@ -1,3 +1,9 @@
+/**
+ * Saved Routes Page - View and manage saved routes and history
+ *
+ * Exports: default SavedRoutesPage component
+ * Data flow: Reads from savedRoutesStore -> Displays routes/history -> rerun navigates to /app
+ */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -59,7 +65,6 @@ export default function SavedRoutesPage() {
       end: route.end,
       startAddress: "startAddress" in route ? route.startAddress : "Start",
       endAddress: "endAddress" in route ? route.endAddress : "End",
-      mode: "mode" in route ? route.mode : undefined,
     });
     router.push("/app");
   };

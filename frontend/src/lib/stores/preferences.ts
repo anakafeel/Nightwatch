@@ -1,11 +1,16 @@
+/**
+ * User preferences store for Nightwatch
+ *
+ * Exports: usePreferencesStore
+ * Data flow: Persisted to localStorage, used for accessibility/privacy settings
+ */
 "use client";
 
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import type { RouteMode, SafetyWeights } from "../routes";
 
 /**
- * User preferences state
+ * User preferences state - accessibility and privacy only
  */
 interface PreferencesState {
   // Accessibility
@@ -15,34 +20,17 @@ interface PreferencesState {
   // Privacy
   showCctvIndicators: boolean;
 
-  // Route preferences
-  preferredMode: RouteMode;
-  defaultMaxDetour: number;
-  defaultWeights: SafetyWeights;
-
   // Actions
   setReduceMotion: (value: boolean) => void;
   setLargeText: (value: boolean) => void;
   setShowCctvIndicators: (value: boolean) => void;
-  setPreferredMode: (mode: RouteMode) => void;
-  setDefaultMaxDetour: (value: number) => void;
-  setDefaultWeights: (weights: SafetyWeights) => void;
   resetToDefaults: () => void;
 }
 
-/**
- * Default preferences
- */
 const defaultPreferences = {
   reduceMotion: false,
   largeText: false,
   showCctvIndicators: false,
-  preferredMode: "night" as RouteMode,
-  defaultMaxDetour: 15,
-  defaultWeights: {
-    lights: 80,
-    cameras: 45,
-  },
 };
 
 /**
@@ -57,9 +45,6 @@ export const usePreferencesStore = create<PreferencesState>()(
       setReduceMotion: (value) => set({ reduceMotion: value }),
       setLargeText: (value) => set({ largeText: value }),
       setShowCctvIndicators: (value) => set({ showCctvIndicators: value }),
-      setPreferredMode: (mode) => set({ preferredMode: mode }),
-      setDefaultMaxDetour: (value) => set({ defaultMaxDetour: value }),
-      setDefaultWeights: (weights) => set({ defaultWeights: weights }),
       resetToDefaults: () => set(defaultPreferences),
     }),
     {
