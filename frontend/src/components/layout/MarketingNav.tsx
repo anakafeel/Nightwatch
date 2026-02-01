@@ -8,8 +8,7 @@ import { BrandLogo } from "./BrandLogo";
 
 const navLinks = [
   { href: "#how-it-works", label: "How it Works" },
-  { href: "#app", label: "App" },
-  { href: "#ethics", label: "Ethics" },
+  { href: "/app", label: "App" },
 ];
 
 function MarketingNav() {

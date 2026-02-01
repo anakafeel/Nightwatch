@@ -62,12 +62,6 @@ function Footer() {
                   About Us
                 </a>
                 <a
-                  href="#ethics"
-                  className="text-text-muted hover:text-[#37B8A6] transition-colors duration-200 text-base"
-                >
-                  Ethics
-                </a>
-                <a
                   href="#"
                   className="text-text-muted hover:text-[#37B8A6] transition-colors duration-200 text-base"
                 >
