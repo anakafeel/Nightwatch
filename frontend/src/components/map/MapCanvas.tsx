@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type {
@@ -12,34 +12,47 @@ import type { RouteResult } from "@/lib/routes";
 import type { FeatureCollection, LineString } from "geojson";
 
 type LatLng = { lat: number; lng: number };
+type SelectedRoute = "safest" | "shortest";
 
 interface MapCanvasProps {
   routeData?: RouteResult | null;
   start?: LatLng;
   end?: LatLng;
-  center?: [number, number];
+  center?: [number, number]; // [lng, lat]
   zoom?: number;
   className?: string;
+
+  /** which route should be highlighted / shown */
+  selectedRoute?: SelectedRoute;
+
+  /**
+   * Keep false so dropdown changes don't zoom.
+   * Set true if you want the map to fit to the route after calculation.
+   */
+  fitOnRoute?: boolean;
 }
 
 /**
- * Primary: OSM raster tiles (no token)
+ * ✅ CORS-friendly raster tiles (no token) — DARK
+ * Much better contrast for your night UI.
  */
-const OSM_RASTER_STYLE: StyleSpecification = {
+const CARTO_RASTER_STYLE_DARK: StyleSpecification = {
   version: 8,
   sources: {
-    "osm-tiles": {
+    "carto-tiles": {
       type: "raster",
       tiles: [
-        "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        "https://b.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        "https://c.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+        "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+        "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+        "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
       ],
       tileSize: 256,
-      attribution: "© OpenStreetMap contributors",
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
     },
   },
-  layers: [{ id: "osm-tiles", type: "raster", source: "osm-tiles" }],
+  layers: [{ id: "carto-tiles", type: "raster", source: "carto-tiles" }],
 };
 
 const LAYERS = {
@@ -54,7 +67,7 @@ const SOURCES = {
 } as const;
 
 function ensureRouteLayers(map: MapLibreMap) {
-  // Add sources if missing (must only run when style is ready)
+  // sources
   if (!map.getSource(SOURCES.shortest)) {
     map.addSource(SOURCES.shortest, {
       type: "geojson",
@@ -68,7 +81,7 @@ function ensureRouteLayers(map: MapLibreMap) {
     });
   }
 
-  // Add layers if missing
+  // layers
   if (!map.getLayer(LAYERS.shortest)) {
     map.addLayer({
       id: LAYERS.shortest,
@@ -110,14 +123,60 @@ function ensureRouteLayers(map: MapLibreMap) {
   }
 }
 
-function fitToPoints(map: MapLibreMap, points: [number, number][]) {
-  if (!points.length) return;
-
-  const bounds = points.reduce(
+function fitToCoords(map: MapLibreMap, coords: [number, number][]) {
+  if (!coords.length) return;
+  const bounds = coords.reduce(
     (b, c) => b.extend(c),
-    new maplibregl.LngLatBounds(points[0], points[0]),
+    new maplibregl.LngLatBounds(coords[0], coords[0]),
   );
-  map.fitBounds(bounds, { padding: 80, duration: 500 });
+  map.fitBounds(bounds, { padding: 80, duration: 450 });
+}
+
+/** Run fn once style is actually ready (idle is the safest signal). */
+function whenStyleReady(map: MapLibreMap, fn: () => void) {
+  if (map.isStyleLoaded()) {
+    fn();
+    return;
+  }
+  const handler = () => {
+    if (!map.isStyleLoaded()) return;
+    map.off("idle", handler);
+    fn();
+  };
+  map.on("idle", handler);
+}
+
+/** Show ONLY the selected route. */
+function applySelectedRouteVisibility(
+  map: MapLibreMap,
+  selected: SelectedRoute,
+) {
+  const showSafest = selected === "safest";
+
+  // safest layers
+  if (map.getLayer(LAYERS.safest)) {
+    map.setLayoutProperty(
+      LAYERS.safest,
+      "visibility",
+      showSafest ? "visible" : "none",
+    );
+  }
+  if (map.getLayer(LAYERS.safestGlow)) {
+    map.setLayoutProperty(
+      LAYERS.safestGlow,
+      "visibility",
+      showSafest ? "visible" : "none",
+    );
+  }
+
+  // shortest layer
+  if (map.getLayer(LAYERS.shortest)) {
+    map.setLayoutProperty(
+      LAYERS.shortest,
+      "visibility",
+      showSafest ? "none" : "visible",
+    );
+  }
 }
 
 function MapCanvas({
@@ -127,77 +186,67 @@ function MapCanvas({
   center = [-75.6972, 45.4215],
   zoom = 13,
   className,
+  selectedRoute = "safest",
+  fitOnRoute = false,
 }: MapCanvasProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<MapLibreMap | null>(null);
+  const mapRef = useRef<MapLibreMap | null>(null);
 
   const startMarker = useRef<maplibregl.Marker | null>(null);
   const endMarker = useRef<maplibregl.Marker | null>(null);
 
-  const [mapLoaded, setMapLoaded] = useState(false);
-  const [styleReady, setStyleReady] = useState(false);
-
-  // Init map
+  // Init map once
   useEffect(() => {
-    if (!mapContainer.current || map.current) return;
-
-    const rect = mapContainer.current.getBoundingClientRect();
-    console.log("[MapCanvas] container rect:", rect);
+    if (!mapContainer.current || mapRef.current) return;
 
     const m = new maplibregl.Map({
       container: mapContainer.current,
-      style: OSM_RASTER_STYLE,
+      style: CARTO_RASTER_STYLE_DARK, // ✅ dark tiles
       center,
       zoom,
-      attributionControl: undefined,
+      attributionControl: false,
     });
 
-    map.current = m;
+    mapRef.current = m;
 
-    m.addControl(new maplibregl.NavigationControl(), "top-right");
-
-    const onLoad = () => {
-      console.log("[MapCanvas] map load fired");
-      setMapLoaded(true);
-      // After load, style is usually ready, but during Fast Refresh it can lag.
-      setStyleReady(m.isStyleLoaded());
-      m.resize();
-    };
-
-    const onStyleData = () => {
-      // Fires multiple times; we only care that the style is now actually usable.
-      if (m.isStyleLoaded()) setStyleReady(true);
-    };
-
-    m.on("load", onLoad);
-    m.on("styledata", onStyleData);
+    m.addControl(
+      new maplibregl.NavigationControl({ showCompass: false }),
+      "top-right",
+    );
 
     m.on("error", (e) => {
       const err = (e as { error?: unknown }).error ?? e;
       console.error("[MapCanvas] map error:", err);
     });
 
-    requestAnimationFrame(() => m.resize());
-    const t = window.setTimeout(() => m.resize(), 250);
-
     const ro = new ResizeObserver(() => m.resize());
     ro.observe(mapContainer.current);
 
+    m.on("load", () => {
+      whenStyleReady(m, () => {
+        try {
+          ensureRouteLayers(m);
+          applySelectedRouteVisibility(m, selectedRoute);
+        } catch (e) {
+          console.warn("[MapCanvas] ensureRouteLayers (init) failed:", e);
+        }
+      });
+      m.resize();
+    });
+
     return () => {
-      window.clearTimeout(t);
       ro.disconnect();
-      m.off("load", onLoad);
-      m.off("styledata", onStyleData);
       m.remove();
-      map.current = null;
+      mapRef.current = null;
     };
-  }, [center?.[0], center?.[1], zoom]);
+    // intentionally only run once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // Update markers for selected dropdown start/end (even before routing)
+  // Update markers (NO auto-zoom on dropdown change)
   useEffect(() => {
-    if (!map.current || !mapLoaded) return;
-
-    const m = map.current;
+    const m = mapRef.current;
+    if (!m) return;
 
     if (start) {
       if (!startMarker.current) {
@@ -218,85 +267,76 @@ function MapCanvas({
         endMarker.current.setLngLat([end.lng, end.lat]);
       }
     }
+  }, [start?.lat, start?.lng, end?.lat, end?.lng]);
 
-    // If there is no route yet, fit to the selected points
-    if (!routeData && start && end) {
-      fitToPoints(m, [
-        [start.lng, start.lat],
-        [end.lng, end.lat],
-      ]);
-    }
-  }, [mapLoaded, routeData, start?.lat, start?.lng, end?.lat, end?.lng]);
-
-  // Draw/Update route layers
+  // Toggle visibility when user clicks Safest/Shortest
   useEffect(() => {
-    if (!map.current || !mapLoaded || !styleReady) return;
+    const m = mapRef.current;
+    if (!m) return;
 
-    const m = map.current;
+    whenStyleReady(m, () => {
+      try {
+        ensureRouteLayers(m);
+        applySelectedRouteVisibility(m, selectedRoute);
+      } catch (e) {
+        console.warn("[MapCanvas] applySelectedRouteVisibility failed:", e);
+      }
+    });
+  }, [selectedRoute]);
 
-    // Ensure sources/layers exist once style is ready
-    try {
-      ensureRouteLayers(m);
-    } catch (e) {
-      // If style flips during refresh, this can still happen once; just bail.
-      console.warn("[MapCanvas] ensureRouteLayers failed:", e);
-      return;
-    }
+  // Draw / update route lines
+  useEffect(() => {
+    const m = mapRef.current;
+    if (!m) return;
 
-    // Update route data (setData instead of remove/add)
-    const shortestGeo = (routeData?.shortest?.geojson ??
-      ({ type: "FeatureCollection", features: [] } as FeatureCollection)) as
-      | FeatureCollection<LineString>
-      | FeatureCollection;
+    whenStyleReady(m, () => {
+      try {
+        ensureRouteLayers(m);
+      } catch (e) {
+        console.warn("[MapCanvas] ensureRouteLayers (update) failed:", e);
+        return;
+      }
 
-    const safestGeo = (routeData?.safest?.geojson ??
-      ({ type: "FeatureCollection", features: [] } as FeatureCollection)) as
-      | FeatureCollection<LineString>
-      | FeatureCollection;
+      const emptyFC: FeatureCollection = {
+        type: "FeatureCollection",
+        features: [],
+      };
 
-    const shortestSource = m.getSource(SOURCES.shortest) as
-      | GeoJSONSource
-      | undefined;
-    const safestSource = m.getSource(SOURCES.safest) as
-      | GeoJSONSource
-      | undefined;
+      const shortestGeo = (routeData?.shortest?.geojson ?? emptyFC) as
+        | FeatureCollection<LineString>
+        | FeatureCollection;
 
-    if (shortestSource) shortestSource.setData(shortestGeo as any);
-    if (safestSource) safestSource.setData(safestGeo as any);
+      const safestGeo = (routeData?.safest?.geojson ?? emptyFC) as
+        | FeatureCollection<LineString>
+        | FeatureCollection;
 
-    // Fit to route bounds if route exists, otherwise to points
-    const safestCoords =
-      (safestGeo as FeatureCollection<LineString>)?.features?.[0]?.geometry
-        ?.coordinates ?? [];
-    const shortestCoords =
-      (shortestGeo as FeatureCollection<LineString>)?.features?.[0]?.geometry
-        ?.coordinates ?? [];
+      const shortestSource = m.getSource(SOURCES.shortest) as
+        | GeoJSONSource
+        | undefined;
+      const safestSource = m.getSource(SOURCES.safest) as
+        | GeoJSONSource
+        | undefined;
 
-    const allRouteCoords = [...safestCoords, ...shortestCoords] as [
-      number,
-      number,
-    ][];
+      if (shortestSource) shortestSource.setData(shortestGeo as any);
+      if (safestSource) safestSource.setData(safestGeo as any);
 
-    if (allRouteCoords.length) {
-      fitToPoints(m, allRouteCoords);
-      return;
-    }
+      // Apply selection after data updates too (safety)
+      applySelectedRouteVisibility(m, selectedRoute);
 
-    if (start && end) {
-      fitToPoints(m, [
-        [start.lng, start.lat],
-        [end.lng, end.lat],
-      ]);
-    }
-  }, [
-    mapLoaded,
-    styleReady,
-    routeData,
-    start?.lat,
-    start?.lng,
-    end?.lat,
-    end?.lng,
-  ]);
+      if (!fitOnRoute) return;
+
+      // Fit only when we actually have a route
+      const safestCoords =
+        (safestGeo as FeatureCollection<LineString>)?.features?.[0]?.geometry
+          ?.coordinates ?? [];
+      const shortestCoords =
+        (shortestGeo as FeatureCollection<LineString>)?.features?.[0]?.geometry
+          ?.coordinates ?? [];
+
+      const all = [...safestCoords, ...shortestCoords] as [number, number][];
+      if (all.length) fitToCoords(m, all);
+    });
+  }, [routeData, fitOnRoute, selectedRoute]);
 
   return (
     <div

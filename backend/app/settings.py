@@ -2,6 +2,12 @@ import os
 
 
 def demo_mode() -> bool:
+    val = os.getenv("DEMO_MODE", "1").strip().lower()
+    print("[settings] DEMO_MODE =", val)
+    return val in ("1", "true", "yes", "on")
+
+
+def demo_mode() -> bool:
     """
     DEMO_MODE=1 -> always return mock responses (hackathon-safe)
     DEMO_MODE=0 -> allow real graph/routing calls

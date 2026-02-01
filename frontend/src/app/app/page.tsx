@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { AppNav } from "@/components/layout/AppNav";
 import { Button, Slider } from "@/components/ui";
 import { MapCanvas } from "@/components/map/MapCanvas";
@@ -16,7 +16,6 @@ import type { RouteMode } from "@/lib/routes";
  * Demo: Ottawa-only dropdown choices measured from Carleton University.
  * No geocoding required — each option includes lat/lng.
  */
-
 type DemoLocation = {
   id: string;
   label: string;
@@ -87,15 +86,25 @@ export default function AppPage() {
   const { fetchRoute, data: routeData, isLoading } = useRouteQuery();
   const showCctv = usePreferencesStore((state) => state.showCctvIndicators);
 
-  const startLoc = OTTAWA_LOCATIONS.find((l) => l.id === startId) ?? CARLETON;
+  const startLoc = useMemo(
+    () => OTTAWA_LOCATIONS.find((l) => l.id === startId) ?? CARLETON,
+    [startId],
+  );
 
-  // If endId was filtered out (same as start), pick first available non-start
-  const endChoices = OTTAWA_LOCATIONS.filter((l) => l.id !== startId);
-  const endLoc =
-    endChoices.find((l) => l.id === endId) ?? endChoices[0] ?? CARLETON;
+  const endChoices = useMemo(
+    () => OTTAWA_LOCATIONS.filter((l) => l.id !== startId),
+    [startId],
+  );
+
+  const endLoc = useMemo(() => {
+    const found = endChoices.find((l) => l.id === endId);
+    return found ?? endChoices[0] ?? CARLETON;
+  }, [endChoices, endId]);
 
   const onSubmit = () => {
+    // reset selection so UI consistently highlights safest when a new request runs
     setSelectedRoute("safest");
+
     fetchRoute({
       start: { lat: startLoc.lat, lng: startLoc.lng },
       end: { lat: endLoc.lat, lng: endLoc.lng },
@@ -361,14 +370,15 @@ export default function AppPage() {
 
         {/* Map View */}
         <main className="flex-1 relative bg-[#0b1215] overflow-hidden hidden md:block">
-          {/* Map Canvas */}
+          {/* ✅ Map Canvas — required wiring */}
           <MapCanvas
             routeData={routeData}
-            // ✅ pass dropdown coords so markers + fitBounds update even before calling the API
             start={{ lat: startLoc.lat, lng: startLoc.lng }}
             end={{ lat: endLoc.lat, lng: endLoc.lng }}
-            center={[startLoc.lng, startLoc.lat]}
+            center={[CARLETON.lng, CARLETON.lat]}
             zoom={13}
+            selectedRoute={selectedRoute}
+            fitOnRoute={false}
             className="absolute inset-0 z-10"
           />
 
