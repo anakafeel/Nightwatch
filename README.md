@@ -91,7 +91,6 @@ pip install -r requirements.txt
    - if using windows powershell in administrator mode:
     ```bash
     $env:DEMO_MODE="0"; uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-    set DEMO_MODE=0&& uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
     ```
 
 Finally, verify that the app is actually running by opening the following link 
