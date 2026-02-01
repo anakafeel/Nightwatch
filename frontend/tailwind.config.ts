@@ -19,6 +19,13 @@ const config: Config = {
         "noor-gold": "var(--color-noor-gold)",
         secondary: "var(--color-secondary)",
 
+        // Teal Accent System
+        "teal-dark": "var(--color-teal-dark)",
+        "teal-mid": "var(--color-teal-mid)",
+        "teal-accent": "var(--color-teal-accent)",
+        "teal-light": "var(--color-teal-light)",
+        "teal-bright": "var(--color-teal-bright)",
+
         // Background Colors
         "background-light": "var(--color-background-light)",
         "background-dark": "var(--color-background-dark)",

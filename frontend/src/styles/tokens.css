@@ -10,6 +10,13 @@
   --color-noor-gold: #fffacd;
   --color-secondary: #fbbf24;
 
+  /* Teal Accent System (source-of-truth) */
+  --color-teal-dark: #0F2326;
+  --color-teal-mid: #1A363B;
+  --color-teal-accent: #0F7A82;
+  --color-teal-light: #37B8A6;
+  --color-teal-bright: #1AC6E6;
+
   /* Background Colors */
   --color-background-light: #f6f8f8;
   --color-background-dark: #050a14;
@@ -38,10 +45,11 @@
 
 /* Navigation Glass Effect */
 .nav-glass {
-  background: rgba(5, 10, 20, 0.6);
+  background: linear-gradient(to right, rgba(15, 35, 38, 0.95), rgba(26, 54, 59, 0.90));
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(15, 122, 130, 0.3);
+  box-shadow: 0 4px 30px rgba(15, 122, 130, 0.15);
 }
 
 /* Text Glow Effect */
