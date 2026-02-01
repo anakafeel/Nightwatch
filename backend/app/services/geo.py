@@ -1,3 +1,4 @@
+from fastapi import Path
 import networkx as nx # for creating graphs and working with djikstra's algorithm
 import random # for generating random numbers
 import pandas as pd
@@ -15,7 +16,9 @@ def create_mock_graph(num_nodes=50, seed=seed):
     random.seed(seed)
     newGraph = nx.Graph() # create a new empty graph
     
-    df = pd.read_csv("../../scripts/ottawa_street_lights.csv")
+    from pathlib import Path
+    CSV_PATH = Path(__file__).resolve().parents[2] / "scripts" / "ottawa_street_lights.csv"
+    df = pd.read_csv(CSV_PATH)
     num_nodes = len(df) # limit to available streetlights
     latitude = df['lat'].values[:num_nodes]
     longitude = df['lon'].values[:num_nodes]

@@ -1,94 +1,115 @@
 from __future__ import annotations
 
 from typing import Tuple, Dict, Any, Optional, List
+import math
 
 import networkx as nx
 
-from .geo import create_mock_graph, get_random_nodes, print_graph_stats
-from .safety_model import SafetyModel 
+from .geo import create_mock_graph
+from .safety_model import SafetyModel as SafetyScorer
 
 # Used for "lights per 100m" metric
 MIN_DENSITY_LENGTH_M = 100.0
 
-import math
 
-def _haversine_m(lat1, lon1, lat2, lon2) -> float:
+# ============================================================================
+# HELPERS: distance + nearest node
+# ============================================================================
+
+def _haversine_m(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Haversine distance in meters between two lat/lon points."""
     R = 6371000.0
     p1, p2 = math.radians(lat1), math.radians(lat2)
     dphi = math.radians(lat2 - lat1)
     dl = math.radians(lon2 - lon1)
-    a = math.sin(dphi/2)**2 + math.cos(p1)*math.cos(p2)*math.sin(dl/2)**2
+    a = math.sin(dphi / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
     return 2 * R * math.asin(math.sqrt(a))
+
 
 def _nearest_node(G: nx.Graph, point: Tuple[float, float]) -> Optional[Any]:
     """
     point = (lat, lng)
-    Works with OSMnx-style node attrs: node['y']=lat, node['x']=lng
-    Falls back safely if attributes missing.
+
+    Supports node coordinate conventions:
+    - Person B: node['pos'] = (lat, lon)
+    - OSMnx:   node['y']=lat, node['x']=lng
+    - Generic: node['lat'], node['lng'] or node['lon']
     """
     lat, lng = point
 
-    best = None
+    best_n: Optional[Any] = None
     best_d = float("inf")
 
     for nid, data in G.nodes(data=True):
-        # OSMnx convention
-        nlat = data.get("y")
-        nlng = data.get("x")
+        nlat = None
+        nlng = None
 
-        # some graphs store lat/lng directly
-        if nlat is None: nlat = data.get("lat")
-        if nlng is None: nlng = data.get("lng")
+        # 1) Person B: pos=(lat, lon)
+        if "pos" in data:
+            try:
+                nlat, nlng = data["pos"]
+            except Exception:
+                nlat, nlng = None, None
+
+        # 2) OSMnx style
+        if nlat is None:
+            nlat = data.get("y", data.get("lat"))
+        if nlng is None:
+            nlng = data.get("x", data.get("lng"))
+
+        # 3) Sometimes lon is stored as 'lon'
+        if nlng is None:
+            nlng = data.get("lon")
 
         if nlat is None or nlng is None:
             continue
 
-        d = _haversine_m(lat, lng, float(nlat), float(nlng))
+        d = _haversine_m(float(lat), float(lng), float(nlat), float(nlng))
         if d < best_d:
             best_d = d
-            best = nid
+            best_n = nid
 
-    return best
+    return best_n
+
 
 def _get_edge_attrs(G: nx.Graph, u: Any, v: Any) -> Dict[str, Any]:
-    """
-    Return a flat attribute dict for edge (u, v), supporting Graph and MultiGraph/MultiDiGraph.
-
-    - For Graph: returns dict of attributes
-    - For MultiGraph: returns attributes for the first edge key found
-    """
     edge_data = G.get_edge_data(u, v)
     if edge_data is None:
         return {}
 
-    # MultiGraph/MultiDiGraph case: edge_data is dict keyed by edge key -> attr dict
-    # Example: {0: {'length': 12.3, ...}, 1: {...}}
+    # MultiGraph/MultiDiGraph: pick the shortest edge by length
     if isinstance(edge_data, dict) and edge_data and all(isinstance(val, dict) for val in edge_data.values()):
-        # pick the first edge's attrs (hackathon-safe). Later you can pick min length, etc.
-        return list(edge_data.values())[0]
+        best = None
+        best_len = float("inf")
+        for attrs in edge_data.values():
+            try:
+                L = float(attrs.get("length", float("inf")))
+            except Exception:
+                L = float("inf")
+            if L < best_len:
+                best_len = L
+                best = attrs
+        return best or list(edge_data.values())[0]
 
-    # Simple Graph: already an attribute dict
+    # Simple Graph
     if isinstance(edge_data, dict):
         return edge_data
 
     return {}
 
 
+
+# ============================================================================
+# CORE ENGINE
+# ============================================================================
+
 class RoutingEngine:
     """
     Low-level routing engine using graph algorithms.
-
-    This class handles the actual pathfinding using Dijkstra's algorithm
-    with different edge weight strategies (distance vs. safety).
+    Uses Dijkstra with different weights (length vs safety_cost).
     """
 
     def __init__(self, graph: nx.Graph):
-        """
-        Initialize routing engine with a road network graph.
-        
-        args:
-            graph: networkx graph with edge weights inherited from SafetyModel class
-        """
         self.graph = graph
 
         # Verify graph has necessary attributes (non-fatal warnings)
@@ -102,17 +123,7 @@ class RoutingEngine:
                     print(f"<!> WARNING: Graph edges missing '{attribute}' attribute")
 
     def find_shortest_path(self, start: Any, end: Any) -> Optional[List[Any]]:
-        """
-        Find shortest path by DISTANCE (traditional routing).
-        Uses Dijkstra's algorithm minimizing total distance.
-
-        Args:
-            start: starting node ID
-            end: ending node ID
-
-        Returns:
-            list of node IDs, or None if no path exists
-        """
+        """Shortest path by distance (edge weight 'length')."""
         try:
             return nx.dijkstra_path(self.graph, source=start, target=end, weight="length")
         except nx.NetworkXNoPath:
@@ -126,17 +137,7 @@ class RoutingEngine:
             return None
 
     def find_safest_path(self, start: Any, end: Any) -> Optional[List[Any]]:
-        """
-        Find safest path by SAFETY-ADJUSTED COST.
-        Uses Dijkstra's algorithm minimizing safety cost.
-
-        Args:
-            start: starting node ID
-            end: ending node ID
-
-        Returns:
-            list of node IDs, or None if no path exists
-        """
+        """Safest path by safety-adjusted cost (edge weight 'safety_cost')."""
         try:
             if self.graph.number_of_edges() == 0:
                 raise ValueError("Graph has no edges.")
@@ -162,21 +163,7 @@ class RoutingEngine:
             return None
 
     def calculate_path_metrics(self, path: Optional[List[Any]]) -> Optional[Dict[str, Any]]:
-        """
-        Calculate detailed metrics for a given path.
-
-        Sums:
-        - total distance
-        - total lights
-        - average safety score
-        - number of segments
-
-        Args:
-            path: list of node IDs representing the route
-
-        Returns:
-            dict of metrics or None if invalid
-        """
+        """Compute distance, lights, average safety score, and per-segment info."""
         if not path or len(path) < 2:
             return None
 
@@ -260,9 +247,7 @@ class SafeRouter:
         return metrics
 
     def compare_paths(self, start: Any, end: Any) -> Optional[Dict[str, Any]]:
-        """
-        Compare shortest vs safest routes.
-        """
+        """Compare shortest vs safest routes."""
         shortest_metrics = self.get_shortest_route(start, end)
         safest_metrics = self.get_safest_route(start, end)
 
@@ -301,19 +286,17 @@ _router: Optional[SafeRouter] = None
 
 def init_router(graph: Optional[nx.Graph] = None, alpha: float = 1.0) -> None:
     """
-    Initialize the global router instance.
-
-    Args:
-        graph: networkx graph (if None, creates mock graph)
-        alpha: weight for streetlights
+    Initialize global router instance.
+    If graph is None, build a graph using geo.py (streetlights CSV).
     """
     global _router
 
     if graph is None:
-        graph = create_mock_graph(num_nodes=100, seed=42)
+        # Person B's geo.py overrides num_nodes to len(csv) anyway; keep safe defaults.
+        graph = create_mock_graph(seed=42)
 
     _router = SafeRouter(graph, alpha=alpha)
-    print(f"Routing engine initialized with {graph.number_of_nodes()} nodes")
+    print(f"Routing engine initialized with {graph.number_of_nodes()} nodes, alpha={alpha}")
 
 
 def compare_routes(
@@ -333,27 +316,34 @@ def compare_routes(
         "safest":   { ...metrics..., "path": [node ids...] },
         "comparison": {...}
       }
+
+    NOTE:
+    - weights/mode/max_detour/use_cctv are accepted for forward compatibility.
+    - For now we only use weights["lights"] to control alpha.
     """
     global _router
 
     if _router is None:
         init_router()
 
-    # weights handling (hackathon-safe)
     weights = weights or {}
     lights_w = float(weights.get("lights", 1.0))
 
-    # If you want the lights weight to affect scoring, re-init with alpha=lights_w
-    # (Assumes SafetyScorer(alpha) uses alpha as "lights importance")
-    init_router(graph=_router.graph, alpha=lights_w)
+    # If you want lights weight to affect scoring, re-init with alpha
+    # (Hackathon-safe and simple.)
+    if _router is None or getattr(_router.scorer, "alpha", 1.0) != lights_w:
+        # reuse same graph; just re-score edges with new alpha
+        init_router(graph=_router.graph if _router else None, alpha=lights_w)
 
-    # Convert lat/lng -> nearest node
+    if _router is None:
+        return None
+
+    # Snap lat/lng -> nearest node in graph
     start_node = _nearest_node(_router.graph, start)
     end_node = _nearest_node(_router.graph, end)
 
     if start_node is None or end_node is None:
+        print("<!> Could not snap start/end to graph nodes.")
         return None
 
     return _router.compare_paths(start_node, end_node)
-
-    return comparison
