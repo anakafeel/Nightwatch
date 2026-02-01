@@ -1,4 +1,5 @@
-from geo import create_mock_graph, print_graph_stats
+from .geo import create_mock_graph, print_graph_stats
+
 
 # minimum length in meters to consider for safety calculations
 min_density_length = 100 
