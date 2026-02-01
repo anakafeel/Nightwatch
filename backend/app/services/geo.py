@@ -1,5 +1,9 @@
 import networkx as nx # for creating graphs and working with djikstra's algorithm
 import random # for generating random numbers
+import pandas as pd
+import numpy as np
+from math import radians
+from scipy.spatial import KDTree
 
 # Set a fixed seed for reproducibility
 #seed = random.randint(0, 10000)
@@ -11,36 +15,56 @@ def create_mock_graph(num_nodes=50, seed=seed):
     random.seed(seed)
     newGraph = nx.Graph() # create a new empty graph
     
-    # create i nodes with randomly generated lat/long coordinates
-    for i in range(num_nodes):
-        latitude = random.uniform(0, 1000) # x coordinates
-        longitude = random.uniform(0, 1000) # y coordinates
-        newGraph.add_node(i, pos=(latitude, longitude)) # add nodes to newGraph
-        
-    # create edges of random lengths and give them safety scores
-    for i in range(num_nodes):
-        # connect to 2-4 nearby nodes to create a grid like network
-        num_connections = random.randint(2, 4)
-        for _ in range(num_connections):
-            j = random.randint(0, num_nodes - 1) # pick a random node to connect to
-            if i != j and not newGraph.has_edge(i, j): # if it is not the same node/edge
-                newGraph.add_edge(i, j, # add edge between nodes i and j 
-                            length=random.uniform(50, 300), # 50-300 meters
-                            lights = random.randint(0, 5), # 0-5 streetlights
-                           )
+    df = pd.read_csv("../../scripts/ottawa_street_lights.csv")
+    num_nodes = len(df) # limit to available streetlights
+    latitude = df['lat'].values[:num_nodes]
+    longitude = df['lon'].values[:num_nodes]
     
-    # if nodes not connected, connect them
+    # Convert lat/lon → flat XY coordinates (meters) for KDTree
+    def latlon_to_xy(lat, lon, lat0):
+        R = 6371000  # Earth radius in meters
+        x = R * np.radians(lon) * np.cos(np.radians(lat0))
+        y = R * np.radians(lat)
+        return x, y
+    
+    lat0 = df["lat"].iloc[:num_nodes].mean()  # Reference latitude
+    coords = np.array([latlon_to_xy(row.lat, row.lon, lat0) 
+                      for _, row in df.head(num_nodes).iterrows()])
+    
+    # Create nodes with real coordinates
+    for i in range(num_nodes):
+        newGraph.add_node(i, pos=(df.iloc[i]['lat'], df.iloc[i]['lon']))
+    
+    # Build KDTree for fast nearest neighbor search
+    tree = KDTree(coords)
+    
+    # Connect each node to its K nearest neighbors (realistic street network)
+    K = 4  # Connect to 4 nearest streetlights (like your random.randint(2,4))
+    max_distance = 300  # Max walkable distance in meters
+    
+    distances, indices = tree.query(coords, k=K+1)  # +1 to skip self
+    
+    for i in range(num_nodes):
+        for j_idx, dist in zip(indices[i][1:], distances[i][1:]):  # Skip self (index 0)
+            if dist <= max_distance and not newGraph.has_edge(i, j_idx):
+                lights = random.randint(0, 5)  # Keep your lights logic
+                
+                newGraph.add_edge(i, j_idx,
+                                length=dist,  # REAL distance in meters!
+                                lights=lights)
+    
+    # Ensure connectivity (your existing code)
     if not nx.is_connected(newGraph):
-        islands = list(nx.connected_components(newGraph)) # fetch all disconnected islands in a list format
+        islands = list(nx.connected_components(newGraph))
         for i in range(len(islands) - 1):
             node_a = list(islands[i])[0]
             node_b = list(islands[i + 1])[0]
-            newGraph.add_edge(node_a, node_b, # add edge between nodes of two islands
-                       length=random.uniform(100, 200),
-                       lights=random.randint(1, 3),
-                      )
+            newGraph.add_edge(node_a, node_b,
+                           length=random.uniform(100, 200),
+                           lights=random.randint(1, 3))
+    
     return newGraph
-
+    
 # get two random nodes from the graph as start and end points
 def get_random_nodes(graph, count=2):
     nodes = list(graph.nodes())

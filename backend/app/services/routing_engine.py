@@ -16,7 +16,7 @@ class RoutingEngine:
         Initialize routing engine with a road network graph.
         
         args:
-            graph: networkx graph with edge weights inherited from safetyscorer class
+            graph: networkx graph with edge weights inherited from SafetyModel class
         """
         self.graph = graph
         

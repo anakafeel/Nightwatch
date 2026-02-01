@@ -3,7 +3,7 @@ from geo import create_mock_graph, print_graph_stats
 # minimum length in meters to consider for safety calculations
 min_density_length = 100 
 
-class SafetyScorer:
+class SafetyModel:
     """
     calculates safety scores for road segments based on streetlight density
     
