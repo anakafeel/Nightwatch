@@ -290,84 +290,8 @@ export default function AppPage() {
 
         {/* Map View */}
         <main className="flex-1 relative bg-[#0b1215] overflow-hidden hidden md:block">
-          {/* Map Canvas or Fallback */}
-          <MapCanvas routeData={routeData} className="absolute inset-0 z-0" />
-
-          {/* Fallback Map Background (shown when no Mapbox token) */}
-          <div className="absolute inset-0 z-0 bg-map-pattern">
-            {/* SVG Route Visualization */}
-            {routeData && (
-              <svg
-                className="absolute inset-0 w-full h-full z-10 pointer-events-none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <defs>
-                  <linearGradient
-                    id="safeRouteGradient"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="0%"
-                  >
-                    <stop
-                      offset="0%"
-                      style={{ stopColor: "#13c8ec", stopOpacity: 1 }}
-                    />
-                    <stop
-                      offset="100%"
-                      style={{ stopColor: "#0ea5e9", stopOpacity: 1 }}
-                    />
-                  </linearGradient>
-                  <filter id="glow">
-                    <feGaussianBlur stdDeviation="4" result="coloredBlur" />
-                    <feMerge>
-                      <feMergeNode in="coloredBlur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                </defs>
-                {/* Shortest Route (Dashed Gray) */}
-                <path
-                  d="M 450 600 Q 600 550 700 650 T 1100 400"
-                  fill="none"
-                  stroke="#94a3b8"
-                  strokeWidth="3"
-                  strokeDasharray="8,8"
-                  strokeOpacity="0.6"
-                />
-                {/* Safest Route (Glowing Teal) */}
-                <path
-                  d="M 450 600 C 500 500, 650 350, 800 400 S 1000 300, 1100 400"
-                  fill="none"
-                  stroke="url(#safeRouteGradient)"
-                  strokeWidth="6"
-                  strokeLinecap="round"
-                  filter="url(#glow)"
-                />
-                {/* Start Point */}
-                <circle
-                  cx="450"
-                  cy="600"
-                  r="8"
-                  fill="#13c8ec"
-                  stroke="white"
-                  strokeWidth="3"
-                />
-                {/* End Point */}
-                <circle
-                  cx="1100"
-                  cy="400"
-                  r="8"
-                  fill="#ef4444"
-                  stroke="white"
-                  strokeWidth="3"
-                />
-              </svg>
-            )}
-          </div>
-
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 z-0 bg-gradient-to-r from-background-dark/80 via-transparent to-transparent pointer-events-none" />
+          {/* Map Canvas */}
+          <MapCanvas routeData={routeData} className="absolute inset-0 z-10" />
 
           {/* Route Recommendation Card */}
           {routeData && (
@@ -395,10 +319,6 @@ export default function AppPage() {
             onRecenter={() => console.log("Recenter")}
           />
 
-          {/* Map Attribution */}
-          <div className="absolute bottom-2 right-2 z-10 text-[10px] text-gray-500 opacity-50 px-2 pointer-events-none select-none">
-            &copy; Mapbox &copy; OpenStreetMap
-          </div>
         </main>
 
         {/* Mobile Map (Full Screen with Bottom Sheet) */}

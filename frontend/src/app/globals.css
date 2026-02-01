@@ -35,13 +35,13 @@ textarea:focus-visible {
   outline-offset: 2px;
 }
 
-/* Mapbox GL overrides */
-.mapboxgl-canvas {
+/* MapLibre GL overrides */
+.maplibregl-canvas {
   outline: none;
 }
 
-.mapboxgl-ctrl-logo,
-.mapboxgl-ctrl-attrib {
+.maplibregl-ctrl-logo,
+.maplibregl-ctrl-attrib {
   opacity: 0.5;
 }
 
