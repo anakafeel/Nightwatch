@@ -145,13 +145,18 @@ export default function AppPage() {
 
       <div className="flex flex-1 overflow-hidden relative">
         {/* Sidebar */}
-        <aside className="w-full md:w-[420px] flex flex-col z-20 glass-panel border-r border-border-dark h-full overflow-y-auto custom-scrollbar shadow-2xl">
+        <aside className="w-full md:w-[420px] flex flex-col z-20 
+                  bg-gradient-to-br from-[#0F2326]/90 to-[#1A363B]/85 
+                  backdrop-blur-xl border-r border-[#0F7A82]/50 
+                  h-full overflow-y-auto custom-scrollbar 
+                  shadow-[0_25px_50px_rgba(15,122,130,0.35)] 
+                  ring-1 ring-[#0F7A82]/40">
           <form
             onSubmit={(e) => {
               e.preventDefault();
               onSubmit();
             }}
-            className="p-6 space-y-8"
+            className="p-8 space-y-8 rounded-2xl border-0 shadow-inner"
           >
             {/* Navigation Inputs */}
             <div className="space-y-4">
@@ -178,7 +183,10 @@ export default function AppPage() {
                       if (nextEnd) setEndId(nextEnd);
                     }
                   }}
-                  className="w-full rounded-lg border border-border-dark bg-surface-dark px-3 py-3 text-white outline-none"
+                  className="w-full rounded-xl border border-[#0F7A82]/60 bg-[#1A363B]/80 
+                            hover:border-[#0F7A82]/90 px-4 py-3.5 text-white 
+                            outline-none backdrop-blur transition-all duration-200 
+                            focus:ring-2 focus:ring-[#0F7A82]/60"
                 >
                   {OTTAWA_LOCATIONS.map((loc) => {
                     const d = haversineMeters(CARLETON, loc);
@@ -202,7 +210,10 @@ export default function AppPage() {
                 <select
                   value={endLoc.id}
                   onChange={(e) => setEndId(e.target.value)}
-                  className="w-full rounded-lg border border-border-dark bg-surface-dark px-3 py-3 text-white outline-none"
+                  className="w-full rounded-xl border border-[#0F7A82]/60 bg-[#1A363B]/80 
+                            hover:border-[#0F7A82]/90 px-4 py-3.5 text-white 
+                            outline-none backdrop-blur transition-all duration-200 
+                            focus:ring-2 focus:ring-[#0F7A82]/60"
                 >
                   {endChoices.map((loc) => {
                     const d = haversineMeters(CARLETON, loc);
@@ -274,25 +285,21 @@ export default function AppPage() {
                   Safety Priorities
                 </label>
 
-                {/* Lighting Slider */}
-                <div className="bg-surface-dark p-3 rounded-lg border border-border-dark">
+               {/* Lighting Slider */}
+                <div className="bg-[#1A363B]/90 p-4 rounded-xl border border-[#0F7A82]/60 shadow-md">
                   <div className="flex justify-between items-center mb-2">
                     <div className="flex items-center gap-2 text-text-muted">
-                      <span className="material-symbols-outlined text-[18px]">
-                        lightbulb
-                      </span>
-                      <span className="text-xs font-medium">
-                        Street Lighting
-                      </span>
+                      <span className="material-symbols-outlined text-[18px]">lightbulb</span>
+                      <span className="text-xs font-medium">Street Lighting</span>
                     </div>
-                    <span className="text-xs text-white">
-                      {getWeightLabel(lightsWeight)}
-                    </span>
+                    <span className="text-xs text-white">{getWeightLabel(lightsWeight)}</span>
                   </div>
                   <div className="relative flex items-center h-2 w-full">
-                    <div className="absolute h-1 w-full bg-border-dark rounded-full" />
+                    {/* Track */}
+                    <div className="absolute h-1.5 w-full bg-[#0F7A82]/40 rounded-full" />
+                    {/* Fill */}
                     <div
-                      className="absolute h-1 bg-primary/70 rounded-full"
+                      className="absolute h-1.5 bg-gradient-to-r from-[#0F7A82] to-[#37B8A6] rounded-full shadow-inner"
                       style={{ width: `${lightsWeight}%` }}
                     />
                     <input
@@ -303,8 +310,9 @@ export default function AppPage() {
                       onChange={(e) => setLightsWeight(Number(e.target.value))}
                       className="absolute w-full opacity-0 cursor-pointer"
                     />
+                    {/* Thumb */}
                     <div
-                      className="absolute size-3 bg-primary rounded-full"
+                      className="absolute size-4 bg-gradient-to-r from-[#0F7A82] to-[#37B8A6] rounded-full shadow-lg border border-white/30"
                       style={{
                         left: `${lightsWeight}%`,
                         transform: "translateX(-50%)",
@@ -314,22 +322,20 @@ export default function AppPage() {
                 </div>
 
                 {/* Observability Slider */}
-                <div className="bg-surface-dark p-3 rounded-lg border border-border-dark">
+                <div className="bg-[#1A363B]/90 p-4 rounded-xl border border-[#0F7A82]/60 shadow-md">
                   <div className="flex justify-between items-center mb-2">
                     <div className="flex items-center gap-2 text-text-muted">
-                      <span className="material-symbols-outlined text-[18px]">
-                        visibility
-                      </span>
+                      <span className="material-symbols-outlined text-[18px]">visibility</span>
                       <span className="text-xs font-medium">Observability</span>
                     </div>
-                    <span className="text-xs text-white">
-                      {getWeightLabel(observabilityWeight)}
-                    </span>
+                    <span className="text-xs text-white">{getWeightLabel(observabilityWeight)}</span>
                   </div>
                   <div className="relative flex items-center h-2 w-full">
-                    <div className="absolute h-1 w-full bg-border-dark rounded-full" />
+                    {/* Track */}
+                    <div className="absolute h-1.5 w-full bg-[#0F7A82]/40 rounded-full" />
+                    {/* Fill */}
                     <div
-                      className="absolute h-1 bg-primary/70 rounded-full"
+                      className="absolute h-1.5 bg-gradient-to-r from-[#0F7A82] to-[#37B8A6] rounded-full shadow-inner"
                       style={{ width: `${observabilityWeight}%` }}
                     />
                     <input
@@ -337,13 +343,12 @@ export default function AppPage() {
                       min={0}
                       max={100}
                       value={observabilityWeight}
-                      onChange={(e) =>
-                        setObservabilityWeight(Number(e.target.value))
-                      }
+                      onChange={(e) => setObservabilityWeight(Number(e.target.value))}
                       className="absolute w-full opacity-0 cursor-pointer"
                     />
+                    {/* Thumb */}
                     <div
-                      className="absolute size-3 bg-primary rounded-full"
+                      className="absolute size-4 bg-gradient-to-r from-[#0F7A82] to-[#37B8A6] rounded-full shadow-lg border border-white/30"
                       style={{
                         left: `${observabilityWeight}%`,
                         transform: "translateX(-50%)",
@@ -351,13 +356,18 @@ export default function AppPage() {
                     />
                   </div>
                 </div>
+
               </div>
             </div>
 
             {/* Primary Action */}
             <Button
               type="submit"
-              className="w-full py-4"
+              className="w-full py-7 h-1.5 bg-gradient-to-r from-[#0F7A82] via-[#37B8A6] to-[#1AC6E6] 
+                              hover:from-[#0F7A82]/95 hover:via-[#37B8A6]/95 hover:to-[#1AC6E6]/95 
+                              shadow-lg hover:shadow-xl text-black font-bold rounded-xl 
+                              backdrop-blur transition-all duration-300 
+                              focus:ring-4 focus:ring-[#0F7A82]/50 border-transparent"              
               isLoading={isLoading}
               leftIcon={
                 <span className="material-symbols-outlined">security</span>
