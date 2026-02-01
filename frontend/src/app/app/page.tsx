@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AppNav } from "@/components/layout/AppNav";
 import { Button, Slider } from "@/components/ui";
 import { MapCanvas } from "@/components/map/MapCanvas";
@@ -9,6 +9,8 @@ import { RouteCard } from "@/components/map/RouteCard";
 import { WhyThisRoute } from "@/components/map/WhyThisRoute";
 import { useRouteQuery } from "@/lib/hooks/useRouteQuery";
 import { usePreferencesStore } from "@/lib/stores/preferences";
+import { useRouteSessionStore } from "@/lib/stores/routeSession";
+import { useSavedRoutesStore } from "@/lib/stores/savedRoutes";
 import { isDemoMode } from "@/lib/api";
 import type { RouteMode } from "@/lib/routes";
 
@@ -70,6 +72,12 @@ function formatKm(meters: number) {
   return km >= 10 ? `${km.toFixed(0)} km` : `${km.toFixed(1)} km`;
 }
 
+function makeRouteId() {
+  const a = Math.random().toString(16).slice(2, 6).toUpperCase();
+  const b = Math.random().toString(16).slice(2, 10).toUpperCase();
+  return `#${a}-${b}`;
+}
+
 export default function AppPage() {
   const [mode, setMode] = useState<RouteMode>("night");
   const [maxDetour, setMaxDetour] = useState(15);
@@ -83,8 +91,58 @@ export default function AppPage() {
   const [startId, setStartId] = useState<string>("carleton");
   const [endId, setEndId] = useState<string>("byward");
 
-  const { fetchRoute, data: routeData, isLoading } = useRouteQuery();
+  // Rerun notification state
+  const [rerunNotice, setRerunNotice] = useState<string | null>(null);
+
+  const { fetchRouteAsync, data: routeData, isLoading } = useRouteQuery();
   const showCctv = usePreferencesStore((state) => state.showCctvIndicators);
+
+  const setSession = useRouteSessionStore((s) => s.setSession);
+  const consumeRerunData = useSavedRoutesStore((s) => s.consumeRerunData);
+  const addToHistory = useSavedRoutesStore((s) => s.addToHistory);
+
+  // Find closest matching location by coordinates
+  const findClosestLocation = (lat: number, lng: number): DemoLocation | null => {
+    let closest: DemoLocation | null = null;
+    let minDistance = Infinity;
+    const threshold = 500; // 500 meters tolerance
+
+    for (const loc of OTTAWA_LOCATIONS) {
+      const dist = haversineMeters({ lat, lng }, loc);
+      if (dist < minDistance && dist < threshold) {
+        minDistance = dist;
+        closest = loc;
+      }
+    }
+    return closest;
+  };
+
+  // Consume rerun data on mount (intentionally only runs once)
+  useEffect(() => {
+    const rerunData = consumeRerunData();
+    if (rerunData) {
+      const startMatch = findClosestLocation(rerunData.start.lat, rerunData.start.lng);
+      const endMatch = findClosestLocation(rerunData.end.lat, rerunData.end.lng);
+
+      if (startMatch && endMatch) {
+        setStartId(startMatch.id);
+        setEndId(endMatch.id);
+        if (rerunData.mode) {
+          setMode(rerunData.mode);
+        }
+        setRerunNotice(`Loaded route: ${rerunData.startAddress} to ${rerunData.endAddress}`);
+      } else {
+        // Coordinates don't match known locations
+        setRerunNotice(
+          "Route locations not available in demo. Select from the dropdown options."
+        );
+      }
+
+      // Clear notice after 4 seconds
+      setTimeout(() => setRerunNotice(null), 4000);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const startLoc = useMemo(
     () => OTTAWA_LOCATIONS.find((l) => l.id === startId) ?? CARLETON,
@@ -101,11 +159,11 @@ export default function AppPage() {
     return found ?? endChoices[0] ?? CARLETON;
   }, [endChoices, endId]);
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     // reset selection so UI consistently highlights safest when a new request runs
     setSelectedRoute("safest");
 
-    fetchRoute({
+    const req = {
       start: { lat: startLoc.lat, lng: startLoc.lng },
       end: { lat: endLoc.lat, lng: endLoc.lng },
       mode,
@@ -115,7 +173,36 @@ export default function AppPage() {
         cameras: observabilityWeight,
       },
       useCctv: showCctv,
-    });
+    };
+
+    // IMPORTANT: use mutateAsync so we can await the result
+    const result = await fetchRouteAsync(req);
+
+    if (result) {
+      const routeId = makeRouteId();
+
+      setSession(
+        {
+          ...req,
+          createdAt: Date.now(),
+          routeId,
+        },
+        result,
+      );
+
+      // Add to history
+      addToHistory({
+        id: routeId,
+        start: req.start,
+        startAddress: startLoc.label,
+        end: req.end,
+        endAddress: endLoc.label,
+        distance_m: result.safest.distance_m,
+        safety_score: result.safest.safety_score,
+        createdAt: new Date().toISOString(),
+        mode: req.mode,
+      });
+    }
   };
 
   const getDetourLabel = (value: number) => {
@@ -143,6 +230,13 @@ export default function AppPage() {
         </div>
       )}
 
+      {/* Rerun Notice */}
+      {rerunNotice && (
+        <div className="absolute top-16 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-lg bg-primary/20 border border-primary/30 text-primary text-sm font-medium animate-pulse">
+          {rerunNotice}
+        </div>
+      )}
+
       <div className="flex flex-1 overflow-hidden relative">
         {/* Sidebar */}
         <aside className="w-full md:w-[420px] flex flex-col z-20 
@@ -154,7 +248,7 @@ export default function AppPage() {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              onSubmit();
+              void onSubmit();
             }}
             className="p-8 space-y-8 rounded-2xl border-0 shadow-inner"
           >

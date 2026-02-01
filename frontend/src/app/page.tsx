@@ -5,7 +5,7 @@ import { Button } from "@/components/ui";
 
 export default function LandingPage() {
   return (
-    <div className="relative min-h-screen w-full bg-gradient-to-b from-[#050A14] to-[#0B1221]">
+    <div className="relative min-h-screen w-full bg-gradient-to-b from-[#050A14] via-[#0F2326] to-[#0B1221]">
       <MarketingNav />
 
       <main className="relative z-10">
@@ -14,7 +14,7 @@ export default function LandingPage() {
           {/* Abstract City Background */}
           <div className="absolute inset-0">
             {/* Base gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#050A14] via-[#0a1628] to-[#0B1221]" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#050A14] via-[#0F2326] to-[#0B1221]" />
 
             {/* City silhouette shapes */}
             <div className="absolute bottom-0 left-0 right-0 h-[60%]">
@@ -87,7 +87,13 @@ export default function LandingPage() {
                 {/* CTAs */}
                 <div className="flex flex-wrap gap-4 pt-4">
                   <Link href="/app">
-                    <Button size="lg" className="shadow-glow-lg shadow-primary/40">
+                    <Button
+                      size="lg"
+                      className="bg-gradient-to-r from-[#0F7A82] via-[#37B8A6] to-[#1AC6E6]
+                                text-black font-bold rounded-xl shadow-lg hover:shadow-xl
+                                hover:shadow-[#0F7A82]/40 transition-all duration-300
+                                hover:-translate-y-0.5"
+                    >
                       Try Live Demo
                     </Button>
                   </Link>
@@ -95,7 +101,9 @@ export default function LandingPage() {
                     <Button
                       variant="secondary"
                       size="lg"
-                      className="border-white/30 bg-white/10 backdrop-blur-md text-white hover:bg-white/20"
+                      className="border-[#0F7A82]/50 bg-[#1A363B]/50 backdrop-blur-md text-white
+                                hover:bg-[#1A363B]/80 hover:border-[#0F7A82]/80 rounded-xl
+                                transition-all duration-200"
                       rightIcon={
                         <span className="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">
                           arrow_forward
@@ -144,11 +152,15 @@ export default function LandingPage() {
           {/* Feature 1: Smart Routing */}
           <div className="flex flex-col md:flex-row items-center gap-16 lg:gap-24">
             <div className="flex-1 w-full order-2 md:order-1">
-              <div className="relative group aspect-[4/3] rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-surface-dark">
+              <div className="relative group aspect-[4/3] rounded-2xl overflow-hidden
+                             border border-[#0F7A82]/40 shadow-2xl bg-[#1A363B]/50
+                             hover:border-[#0F7A82]/60 transition-all duration-300">
                 <img src="/images/map-card-1.png" alt="Smart routing" className="w-full h-full object-cover opacity-60" />
-                <div className="absolute inset-0 bg-gradient-to-t from-background-dark/80 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0F2326]/90 to-transparent" />
                 <div className="absolute bottom-8 left-8 flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-2xl bg-primary/20 backdrop-blur-md border border-primary/30 flex items-center justify-center text-primary shadow-glow shadow-primary/20">
+                  <div className="w-16 h-16 rounded-xl bg-[#0F7A82]/20 backdrop-blur-md
+                                 border border-[#0F7A82]/40 flex items-center justify-center
+                                 text-[#37B8A6] shadow-lg shadow-[#0F7A82]/20">
                     <span className="material-symbols-outlined text-4xl">
                       location_on
                     </span>
@@ -160,11 +172,11 @@ export default function LandingPage() {
               <h3 className="text-3xl md:text-4xl font-bold text-white">
                 Smart Routing
               </h3>
-              <p className="text-xl text-gray-400 leading-relaxed">
+              <p className="text-xl text-text-muted leading-relaxed">
                 Analyzes municipal street light data and real-time foot traffic to
                 find the most illuminated paths.
               </p>
-              <div className="w-20 h-1 bg-primary/30 rounded-full" />
+              <div className="w-20 h-1 bg-gradient-to-r from-[#0F7A82] to-[#37B8A6] rounded-full" />
             </div>
           </div>
 
@@ -174,18 +186,22 @@ export default function LandingPage() {
               <h3 className="text-3xl md:text-4xl font-bold text-white">
                 Safety vs Speed
               </h3>
-              <p className="text-xl text-gray-400 leading-relaxed">
+              <p className="text-xl text-text-muted leading-relaxed">
                 Customize your preference. Choose the brightest path, not just the
                 fastest one available.
               </p>
-              <div className="w-20 h-1 bg-noor-gold/30 rounded-full" />
+              <div className="w-20 h-1 bg-gradient-to-r from-noor-gold/50 to-noor-gold/20 rounded-full" />
             </div>
             <div className="flex-1 w-full">
-              <div className="relative group aspect-[4/3] rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-surface-dark">
+              <div className="relative group aspect-[4/3] rounded-2xl overflow-hidden
+                             border border-[#0F7A82]/40 shadow-2xl bg-[#1A363B]/50
+                             hover:border-[#0F7A82]/60 transition-all duration-300">
                 <img src="/images/map-card-2.png" alt="Safety preferences" className="w-full h-full object-cover opacity-60" />
-                <div className="absolute inset-0 bg-gradient-to-t from-background-dark/80 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0F2326]/90 to-transparent" />
                 <div className="absolute bottom-8 right-8 flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-2xl bg-noor-gold/20 backdrop-blur-md border border-noor-gold/30 flex items-center justify-center text-noor-gold shadow-glow shadow-noor-gold/20">
+                  <div className="w-16 h-16 rounded-xl bg-noor-gold/15 backdrop-blur-md
+                                 border border-noor-gold/30 flex items-center justify-center
+                                 text-noor-gold shadow-lg shadow-noor-gold/15">
                     <span className="material-symbols-outlined text-4xl">
                       balance
                     </span>
@@ -198,16 +214,19 @@ export default function LandingPage() {
           {/* Feature 3: Community Verified */}
           <div className="flex flex-col md:flex-row items-center gap-16 lg:gap-24">
             <div className="flex-1 w-full order-2 md:order-1">
-              <div className="relative group aspect-[4/3] rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-background-dark">
+              <div className="relative group aspect-[4/3] rounded-2xl overflow-hidden
+                             border border-[#0F7A82]/40 shadow-2xl bg-[#1A363B]/50
+                             hover:border-[#0F7A82]/60 transition-all duration-300">
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="glass-panel p-6 rounded-2xl border-purple-500/30">
+                  <div className="bg-[#1A363B]/90 backdrop-blur-xl p-6 rounded-xl
+                                 border border-[#0F7A82]/40 shadow-lg">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
+                      <div className="w-12 h-12 rounded-lg bg-[#0F7A82]/20 flex items-center justify-center text-[#37B8A6]">
                         <span className="material-symbols-outlined">shield</span>
                       </div>
                       <div>
                         <p className="text-white font-bold">Community Alert</p>
-                        <p className="text-xs text-purple-400">
+                        <p className="text-xs text-[#37B8A6]">
                           Street light out on 5th Ave
                         </p>
                       </div>
@@ -215,7 +234,9 @@ export default function LandingPage() {
                   </div>
                 </div>
                 <div className="absolute bottom-8 left-8">
-                  <div className="w-16 h-16 rounded-2xl bg-purple-500/20 backdrop-blur-md border border-purple-500/30 flex items-center justify-center text-purple-400 shadow-glow shadow-purple-500/20">
+                  <div className="w-16 h-16 rounded-xl bg-[#0F7A82]/20 backdrop-blur-md
+                                 border border-[#0F7A82]/40 flex items-center justify-center
+                                 text-[#37B8A6] shadow-lg shadow-[#0F7A82]/20">
                     <span className="material-symbols-outlined text-4xl">
                       verified_user
                     </span>
@@ -227,85 +248,97 @@ export default function LandingPage() {
               <h3 className="text-3xl md:text-4xl font-bold text-white">
                 Community Verified
               </h3>
-              <p className="text-xl text-gray-400 leading-relaxed">
+              <p className="text-xl text-text-muted leading-relaxed">
                 Real-time updates on broken lights and safety incidents from
                 verified community reports.
               </p>
-              <div className="w-20 h-1 bg-purple-500/30 rounded-full" />
+              <div className="w-20 h-1 bg-gradient-to-r from-[#0F7A82] to-[#37B8A6] rounded-full" />
             </div>
           </div>
         </section>
 
         {/* App Preview Section */}
         <section
-          className="w-full bg-[#03060C]/50 border-y border-white/5 py-32 relative overflow-hidden"
+          className="w-full bg-gradient-to-b from-[#0F2326]/50 to-[#050A14]/50
+                     border-y border-[#0F7A82]/20 py-32 relative overflow-hidden"
           id="app"
         >
           <div
             className="absolute top-0 left-0 w-full h-full opacity-30 pointer-events-none"
             style={{
               backgroundImage:
-                "radial-gradient(circle at 50% 50%, rgba(19, 200, 236, 0.05) 0%, transparent 50%)",
+                "radial-gradient(circle at 50% 50%, rgba(15, 122, 130, 0.08) 0%, transparent 50%)",
             }}
           />
           <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
             <div className="flex-1 space-y-8">
               <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight">
-                See the <span className="text-primary text-glow">light</span>.
+                See the <span className="text-[#37B8A6] text-glow">light</span>.
                 <br />
                 Avoid the shadows.
               </h2>
-              <p className="text-xl text-gray-400 max-w-md leading-relaxed">
+              <p className="text-xl text-text-muted max-w-md leading-relaxed">
                 Experience the difference. While standard maps send you through
                 dark alleys to save 30 seconds, Nightwatch finds the path where you can
                 walk with your head up.
               </p>
               <div className="flex flex-col gap-6 pt-4">
                 {/* Safest Route Card */}
-                <div className="flex items-center gap-4 p-6 rounded-2xl bg-white/5 border border-primary/30 shadow-glow shadow-primary/10">
-                  <div className="w-2 h-12 rounded-full bg-primary shadow-[0_0_15px_#13c8ec]" />
+                <div className="flex items-center gap-4 p-6 rounded-xl bg-[#1A363B]/80
+                               border border-[#0F7A82]/50 shadow-lg shadow-[#0F7A82]/10
+                               hover:border-[#0F7A82]/70 transition-all duration-200">
+                  <div className="w-2 h-12 rounded-full bg-gradient-to-b from-[#0F7A82] to-[#37B8A6]
+                                 shadow-[0_0_15px_rgba(15,122,130,0.6)]" />
                   <div>
                     <h4 className="text-white text-lg font-bold">Safest Route</h4>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-text-muted">
                       Well-lit main avenues • 12 mins
                     </p>
                   </div>
                 </div>
                 {/* Shortest Route Card */}
-                <div className="flex items-center gap-4 p-6 rounded-2xl border border-white/5 opacity-40">
+                <div className="flex items-center gap-4 p-6 rounded-xl border border-[#0F7A82]/20 opacity-50">
                   <div className="w-2 h-12 rounded-full bg-gray-600" />
                   <div>
                     <h4 className="text-white text-lg font-bold">
                       Shortest Route
                     </h4>
-                    <p className="text-sm text-gray-400">Unlit shortcuts • 9 mins</p>
+                    <p className="text-sm text-text-muted">Unlit shortcuts • 9 mins</p>
                   </div>
                 </div>
               </div>
             </div>
             <div className="flex-1 w-full">
-              <div className="relative rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl bg-[#0B1221] aspect-[4/3]">
+              <div className="relative rounded-2xl overflow-hidden border border-[#0F7A82]/40
+                             shadow-2xl shadow-[#0F7A82]/10 bg-[#0F2326] aspect-[4/3]">
                 {/* Map Preview */}
-                <div className="absolute inset-0 bg-gradient-to-br from-surface-dark to-background-dark opacity-40" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#1A363B]/60 to-[#0F2326]/80 opacity-60" />
                 <svg
-                  className="absolute inset-0 w-full h-full drop-shadow-[0_0_12px_rgba(19,200,236,0.8)]"
+                  className="absolute inset-0 w-full h-full drop-shadow-[0_0_12px_rgba(15,122,130,0.8)]"
                   preserveAspectRatio="none"
                   viewBox="0 0 400 300"
                 >
                   <path
                     d="M50 250 C 100 250, 150 200, 200 150 S 300 100, 350 50"
                     fill="none"
-                    stroke="#13c8ec"
+                    stroke="url(#routeGradient)"
                     strokeLinecap="round"
                     strokeWidth="6"
                     className="route-draw"
                   />
-                  <circle cx="350" cy="50" fill="#13c8ec" r="8" />
+                  <defs>
+                    <linearGradient id="routeGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#0F7A82" />
+                      <stop offset="100%" stopColor="#37B8A6" />
+                    </linearGradient>
+                  </defs>
+                  <circle cx="350" cy="50" fill="#37B8A6" r="8" />
                   <circle cx="50" cy="250" fill="white" r="8" />
                 </svg>
-                <div className="absolute bottom-8 left-8 right-8 p-6 bg-[#050A14]/90 backdrop-blur-xl border border-white/10 rounded-2xl flex items-center justify-between">
+                <div className="absolute bottom-8 left-8 right-8 p-6 bg-[#0F2326]/95 backdrop-blur-xl
+                               border border-[#0F7A82]/40 rounded-xl flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="p-3 rounded-xl bg-primary/20 text-primary">
+                    <div className="p-3 rounded-lg bg-[#0F7A82]/20 text-[#37B8A6]">
                       <span className="material-symbols-outlined text-2xl font-bold">
                         directions_walk
                       </span>
@@ -314,7 +347,7 @@ export default function LandingPage() {
                       <p className="text-white text-base font-bold">
                         Navigating to Home
                       </p>
-                      <p className="text-sm text-primary">Via Main St (Lit)</p>
+                      <p className="text-sm text-[#37B8A6]">Via Main St (Lit)</p>
                     </div>
                   </div>
                   <span className="text-white text-lg font-bold">12 min</span>
@@ -326,8 +359,11 @@ export default function LandingPage() {
 
         {/* CTA Section */}
         <section className="w-full py-32 px-6">
-          <div className="max-w-5xl mx-auto rounded-[3rem] relative overflow-hidden p-16 lg:p-24 text-center border border-white/10 bg-gradient-to-b from-[#0e1629] to-[#050A14]">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-radial from-primary/10 to-transparent opacity-50" />
+          <div className="max-w-5xl mx-auto rounded-2xl relative overflow-hidden p-16 lg:p-24 text-center
+                         border border-[#0F7A82]/40 bg-gradient-to-b from-[#1A363B]/50 to-[#0F2326]/80
+                         shadow-2xl shadow-[#0F7A82]/10">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full
+                           bg-gradient-radial from-[#0F7A82]/15 to-transparent opacity-50" />
             <div className="relative z-10 flex flex-col items-center gap-10">
               <span className="material-symbols-outlined text-7xl text-noor-gold">
                 lightbulb
@@ -336,7 +372,7 @@ export default function LandingPage() {
                 <h2 className="text-4xl md:text-6xl font-black text-white">
                   Ready to light your path?
                 </h2>
-                <p className="text-gray-400 max-w-lg mx-auto text-xl">
+                <p className="text-text-muted max-w-lg mx-auto text-xl">
                   Join thousands of users who are reclaiming the night. Try
                   Nightwatch today.
                 </p>
@@ -345,7 +381,9 @@ export default function LandingPage() {
                 <Link href="/app">
                   <Button
                     size="lg"
-                    className="h-16 px-10 text-xl shadow-glow-lg shadow-primary/30"
+                    className="h-16 px-10 text-xl bg-gradient-to-r from-[#0F7A82] via-[#37B8A6] to-[#1AC6E6]
+                              text-black font-bold rounded-xl shadow-lg hover:shadow-xl
+                              hover:shadow-[#0F7A82]/40 transition-all duration-300"
                     leftIcon={
                       <span className="material-symbols-outlined text-2xl">
                         explore
@@ -358,7 +396,9 @@ export default function LandingPage() {
                 <Button
                   variant="ghost"
                   size="lg"
-                  className="h-16 px-10 text-xl bg-white/5 border border-white/10 hover:bg-white/10"
+                  className="h-16 px-10 text-xl bg-[#1A363B]/50 border border-[#0F7A82]/50
+                            hover:bg-[#1A363B]/80 hover:border-[#0F7A82]/80 rounded-xl
+                            transition-all duration-200"
                   leftIcon={
                     <span className="material-symbols-outlined text-2xl">
                       play_apps

@@ -1,22 +1,296 @@
 "use client";
 
 import Link from "next/link";
-import { AppNav } from "@/components/layout/AppNav";
+import { useEffect, useRef, useState } from "react";
 import { Button, Badge } from "@/components/ui";
-import { useCachedRoute } from "@/lib/hooks/useRouteQuery";
-import { mockRouteInsights } from "@/lib/mockRoute";
+import { useRouteSessionStore } from "@/lib/stores/routeSession";
+import { useSavedRoutesStore } from "@/lib/stores/savedRoutes";
+import type { RouteData } from "@/lib/routes";
+
+function clamp(n: number, min: number, max: number) {
+  return Math.max(min, Math.min(max, n));
+}
+
+function safeNumber(val: unknown, fallback = 0): number {
+  const n = Number(val);
+  return Number.isFinite(n) ? n : fallback;
+}
+
+function safeArray(val: unknown): string[] {
+  return Array.isArray(val) ? val.filter((x) => typeof x === "string") : [];
+}
+
+function formatDistance(meters: number): string {
+  if (meters >= 1000) {
+    return `${(meters / 1000).toFixed(2)} km`;
+  }
+  return `${Math.round(meters)} m`;
+}
+
+function formatCoverage(coverage: string): string {
+  if (!coverage || coverage === "Not provided") return "N/A";
+  // Clean up backend values like "graph+routing_engine"
+  const cleaned = coverage.toLowerCase().replace(/[_+]/g, " ");
+  // Capitalize first letter
+  return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+}
+
+function getCoverageVariant(coverage: string): "success" | "warning" | "danger" | "info" {
+  const c = coverage.toLowerCase();
+  if (c === "high" || c.includes("good")) return "success";
+  if (c === "medium" || c.includes("moderate")) return "warning";
+  if (c === "low" || c.includes("poor")) return "danger";
+  return "info";
+}
 
 export default function InsightsPage() {
-  const routeData = useCachedRoute();
-  const insights = mockRouteInsights;
+  const request = useRouteSessionStore((s) => s.request);
+  const routeData = useRouteSessionStore((s) => s.routeData);
+
+  const hasReal = Boolean(request && routeData);
+
+  const routeId = request?.routeId ?? "N/A";
+
+  // Safest route data
+  const safest: RouteData | null = routeData?.safest ?? null;
+  const safetyScoreRaw = safest?.safety_score;
+  const safetyScore = clamp(safeNumber(safetyScoreRaw, 0), 0, 100);
+  const safestDistance = safeNumber(safest?.distance_m, 0);
+  const safestEta = safeNumber(safest?.eta_min, 0);
+  const safestCoverage = safest?.coverage ?? "Not provided";
+  const safestReasons = safeArray(safest?.reasons);
+
+  // Shortest route data
+  const shortest: RouteData | null = routeData?.shortest ?? null;
+  const shortestSafetyScore = clamp(safeNumber(shortest?.safety_score, 0), 0, 100);
+  const shortestDistance = safeNumber(shortest?.distance_m, 0);
+  const shortestEta = safeNumber(shortest?.eta_min, 0);
+  const shortestCoverage = shortest?.coverage ?? "Not provided";
+  const shortestReasons = safeArray(shortest?.reasons);
+
+  // Delta calculations
+  const distanceDelta = safestDistance - shortestDistance;
+  const etaDelta = safestEta - shortestEta;
+  const safetyDelta = safetyScore - shortestSafetyScore;
+
+  // Weights from request
+  const lights = request?.weights?.lights ?? 70;
+  const cams = request?.weights?.cameras ?? 30;
+  const sum = Math.max(1, lights + cams);
+  const lightingPercentage = Math.round((lights / sum) * 100);
+  const infrastructurePercentage = 100 - lightingPercentage;
+
+  // Radial chart
+  const CIRC = 502;
+  const compositeOffset = CIRC - (safetyScore / 100) * CIRC;
+
+  // Debug section toggle
+  const [showDebug, setShowDebug] = useState(false);
+
+  // Save route state
+  const [isSaved, setIsSaved] = useState(false);
+  const [saveNotice, setSaveNotice] = useState<string | null>(null);
+  const saveRoute = useSavedRoutesStore((s) => s.saveRoute);
+  const savedRoutes = useSavedRoutesStore((s) => s.savedRoutes);
+
+  // Check if current route is already saved
+  useEffect(() => {
+    if (request?.routeId) {
+      const exists = savedRoutes.some((r) => r.id === request.routeId);
+      setIsSaved(exists);
+    }
+  }, [request?.routeId, savedRoutes]);
+
+  const handleSaveRoute = () => {
+    if (!request || !safest) return;
+
+    const routeIdClean = request.routeId?.replace("#", "") || "Unknown";
+    const routeName = `Route ${routeIdClean}`;
+
+    // Create saved route with the same ID as the session routeId
+    saveRoute({
+      id: request.routeId || `route-${Date.now()}`,
+      name: routeName,
+      start: request.start,
+      startAddress: "Start Location",
+      end: request.end,
+      endAddress: "End Location",
+      distance_m: safest.distance_m,
+      safety_score: safest.safety_score,
+      isFavorite: false,
+      createdAt: new Date().toISOString(),
+    });
+
+    setIsSaved(true);
+    setSaveNotice("Route saved!");
+    setTimeout(() => setSaveNotice(null), 2000);
+  };
+
+  // Map ref
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<maplibregl.Map | null>(null);
+  const [mapError, setMapError] = useState<string | null>(null);
+
+  // Initialize map
+  useEffect(() => {
+    if (!mapContainerRef.current) return;
+    if (mapRef.current) return; // already initialized
+
+    let isMounted = true;
+
+    async function initMap() {
+      try {
+        const maplibregl = await import("maplibre-gl");
+        // @ts-expect-error - CSS import has no types
+        await import("maplibre-gl/dist/maplibre-gl.css");
+
+        if (!isMounted || !mapContainerRef.current) return;
+
+        const map = new maplibregl.default.Map({
+          container: mapContainerRef.current,
+          style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+          center: [0, 0],
+          zoom: 2,
+        });
+
+        mapRef.current = map;
+
+        map.on("load", () => {
+          if (!isMounted) return;
+
+          const bounds = new maplibregl.default.LngLatBounds();
+          let hasBounds = false;
+
+          // Add safest route if valid geojson
+          const safestGeoJson = safest?.geojson;
+          if (safestGeoJson && isValidGeoJson(safestGeoJson)) {
+            try {
+              map.addSource("safest-route", {
+                type: "geojson",
+                data: safestGeoJson as GeoJSON.GeoJSON,
+              });
+              map.addLayer({
+                id: "safest-route-line",
+                type: "line",
+                source: "safest-route",
+                layout: {
+                  "line-join": "round",
+                  "line-cap": "round",
+                },
+                paint: {
+                  "line-color": "#10B981", // emerald/green for safest
+                  "line-width": 5,
+                  "line-opacity": 0.9,
+                },
+              });
+              extendBoundsFromGeoJson(bounds, safestGeoJson);
+              hasBounds = true;
+            } catch (e) {
+              console.warn("Failed to add safest route to map:", e);
+            }
+          }
+
+          // Add shortest route if valid geojson
+          const shortestGeoJson = shortest?.geojson;
+          if (shortestGeoJson && isValidGeoJson(shortestGeoJson)) {
+            try {
+              map.addSource("shortest-route", {
+                type: "geojson",
+                data: shortestGeoJson as GeoJSON.GeoJSON,
+              });
+              map.addLayer({
+                id: "shortest-route-line",
+                type: "line",
+                source: "shortest-route",
+                layout: {
+                  "line-join": "round",
+                  "line-cap": "round",
+                },
+                paint: {
+                  "line-color": "#F59E0B", // amber for shortest
+                  "line-width": 4,
+                  "line-opacity": 0.8,
+                },
+              });
+              extendBoundsFromGeoJson(bounds, shortestGeoJson);
+              hasBounds = true;
+            } catch (e) {
+              console.warn("Failed to add shortest route to map:", e);
+            }
+          }
+
+          // Add start marker
+          if (request?.start) {
+            const startEl = document.createElement("div");
+            startEl.className = "start-marker";
+            startEl.style.width = "16px";
+            startEl.style.height = "16px";
+            startEl.style.backgroundColor = "#10B981";
+            startEl.style.borderRadius = "50%";
+            startEl.style.border = "3px solid white";
+            startEl.style.boxShadow = "0 2px 6px rgba(0,0,0,0.3)";
+
+            new maplibregl.default.Marker({ element: startEl })
+              .setLngLat([request.start.lng, request.start.lat])
+              .addTo(map);
+
+            bounds.extend([request.start.lng, request.start.lat]);
+            hasBounds = true;
+          }
+
+          // Add end marker
+          if (request?.end) {
+            const endEl = document.createElement("div");
+            endEl.className = "end-marker";
+            endEl.style.width = "16px";
+            endEl.style.height = "16px";
+            endEl.style.backgroundColor = "#EF4444";
+            endEl.style.borderRadius = "50%";
+            endEl.style.border = "3px solid white";
+            endEl.style.boxShadow = "0 2px 6px rgba(0,0,0,0.3)";
+
+            new maplibregl.default.Marker({ element: endEl })
+              .setLngLat([request.end.lng, request.end.lat])
+              .addTo(map);
+
+            bounds.extend([request.end.lng, request.end.lat]);
+            hasBounds = true;
+          }
+
+          // Fit to bounds
+          if (hasBounds && !bounds.isEmpty()) {
+            map.fitBounds(bounds, { padding: 60, maxZoom: 16 });
+          }
+        });
+      } catch (err) {
+        console.error("Map initialization error:", err);
+        if (isMounted) {
+          setMapError("Failed to load map");
+        }
+      }
+    }
+
+    initMap();
+
+    return () => {
+      isMounted = false;
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+    };
+  }, [safest?.geojson, shortest?.geojson, request?.start, request?.end]);
 
   return (
     <div className="bg-background-dark min-h-screen flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b border-border-dark bg-background-dark/80 backdrop-blur-md">
+      <header className="sticky top-0 z-50 w-full border-b border-[#0F7A82]/30
+                        bg-gradient-to-r from-[#0F2326]/95 to-[#1A363B]/90
+                        backdrop-blur-xl shadow-lg ring-1 ring-[#0F7A82]/20">
         <div className="px-6 md:px-10 py-4 flex items-center justify-between max-w-[1440px] mx-auto">
           <div className="flex items-center gap-4">
-            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 text-primary">
+            <div className="flex items-center justify-center w-10 h-10 rounded-lg
+                           bg-[#0F7A82]/20 text-[#37B8A6] border border-[#0F7A82]/40">
               <span className="material-symbols-outlined">insights</span>
             </div>
             <div>
@@ -24,299 +298,512 @@ export default function InsightsPage() {
                 Route Safety Insights
               </h1>
               <p className="text-xs text-text-muted font-medium">
-                Route ID: {insights.routeId}
+                Route ID: {routeId}
+                {!hasReal && (
+                  <span className="ml-2 text-[11px] text-secondary">
+                    (no route data — run a route first)
+                  </span>
+                )}
               </p>
             </div>
           </div>
-          <Link href="/app">
-            <Button
-              leftIcon={
-                <span className="material-symbols-outlined text-[20px]">map</span>
-              }
-            >
-              Back to Map
-            </Button>
-          </Link>
+
+          <div className="flex items-center gap-3">
+            {hasReal && (
+              <Button
+                variant={isSaved ? "ghost" : "primary"}
+                onClick={handleSaveRoute}
+                disabled={isSaved}
+                className={!isSaved ? `bg-gradient-to-r from-[#0F7A82] via-[#37B8A6] to-[#1AC6E6]
+                          text-black font-bold rounded-xl shadow-lg hover:shadow-xl
+                          transition-all duration-300` : ""}
+                leftIcon={
+                  <span className="material-symbols-outlined text-[20px]">
+                    {isSaved ? "bookmark" : "bookmark_border"}
+                  </span>
+                }
+              >
+                {isSaved ? "Saved" : "Save Route"}
+              </Button>
+            )}
+            <Link href="/app">
+              <Button
+                variant="ghost"
+                className="hover:bg-[#1A363B]/50 border border-transparent hover:border-[#0F7A82]/40
+                          rounded-xl transition-all duration-200"
+                leftIcon={
+                  <span className="material-symbols-outlined text-[20px]">
+                    map
+                  </span>
+                }
+              >
+                Back to Map
+              </Button>
+            </Link>
+          </div>
         </div>
+
+        {/* Save Notice */}
+        {saveNotice && (
+          <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-4 py-2
+                         rounded-xl bg-[#0F7A82]/20 border border-[#0F7A82]/40
+                         text-[#37B8A6] text-sm font-medium animate-pulse">
+            {saveNotice}
+          </div>
+        )}
       </header>
 
       {/* Main Content */}
       <main className="flex-1 w-full max-w-[1440px] mx-auto p-6 md:p-10 space-y-8">
-        {/* Bento Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Safety Score Card */}
-          <div className="lg:col-span-4 flex flex-col rounded-xl border border-border-dark bg-surface-dark/50 backdrop-blur-sm p-6 shadow-sm">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h3 className="text-text-muted text-xs font-bold uppercase tracking-wider">
-                  Safety Score
-                </h3>
-                <p className="text-3xl font-bold mt-1">
-                  {insights.safetyScore}
-                  <span className="text-lg text-text-muted font-medium">/100</span>
-                </p>
-              </div>
-              <div className="p-2 bg-emerald-500/10 rounded-lg">
-                <span className="material-symbols-outlined text-emerald-500">
-                  trending_up
-                </span>
-              </div>
-            </div>
-
-            {/* Radial Chart */}
-            <div className="relative flex items-center justify-center py-4 flex-1">
-              <svg className="w-48 h-48 transform -rotate-90">
-                <circle
-                  className="text-slate-700/50"
-                  cx="96"
-                  cy="96"
-                  r="80"
-                  fill="transparent"
-                  stroke="currentColor"
-                  strokeWidth="12"
-                />
-                <circle
-                  className="text-secondary"
-                  cx="96"
-                  cy="96"
-                  r="80"
-                  fill="transparent"
-                  stroke="currentColor"
-                  strokeWidth="12"
-                  strokeDasharray="502"
-                  strokeDashoffset="351"
-                />
-                <circle
-                  className="text-primary"
-                  cx="96"
-                  cy="96"
-                  r="80"
-                  fill="transparent"
-                  stroke="currentColor"
-                  strokeWidth="12"
-                  strokeDasharray="502"
-                  strokeDashoffset="150"
-                />
-              </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-sm font-medium text-text-muted">Composite</span>
-                <span className="text-2xl font-bold">Good</span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 mt-6">
-              <div className="flex flex-col gap-1 p-3 rounded-lg bg-background-dark/50 border border-border-dark">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-primary" />
-                  <span className="text-xs font-medium text-text-muted">Lighting</span>
-                </div>
-                <span className="text-lg font-bold pl-4">{insights.lightingPercentage}%</span>
-              </div>
-              <div className="flex flex-col gap-1 p-3 rounded-lg bg-background-dark/50 border border-border-dark">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-secondary" />
-                  <span className="text-xs font-medium text-text-muted">Infrastructure</span>
-                </div>
-                <span className="text-lg font-bold pl-4">{insights.infrastructurePercentage}%</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Dark Stretch Analysis */}
-          <div className="lg:col-span-5 flex flex-col rounded-xl border border-border-dark bg-surface-dark/50 backdrop-blur-sm p-6 shadow-sm">
-            <div className="flex items-center justify-between mb-2">
-              <div>
-                <h3 className="text-text-muted text-xs font-bold uppercase tracking-wider">
-                  Dark Stretch Analysis
-                </h3>
-                <p className="text-lg font-bold mt-1">Longest Unlit Segments</p>
-              </div>
-              <button className="text-primary hover:text-primary/80 transition-colors">
-                <span className="material-symbols-outlined">info</span>
-              </button>
-            </div>
-            <p className="text-sm text-text-muted mb-8">
-              Distance in meters without active street lighting.
+        {!hasReal ? (
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <span className="material-symbols-outlined text-6xl text-text-muted mb-4">
+              route
+            </span>
+            <h2 className="text-xl font-bold text-white mb-2">No Route Data</h2>
+            <p className="text-text-muted max-w-md">
+              Run a route comparison on the map page first to see real insights here.
             </p>
+            <Link href="/app" className="mt-6">
+              <Button>Go to Map</Button>
+            </Link>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Safety Score Card */}
+            <div className="lg:col-span-4 flex flex-col rounded-xl border border-[#0F7A82]/40
+                           bg-gradient-to-br from-[#1A363B]/80 to-[#0F2326]/60
+                           backdrop-blur-sm p-5 shadow-lg shadow-[#0F7A82]/5
+                           hover:border-[#0F7A82]/60 transition-all duration-200">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+                    Safety Score
+                  </h3>
+                  <p className="text-2xl font-bold mt-0.5 text-white">
+                    {safetyScore}
+                    <span className="text-base text-text-muted font-medium">
+                      /100
+                    </span>
+                  </p>
+                </div>
+                <div className="p-1.5 bg-emerald-500/10 rounded-lg">
+                  <span className="material-symbols-outlined text-emerald-500 text-[20px]">
+                    {safetyScore >= 70 ? "trending_up" : safetyScore >= 50 ? "trending_flat" : "trending_down"}
+                  </span>
+                </div>
+              </div>
 
-            <div className="flex flex-col gap-6 flex-1 justify-center">
-              {insights.darkStretchSegments.map((segment, idx) => (
-                <div key={idx} className="group">
-                  <div className="flex justify-between mb-2 text-sm">
-                    <span className="font-medium text-gray-300">{segment.name}</span>
-                    <span
-                      className={`font-bold ${
-                        segment.severity === "warning"
-                          ? "text-secondary"
-                          : "text-primary"
-                      }`}
-                    >
-                      {segment.distance_m}m
+              {/* Radial Chart */}
+              <div className="relative flex items-center justify-center py-2 flex-1">
+                <svg className="w-40 h-40 transform -rotate-90">
+                  <circle
+                    className="text-slate-700/40"
+                    cx="80"
+                    cy="80"
+                    r="65"
+                    fill="transparent"
+                    stroke="currentColor"
+                    strokeWidth="10"
+                  />
+                  <circle
+                    className={safetyScore >= 70 ? "text-emerald-500" : safetyScore >= 50 ? "text-amber-500" : "text-red-500"}
+                    cx="80"
+                    cy="80"
+                    r="65"
+                    fill="transparent"
+                    stroke="currentColor"
+                    strokeWidth="10"
+                    strokeLinecap="round"
+                    strokeDasharray={408}
+                    strokeDashoffset={408 - (safetyScore / 100) * 408}
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-[10px] font-medium text-text-muted uppercase tracking-wide">
+                    Rating
+                  </span>
+                  <span className={`text-xl font-bold ${safetyScore >= 70 ? "text-emerald-400" : safetyScore >= 50 ? "text-amber-400" : "text-red-400"}`}>
+                    {safetyScore >= 80
+                      ? "Good"
+                      : safetyScore >= 60
+                        ? "Fair"
+                        : "Risky"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Shortest comparison */}
+              <div className="mt-3 p-2.5 rounded-lg bg-background-dark/50 border border-border-dark">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-text-muted uppercase tracking-wide">Shortest Score</span>
+                  <span className="text-sm font-bold text-amber-400">{shortestSafetyScore}/100</span>
+                </div>
+                <div className="flex items-center justify-between mt-1.5">
+                  <span className="text-[10px] text-text-muted uppercase tracking-wide">Difference</span>
+                  <Badge variant={safetyDelta > 0 ? "success" : safetyDelta < 0 ? "danger" : "info"} className="text-[10px]">
+                    {safetyDelta > 0 ? "+" : ""}{safetyDelta} pts
+                  </Badge>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 mt-4">
+                <div className="flex flex-col gap-0.5 p-2.5 rounded-lg bg-background-dark/50 border border-border-dark">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    <span className="text-[10px] font-medium text-text-muted uppercase tracking-wide">
+                      Lighting
                     </span>
                   </div>
-                  <div className="w-full bg-slate-700/30 rounded-full h-3 overflow-hidden">
-                    <div
-                      className={`h-3 rounded-full transition-all duration-500 ${
-                        segment.severity === "warning"
-                          ? "bg-gradient-to-r from-secondary/80 to-secondary"
-                          : "bg-gradient-to-r from-primary/80 to-primary"
-                      }`}
-                      style={{ width: `${Math.min((segment.distance_m / 500) * 100, 100)}%` }}
-                    />
+                  <span className="text-base font-bold pl-3 text-white">
+                    {lightingPercentage}%
+                  </span>
+                </div>
+                <div className="flex flex-col gap-0.5 p-2.5 rounded-lg bg-background-dark/50 border border-border-dark">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
+                    <span className="text-[10px] font-medium text-text-muted uppercase tracking-wide">
+                      Infra
+                    </span>
+                  </div>
+                  <span className="text-base font-bold pl-3 text-white">
+                    {infrastructurePercentage}%
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Route Comparison */}
+            <div className="lg:col-span-5 flex flex-col rounded-xl border border-[#0F7A82]/40
+                           bg-gradient-to-br from-[#1A363B]/80 to-[#0F2326]/60
+                           backdrop-blur-sm p-5 shadow-lg shadow-[#0F7A82]/5
+                           hover:border-[#0F7A82]/60 transition-all duration-200">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+                    Route Comparison
+                  </h3>
+                  <p className="text-base font-bold mt-0.5 text-white">Safest vs Shortest</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                    <span className="text-[10px] text-text-muted">Safe</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-amber-500" />
+                    <span className="text-[10px] text-text-muted">Short</span>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Metrics Cards */}
-          <div className="lg:col-span-3 flex flex-col gap-4">
-            {/* Lighting Quality */}
-            <div className="flex-1 rounded-xl border border-border-dark bg-surface-dark/50 backdrop-blur-sm p-5 shadow-sm flex flex-col justify-center">
-              <div className="flex justify-between items-start mb-2">
-                <div className="p-2 rounded-md bg-blue-500/10 text-blue-400 mb-2 w-fit">
-                  <span className="material-symbols-outlined text-[20px]">light_mode</span>
-                </div>
-                <Badge
-                  variant={insights.metrics.lightingDelta > 0 ? "success" : "danger"}
-                  className="text-xs"
-                >
-                  {insights.metrics.lightingDelta > 0 ? "+" : ""}
-                  {insights.metrics.lightingDelta}%
-                </Badge>
               </div>
-              <p className="text-text-muted text-xs font-medium uppercase tracking-wide">
-                Lighting Quality
-              </p>
-              <p className="text-xl font-bold text-white mt-1">
-                {insights.metrics.lightingQuality === "above" ? "Above" : "Below"} Avg
-              </p>
-              <p className="text-xs text-text-muted mt-1">vs. City Average</p>
-            </div>
 
-            {/* Crowd Density */}
-            <div className="flex-1 rounded-xl border border-border-dark bg-surface-dark/50 backdrop-blur-sm p-5 shadow-sm flex flex-col justify-center">
-              <div className="flex justify-between items-start mb-2">
-                <div className="p-2 rounded-md bg-purple-500/10 text-purple-400 mb-2 w-fit">
-                  <span className="material-symbols-outlined text-[20px]">groups</span>
+              {/* Comparison rows */}
+              <div className="flex flex-col gap-3 flex-1">
+                {/* Distance */}
+                <div className="grid grid-cols-3 gap-2 p-2.5 rounded-lg bg-background-dark/50 border border-border-dark">
+                  <div className="text-center">
+                    <p className="text-[10px] text-text-muted mb-0.5 uppercase tracking-wide">Safest</p>
+                    <p className="text-sm font-bold text-emerald-400">{formatDistance(safestDistance)}</p>
+                  </div>
+                  <div className="text-center flex flex-col items-center justify-center border-x border-border-dark/50">
+                    <span className="text-[10px] text-text-muted uppercase tracking-wide">Distance</span>
+                    <Badge variant={distanceDelta > 0 ? "warning" : "success"} className="mt-1 text-[10px]">
+                      {distanceDelta > 0 ? "+" : ""}{formatDistance(Math.abs(distanceDelta))}
+                    </Badge>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-[10px] text-text-muted mb-0.5 uppercase tracking-wide">Shortest</p>
+                    <p className="text-sm font-bold text-amber-400">{formatDistance(shortestDistance)}</p>
+                  </div>
                 </div>
-                <Badge
-                  variant={insights.metrics.crowdDelta < 0 ? "danger" : "success"}
-                  className="text-xs"
-                >
-                  {insights.metrics.crowdDelta}%
-                </Badge>
+
+                {/* ETA */}
+                <div className="grid grid-cols-3 gap-2 p-2.5 rounded-lg bg-background-dark/50 border border-border-dark">
+                  <div className="text-center">
+                    <p className="text-[10px] text-text-muted mb-0.5 uppercase tracking-wide">Safest</p>
+                    <p className="text-sm font-bold text-emerald-400">{safestEta} min</p>
+                  </div>
+                  <div className="text-center flex flex-col items-center justify-center border-x border-border-dark/50">
+                    <span className="text-[10px] text-text-muted uppercase tracking-wide">ETA</span>
+                    <Badge variant={etaDelta > 0 ? "warning" : "success"} className="mt-1 text-[10px]">
+                      {etaDelta > 0 ? "+" : ""}{etaDelta} min
+                    </Badge>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-[10px] text-text-muted mb-0.5 uppercase tracking-wide">Shortest</p>
+                    <p className="text-sm font-bold text-amber-400">{shortestEta} min</p>
+                  </div>
+                </div>
+
+                {/* Coverage */}
+                <div className="grid grid-cols-3 gap-2 p-2.5 rounded-lg bg-background-dark/50 border border-border-dark">
+                  <div className="text-center">
+                    <p className="text-[10px] text-text-muted mb-0.5 uppercase tracking-wide">Safest</p>
+                    <Badge variant={getCoverageVariant(safestCoverage)} className="text-[10px]">
+                      {formatCoverage(safestCoverage)}
+                    </Badge>
+                  </div>
+                  <div className="text-center flex flex-col items-center justify-center border-x border-border-dark/50">
+                    <span className="text-[10px] text-text-muted uppercase tracking-wide">Coverage</span>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-[10px] text-text-muted mb-0.5 uppercase tracking-wide">Shortest</p>
+                    <Badge variant={getCoverageVariant(shortestCoverage)} className="text-[10px]">
+                      {formatCoverage(shortestCoverage)}
+                    </Badge>
+                  </div>
+                </div>
+
+                {/* Reasons */}
+                <div className="p-3 rounded-lg bg-background-dark/50 border border-border-dark">
+                  <p className="text-[10px] text-text-muted mb-2 uppercase tracking-wide font-medium">Reasons (Safest)</p>
+                  {safestReasons.length > 0 ? (
+                    <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
+                      {safestReasons.map((r, i) => (
+                        <span
+                          key={i}
+                          className="text-[10px] px-2 py-1 rounded-md bg-emerald-500/15 text-emerald-400 border border-emerald-500/20"
+                          title={r}
+                        >
+                          {r.length > 30 ? r.slice(0, 30) + "…" : r}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-text-muted/60 italic">No reasons provided</p>
+                  )}
+                </div>
+
+                <div className="p-3 rounded-lg bg-background-dark/50 border border-border-dark">
+                  <p className="text-[10px] text-text-muted mb-2 uppercase tracking-wide font-medium">Reasons (Shortest)</p>
+                  {shortestReasons.length > 0 ? (
+                    <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
+                      {shortestReasons.map((r, i) => (
+                        <span
+                          key={i}
+                          className="text-[10px] px-2 py-1 rounded-md bg-amber-500/15 text-amber-400 border border-amber-500/20"
+                          title={r}
+                        >
+                          {r.length > 30 ? r.slice(0, 30) + "…" : r}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-text-muted/60 italic">No reasons provided</p>
+                  )}
+                </div>
               </div>
-              <p className="text-text-muted text-xs font-medium uppercase tracking-wide">
-                Crowd Density
-              </p>
-              <p className="text-xl font-bold text-white mt-1">
-                {insights.metrics.crowdDensity === "below" ? "Below" : "Above"} Avg
-              </p>
-              <p className="text-xs text-text-muted mt-1">vs. Peak Hours</p>
             </div>
 
-            {/* Patrol Proximity */}
-            <div className="flex-1 rounded-xl border border-border-dark bg-surface-dark/50 backdrop-blur-sm p-5 shadow-sm flex flex-col justify-center">
-              <div className="flex justify-between items-start mb-2">
-                <div className="p-2 rounded-md bg-orange-500/10 text-orange-400 mb-2 w-fit">
-                  <span className="material-symbols-outlined text-[20px]">local_police</span>
+            {/* Metrics Cards (using real data) */}
+            <div className="lg:col-span-3 flex flex-col gap-3">
+              {/* Distance Card */}
+              <div className="flex-1 rounded-xl border border-[#0F7A82]/40
+                             bg-gradient-to-br from-[#1A363B]/80 to-[#0F2326]/60
+                             backdrop-blur-sm p-4 shadow-lg shadow-[#0F7A82]/5
+                             hover:border-[#0F7A82]/60 transition-all duration-200
+                             flex flex-col justify-center min-h-[120px]">
+                <div className="flex justify-between items-start mb-3">
+                  <div className="p-1.5 rounded-md bg-blue-500/10 text-blue-400">
+                    <span className="material-symbols-outlined text-[18px]">
+                      straighten
+                    </span>
+                  </div>
+                  <Badge
+                    variant={distanceDelta > 0 ? "warning" : "success"}
+                    className="text-[10px]"
+                  >
+                    {distanceDelta > 0 ? "+" : ""}{formatDistance(Math.abs(distanceDelta))}
+                  </Badge>
                 </div>
-                <Badge variant="info" className="text-xs">
-                  {insights.metrics.patrolProximity === "high" ? "High" : "Low"}
-                </Badge>
+                <p className="text-text-muted text-[10px] font-medium uppercase tracking-wide">
+                  Route Distance
+                </p>
+                <p className="text-lg font-bold text-white mt-0.5">
+                  {formatDistance(safestDistance)}
+                </p>
+                <p className="text-[10px] text-text-muted/60 mt-0.5">Safest route</p>
               </div>
-              <p className="text-text-muted text-xs font-medium uppercase tracking-wide">
-                Proximity
-              </p>
-              <p className="text-xl font-bold text-white mt-1">Patrolled Zone</p>
-              <p className="text-xs text-text-muted mt-1">
-                Station within {insights.metrics.patrolDistance}
-              </p>
-            </div>
-          </div>
 
-          {/* Route Visualization Map */}
-          <div className="lg:col-span-12 rounded-xl border border-border-dark bg-surface-dark/50 backdrop-blur-sm p-1 shadow-sm overflow-hidden flex flex-col relative h-[400px]">
-            {/* Map Header */}
-            <div className="absolute top-4 left-4 z-10 bg-background-dark/90 backdrop-blur p-4 rounded-lg border border-border-dark shadow-lg max-w-sm">
-              <h3 className="text-sm font-bold text-white mb-2">Route Visualization</h3>
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-primary shadow-[0_0_8px_rgba(19,200,236,0.6)]" />
-                  <span className="text-xs text-gray-300">High-Visibility Hubs</span>
+              {/* ETA Card */}
+              <div className="flex-1 rounded-xl border border-[#0F7A82]/40
+                             bg-gradient-to-br from-[#1A363B]/80 to-[#0F2326]/60
+                             backdrop-blur-sm p-4 shadow-lg shadow-[#0F7A82]/5
+                             hover:border-[#0F7A82]/60 transition-all duration-200
+                             flex flex-col justify-center min-h-[120px]">
+                <div className="flex justify-between items-start mb-3">
+                  <div className="p-1.5 rounded-md bg-purple-500/10 text-purple-400">
+                    <span className="material-symbols-outlined text-[18px]">
+                      schedule
+                    </span>
+                  </div>
+                  <Badge
+                    variant={etaDelta > 0 ? "warning" : "success"}
+                    className="text-[10px]"
+                  >
+                    {etaDelta > 0 ? "+" : ""}{etaDelta} min
+                  </Badge>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-1 bg-secondary rounded-full" />
-                  <span className="text-xs text-gray-300">Coverage Gaps (Warning)</span>
+                <p className="text-text-muted text-[10px] font-medium uppercase tracking-wide">
+                  Estimated Time
+                </p>
+                <p className="text-lg font-bold text-white mt-0.5">
+                  {safestEta} min
+                </p>
+                <p className="text-[10px] text-text-muted/60 mt-0.5">Safest route</p>
+              </div>
+
+              {/* Coverage Card */}
+              <div className="flex-1 rounded-xl border border-[#0F7A82]/40
+                             bg-gradient-to-br from-[#1A363B]/80 to-[#0F2326]/60
+                             backdrop-blur-sm p-4 shadow-lg shadow-[#0F7A82]/5
+                             hover:border-[#0F7A82]/60 transition-all duration-200
+                             flex flex-col justify-center min-h-[120px]">
+                <div className="flex justify-between items-start mb-3">
+                  <div className="p-1.5 rounded-md bg-emerald-500/10 text-emerald-400">
+                    <span className="material-symbols-outlined text-[18px]">
+                      shield
+                    </span>
+                  </div>
+                  <Badge
+                    variant={getCoverageVariant(safestCoverage)}
+                    className="text-[10px]"
+                  >
+                    {formatCoverage(safestCoverage)}
+                  </Badge>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-1 bg-slate-400 rounded-full border border-dashed border-slate-600" />
-                  <span className="text-xs text-gray-300">Standard Coverage</span>
-                </div>
+                <p className="text-text-muted text-[10px] font-medium uppercase tracking-wide">
+                  Coverage
+                </p>
+                <p className="text-lg font-bold text-white mt-0.5 truncate" title={safestCoverage}>
+                  {formatCoverage(safestCoverage)}
+                </p>
+                <p className="text-[10px] text-text-muted/60 mt-0.5">Safest route</p>
               </div>
             </div>
 
-            {/* Map Controls */}
-            <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
-              <button className="w-10 h-10 bg-surface-dark border border-border-dark rounded-lg flex items-center justify-center text-text-muted hover:text-primary hover:border-primary transition-colors shadow-lg">
-                <span className="material-symbols-outlined">layers</span>
-              </button>
-              <button className="w-10 h-10 bg-surface-dark border border-border-dark rounded-lg flex items-center justify-center text-text-muted hover:text-primary hover:border-primary transition-colors shadow-lg">
-                <span className="material-symbols-outlined">my_location</span>
-              </button>
-            </div>
+            {/* Route Visualization Map */}
+            <div className="lg:col-span-12 rounded-xl border border-[#0F7A82]/40
+                           bg-gradient-to-br from-[#1A363B]/50 to-[#0F2326]/50
+                           backdrop-blur-sm overflow-hidden flex flex-col relative h-[400px]
+                           shadow-lg shadow-[#0F7A82]/5">
+              <div className="absolute top-3 left-3 z-10 bg-[#0F2326]/95 backdrop-blur-sm
+                             px-3 py-2.5 rounded-lg border border-[#0F7A82]/40 shadow-xl">
+                <h3 className="text-xs font-semibold text-white mb-2 uppercase tracking-wide">
+                  Legend
+                </h3>
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-[3px] rounded-full bg-emerald-500" />
+                    <span className="text-[11px] text-slate-300">Safest</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-[3px] rounded-full bg-amber-500" />
+                    <span className="text-[11px] text-slate-300">Shortest</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 border border-white" />
+                    <span className="text-[11px] text-slate-300">Start</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-500 border border-white" />
+                    <span className="text-[11px] text-slate-300">End</span>
+                  </div>
+                </div>
+              </div>
 
-            {/* Map Background */}
-            <div className="w-full h-full relative bg-background-dark rounded-lg overflow-hidden">
-              <div className="absolute inset-0 bg-map-pattern opacity-60" />
-              <svg
-                className="absolute inset-0 w-full h-full pointer-events-none"
-                xmlns="http://www.w3.org/2000/svg"
+              <div
+                ref={mapContainerRef}
+                className="w-full h-full relative rounded-lg overflow-hidden"
               >
-                <defs>
-                  <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style={{ stopColor: "#13c8ec", stopOpacity: 1 }} />
-                    <stop offset="50%" style={{ stopColor: "#13c8ec", stopOpacity: 1 }} />
-                    <stop offset="100%" style={{ stopColor: "#fbbf24", stopOpacity: 1 }} />
-                  </linearGradient>
-                  <filter id="glowInsights">
-                    <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
-                    <feMerge>
-                      <feMergeNode in="coloredBlur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                </defs>
-                <path
-                  d="M 100 350 Q 250 300 400 320 T 700 200 T 1000 250 T 1300 150"
-                  fill="none"
-                  stroke="url(#routeGradient)"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  filter="url(#glowInsights)"
-                />
-                <circle cx="100" cy="350" r="6" fill="#13c8ec" filter="url(#glowInsights)" />
-                <circle cx="400" cy="320" r="6" fill="#13c8ec" filter="url(#glowInsights)" />
-                <circle cx="700" cy="200" r="6" fill="#13c8ec" filter="url(#glowInsights)" />
-                <rect
-                  x="950"
-                  y="230"
-                  width="100"
-                  height="40"
-                  rx="20"
-                  fill="none"
-                  stroke="#fbbf24"
-                  strokeWidth="1"
-                  strokeDasharray="4 4"
-                  opacity="0.8"
-                />
-                <circle cx="1000" cy="250" r="4" fill="#fbbf24" />
-              </svg>
+                {mapError && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-slate-900 text-text-muted text-sm">
+                    {mapError}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Debug Section */}
+            <div className="lg:col-span-12 rounded-xl border border-[#0F7A82]/30 bg-[#1A363B]/30 p-3">
+              <button
+                onClick={() => setShowDebug(!showDebug)}
+                className="flex items-center gap-2 text-xs text-text-muted/70
+                          hover:text-text-muted transition-all duration-200"
+              >
+                <span className="material-symbols-outlined text-[14px]">
+                  {showDebug ? "expand_less" : "expand_more"}
+                </span>
+                Debug: Raw Backend Response
+              </button>
+              {showDebug && (
+                <pre className="mt-3 p-3 bg-[#0F2326]/80 rounded-lg border border-[#0F7A82]/30
+                               overflow-auto text-[10px] text-text-muted/60 max-h-[300px] font-mono">
+                  {JSON.stringify(routeData, null, 2)}
+                </pre>
+              )}
             </div>
           </div>
-        </div>
+        )}
       </main>
     </div>
   );
+}
+
+// Helper to check if geojson is valid enough to render
+function isValidGeoJson(geojson: unknown): boolean {
+  if (!geojson || typeof geojson !== "object") return false;
+  const g = geojson as Record<string, unknown>;
+  // Accept FeatureCollection, Feature, or geometry types
+  const validTypes = [
+    "FeatureCollection",
+    "Feature",
+    "LineString",
+    "MultiLineString",
+    "Point",
+    "MultiPoint",
+    "Polygon",
+    "MultiPolygon",
+    "GeometryCollection",
+  ];
+  return typeof g.type === "string" && validTypes.includes(g.type);
+}
+
+// Extend bounds from geojson coordinates
+function extendBoundsFromGeoJson(
+  bounds: maplibregl.LngLatBounds,
+  geojson: unknown
+): void {
+  try {
+    const g = geojson as Record<string, unknown>;
+
+    if (g.type === "FeatureCollection" && Array.isArray(g.features)) {
+      for (const feature of g.features) {
+        extendBoundsFromGeoJson(bounds, feature);
+      }
+    } else if (g.type === "Feature" && g.geometry) {
+      extendBoundsFromGeoJson(bounds, g.geometry);
+    } else if (g.type === "LineString" && Array.isArray(g.coordinates)) {
+      for (const coord of g.coordinates as [number, number][]) {
+        if (Array.isArray(coord) && coord.length >= 2) {
+          bounds.extend([coord[0], coord[1]]);
+        }
+      }
+    } else if (g.type === "MultiLineString" && Array.isArray(g.coordinates)) {
+      for (const line of g.coordinates as [number, number][][]) {
+        for (const coord of line) {
+          if (Array.isArray(coord) && coord.length >= 2) {
+            bounds.extend([coord[0], coord[1]]);
+          }
+        }
+      }
+    } else if (g.type === "Point" && Array.isArray(g.coordinates)) {
+      const coord = g.coordinates as [number, number];
+      if (coord.length >= 2) {
+        bounds.extend([coord[0], coord[1]]);
+      }
+    }
+  } catch (e) {
+    console.warn("Error extending bounds from geojson:", e);
+  }
 }
