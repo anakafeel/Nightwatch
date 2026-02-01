@@ -22,10 +22,11 @@ interface MapCanvasProps {
   zoom?: number;
   className?: string;
 
-  /** which route should be highlighted / shown */
+  /** HIGHLIGHTING THE ROUTE */
   selectedRoute?: SelectedRoute;
 
   /**
+   * AI GENERATED , WAS HAVING AUTO ZOOM ISSUES
    * Keep false so dropdown changes don't zoom.
    * Set true if you want the map to fit to the route after calculation.
    */
@@ -33,8 +34,7 @@ interface MapCanvasProps {
 }
 
 /**
- * ✅ CORS-friendly raster tiles (no token) — DARK
- * Much better contrast for your night UI.
+ * DARK UI
  */
 const CARTO_RASTER_STYLE_DARK: StyleSpecification = {
   version: 8,

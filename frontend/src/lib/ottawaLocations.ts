@@ -4,6 +4,7 @@ export type DemoLocation = {
   lat: number;
   lng: number;
 };
+/* USING OTTAWA LOCATIONS FOR NOW  */
 
 export const CARLETON: DemoLocation = {
   id: "carleton",

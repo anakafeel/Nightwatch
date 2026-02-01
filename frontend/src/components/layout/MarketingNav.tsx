@@ -11,13 +11,16 @@ const navLinks = [
   { href: "/app", label: "App" },
 ];
 
+/* ATTEMPT TO MAKE IT RESPONSIVE */
 function MarketingNav() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-gradient-to-r from-[#0F2326]/95 to-[#1A363B]/90
+    <nav
+      className="fixed top-0 w-full z-50 bg-gradient-to-r from-[#0F2326]/95 to-[#1A363B]/90
                     backdrop-blur-xl border-b border-[#0F7A82]/30
-                    shadow-lg ring-1 ring-[#0F7A82]/20 transition-all duration-300">
+                    shadow-lg ring-1 ring-[#0F7A82]/20 transition-all duration-300"
+    >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <BrandLogo variant="lockup" size={32} href="/" />
 
@@ -64,7 +67,7 @@ function MarketingNav() {
       <div
         className={cn(
           "md:hidden overflow-hidden transition-all duration-300",
-          isMobileMenuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
+          isMobileMenuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0",
         )}
       >
         <div className="px-6 pb-6 space-y-2 bg-[#0F2326]/95 backdrop-blur-lg border-t border-[#0F7A82]/20">
@@ -80,8 +83,10 @@ function MarketingNav() {
             </a>
           ))}
           <Link href="/app" className="block pt-2">
-            <Button className="w-full bg-gradient-to-r from-[#0F7A82] via-[#37B8A6] to-[#1AC6E6]
-                              text-black font-bold rounded-xl">
+            <Button
+              className="w-full bg-gradient-to-r from-[#0F7A82] via-[#37B8A6] to-[#1AC6E6]
+                              text-black font-bold rounded-xl"
+            >
               Get Started
             </Button>
           </Link>

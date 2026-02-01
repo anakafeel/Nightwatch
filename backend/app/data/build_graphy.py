@@ -6,6 +6,8 @@ import numpy as np
 from scipy.spatial import KDTree
 import networkx as nx
 
+# AI GENERATED CODE TO BUILD GRAPH FROM STREET LIGHT DATA
+
 data_file = pd.read_csv('ottawa_street_lights.csv')
 
 Light_ID = data_file['id']

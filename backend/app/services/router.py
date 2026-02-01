@@ -17,7 +17,7 @@ from app.services import routing_engine
 from app.services.light_store import count_lights_near_points, safety_score_from_lights
 
 
-# --- Mock payloads (keep these here so routes.py stays clean) ---
+# --- Mock payloads (AI GENERATED)---
 MOCK_SAFEST_GEOJSON = {
     "type": "FeatureCollection",
     "features": [
@@ -59,7 +59,7 @@ MOCK_SHORTEST_GEOJSON = {
 
 
 def _coords_from_fc(fc: dict) -> list[list[float]]:
-    """Extract LineString coords [[lng,lat], ...] from a FeatureCollection."""
+    """Extracting LineString coords [[lng,lat], ...] from a FeatureCollection. (AI GENERATED)"""
     try:
         features = fc.get("features") or []
         if not features:
@@ -73,7 +73,7 @@ def _coords_from_fc(fc: dict) -> list[list[float]]:
         return []
 
 
-# Keep this realistic + stable (not demo-specific)
+# realistic value for demo 
 WALK_SPEED_MPS = 1.4
 
 
@@ -86,19 +86,17 @@ def _eta_min_from_distance_m(distance_m: float) -> int:
 
 
 # -----------------------------
-# Option B UX: score from density
+# UX: score from density
 # -----------------------------
 def _clamp(x: float, lo: float, hi: float) -> float:
     return max(lo, min(hi, x))
 
 
-# ✅ IMPORTANT:
-# Your real returned densities are ~9..19 lights/100m (from your latest JSON),
-# so using 4.0 makes everything clamp to 100.
-# Pick a "100 score" density that matches your data scale.
+
+# Picking a "100 score" density that matches your data scale.
 TARGET_LIGHT_DENSITY_PER_100M = 20.0
 
-
+#(AI GENERATED)
 def _score_from_light_density(light_density: float | None) -> int:
     """
     Map lights/100m -> 0..100 score.
@@ -126,7 +124,7 @@ def _nodes_to_featurecollection(G: Any, path: List[Any], route_type: str) -> dic
     Supports node coordinate conventions:
     - OSMnx: node['x']=lng, node['y']=lat
     - Generic: node['lng'], node['lat']
-    - Person B: node['pos'] = (lat, lon)
+    - Person B: node['pos'] = (lat, lon) ( ARSH )
     """
     coords: List[List[float]] = []
 
@@ -150,7 +148,7 @@ def _nodes_to_featurecollection(G: Any, path: List[Any], route_type: str) -> dic
         if lat is None or lng is None:
             continue
 
-        # GeoJSON wants [lng, lat]
+        # GeoJSON wants [lng, lat] ( longitude , latitude)
         coords.append([float(lng), float(lat)])
 
     return {
@@ -164,7 +162,7 @@ def _nodes_to_featurecollection(G: Any, path: List[Any], route_type: str) -> dic
         ],
     }
 
-
+#( MOCK DATA)
 def _mock_result() -> RouteResult:
     safest_score_default = 98
     shortest_score_default = 45
@@ -261,7 +259,7 @@ def compare_routes(req: RouteRequest) -> RouteResult:
         comparison: Dict[str, Any] = engine_out.get("comparison", {})
 
         # graph lives inside routing_engine module (global router)
-        G = routing_engine._router.graph  # type: ignore[attr-defined]
+        G = routing_engine._router.graph  
 
         shortest_path = shortest.get("path") or []
         safest_path = safest.get("path") or []
@@ -269,7 +267,7 @@ def compare_routes(req: RouteRequest) -> RouteResult:
         shortest_fc = _nodes_to_featurecollection(G, shortest_path, "shortest")
         safest_fc = _nodes_to_featurecollection(G, safest_path, "safest")
 
-        # If geometry empty, don't break UI
+        # If geometry is empty, we don't break UI
         if not _coords_from_fc(shortest_fc) or not _coords_from_fc(safest_fc):
             return _mock_result()
 
@@ -287,7 +285,7 @@ def compare_routes(req: RouteRequest) -> RouteResult:
         safety_gain = comparison.get("safety_improvement")
         same_route = comparison.get("same_route")
 
-        # Keep model avg score as a debug-only line (optional)
+        # Keepi ng model avg score ( FOR DEBUGGING PURPOSES )
         shortest_avg = shortest.get("avg_safety_score", None)
         safest_avg = safest.get("avg_safety_score", None)
 

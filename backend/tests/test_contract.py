@@ -13,7 +13,7 @@ SAMPLE_PAYLOAD_PATH = (
 )
 
 
-
+#(AI GENERATED TESTS)
 def test_health():
     response = client.get("/v1/health")
     assert response.status_code == 200

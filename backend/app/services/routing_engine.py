@@ -13,7 +13,7 @@ MIN_DENSITY_LENGTH_M = 100.0
 
 
 # ============================================================================
-# HELPERS: distance + nearest node
+# CALCULATING DISTANCE PLUS NEAREST NODES
 # ============================================================================
 
 def _haversine_m(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
@@ -57,7 +57,7 @@ def _nearest_node(G: nx.Graph, point: Tuple[float, float]) -> Optional[Any]:
         if nlng is None:
             nlng = data.get("x", data.get("lng"))
 
-        # 3) Sometimes lon is stored as 'lon'
+        # 3) Sometimes lon is stored as 'lon' ( FAILSAFE)
         if nlng is None:
             nlng = data.get("lon")
 
@@ -76,7 +76,7 @@ def _get_edge_attrs(G: nx.Graph, u: Any, v: Any) -> Dict[str, Any]:
     edge_data = G.get_edge_data(u, v)
     if edge_data is None:
         return {}
-
+    #(AI GENERATED)
     # MultiGraph/MultiDiGraph: pick the shortest edge by length
     if isinstance(edge_data, dict) and edge_data and all(isinstance(val, dict) for val in edge_data.values()):
         best = None
@@ -219,7 +219,7 @@ class RoutingEngine:
 class SafeRouter:
     """
     High-level router that combines safety scoring with pathfinding.
-    router.py will call this.
+    *ROUTER.PY WILL CALL THIS CLASS*
     """
 
     def __init__(self, graph: nx.Graph, alpha: float = 1.0):
@@ -278,7 +278,7 @@ class SafeRouter:
 
 
 # ============================================================================
-# API ADAPTER FUNCTIONS (what router.py will call)
+# API ADAPTER FUNCTIONS (ROUTER.PY CALLS THESE)
 # ============================================================================
 
 _router: Optional[SafeRouter] = None
@@ -299,6 +299,7 @@ def init_router(graph: Optional[nx.Graph] = None, alpha: float = 1.0) -> None:
     print(f"Routing engine initialized with {graph.number_of_nodes()} nodes, alpha={alpha}")
 
 
+#(PARTLY AI GENERATED)
 def compare_routes(
     start: Tuple[float, float],
     end: Tuple[float, float],
@@ -329,8 +330,7 @@ def compare_routes(
     weights = weights or {}
     lights_w = float(weights.get("lights", 1.0))
 
-    # If you want lights weight to affect scoring, re-init with alpha
-    # (Hackathon-safe and simple.)
+
     if _router is None or getattr(_router.scorer, "alpha", 1.0) != lights_w:
         # reuse same graph; just re-score edges with new alpha
         init_router(graph=_router.graph if _router else None, alpha=lights_w)
@@ -338,7 +338,7 @@ def compare_routes(
     if _router is None:
         return None
 
-    # Snap lat/lng -> nearest node in graph
+    # lat/lng to -> nearest node in graph
     start_node = _nearest_node(_router.graph, start)
     end_node = _nearest_node(_router.graph, end)
 

@@ -18,10 +18,10 @@ function AppNav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Put avatar at: frontend/public/images/avatar.png
+  //Avatar URL
   const avatarUrl = "/images/avatar.png";
 
-  // Optional: fallback if the image fails to load
+  // IF AVATAR FAILS TO LOAD, SHOW INITIALS
   const [avatarOk, setAvatarOk] = useState(true);
 
   useEffect(() => {

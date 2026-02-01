@@ -23,12 +23,14 @@ function RouteCard({
     <div
       className={cn(
         "w-[340px] glass-panel border border-border-dark rounded-xl shadow-2xl overflow-hidden animate-fade-in",
-        className
+        className,
       )}
     >
       {/* Header */}
       <div className="p-4 border-b border-border-dark/50 flex justify-between items-center bg-white/5">
-        <h4 className="text-white font-semibold text-sm">Route Recommendation</h4>
+        <h4 className="text-white font-semibold text-sm">
+          Route Recommendation
+        </h4>
         <span className="text-text-muted text-xs">Updated 1m ago</span>
       </div>
 
@@ -39,7 +41,7 @@ function RouteCard({
           "w-full p-4 text-left relative cursor-pointer transition-colors border-l-4",
           selectedRoute === "safest"
             ? "bg-primary/10 border-primary"
-            : "border-transparent hover:bg-white/5"
+            : "border-transparent hover:bg-white/5",
         )}
       >
         {selectedRoute === "safest" && (
@@ -51,7 +53,10 @@ function RouteCard({
         )}
         <div className="flex items-center gap-2 mb-1">
           <span className="text-primary font-bold text-lg">Safest</span>
-          <Badge variant="default" className="bg-primary text-background-dark text-[10px]">
+          <Badge
+            variant="default"
+            className="bg-primary text-background-dark text-[10px]"
+          >
             RECOMMENDED
           </Badge>
         </div>
@@ -97,7 +102,7 @@ function RouteCard({
           "w-full p-4 text-left transition-colors border-l-4",
           selectedRoute === "shortest"
             ? "bg-white/5 border-gray-500"
-            : "border-transparent opacity-70 hover:opacity-100 hover:bg-white/5"
+            : "border-transparent opacity-70 hover:opacity-100 hover:bg-white/5",
         )}
       >
         <div className="flex items-center gap-2 mb-1">

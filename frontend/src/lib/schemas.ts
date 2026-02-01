@@ -33,7 +33,7 @@ export const routeDataSchema = z.object({
   eta_min: z.coerce.number().min(0),
   safety_score: z.coerce.number().min(0).max(100),
 
-  // ✅ FIX: backend returns values like "graph+routing_engine" / "mock+lights"
+  // FIX: backend returns values like "graph+routing_engine" / "mock+lights"
   // so this cannot be enum(["high","medium","low"])
   coverage: z.string().optional(),
 

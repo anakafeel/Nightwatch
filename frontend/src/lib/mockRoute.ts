@@ -35,6 +35,7 @@ const mockSafestGeoJSON: GeoJSON.FeatureCollection = {
 };
 
 /**
+ * AI GENERATED MOCK DATA
  * Mock GeoJSON for shortest route
  */
 const mockShortestGeoJSON: GeoJSON.FeatureCollection = {
@@ -138,7 +139,11 @@ export const mockRouteInsights: RouteInsights = {
   lightingPercentage: 70,
   infrastructurePercentage: 30,
   darkStretchSegments: [
-    { name: "Segment A - Industrial Zone", distance_m: 400, severity: "warning" },
+    {
+      name: "Segment A - Industrial Zone",
+      distance_m: 400,
+      severity: "warning",
+    },
     { name: "Segment B - Park Ave", distance_m: 150, severity: "caution" },
     { name: "Segment C - Underpass", distance_m: 80, severity: "safe" },
   ],

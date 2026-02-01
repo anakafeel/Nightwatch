@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { BrandLogo } from "./BrandLogo";
 
+
 function Footer() {
   return (
     <footer className="w-full bg-gradient-to-b from-[#0F2326] to-[#050A14]

@@ -1,3 +1,4 @@
+
 from .geo import create_mock_graph, print_graph_stats
 
 
@@ -15,10 +16,10 @@ class SafetyModel:
     
     def __init__(self, alpha=1.0, beta=2.0):
         """
-        initialize safety scorer with configurable weights.
+        initializi ng safety scorer with configurable weights.
         
         args:
-            alpha: weight for streetlights contribution to safety
+            alpha: weight for streetlights which contribute  to safety
             beta: safe density calculated using minimum lights per 100m (default: 2.0)
         """
         self.alpha = alpha
@@ -30,7 +31,8 @@ class SafetyModel:
     
     def calculate_edge_safety(self, lights, length):
         """
-        Calculate safety score for a single road segment.
+        (AI GENERATED DOCSTRING)
+        Calculating safety score for a single road segment.
         
         formula used:
             safety_score = α * (lights / length) * 100
@@ -64,17 +66,17 @@ class SafetyModel:
         if length <= 0:
             return 0.0
         
-        # calculate streetlight density per minimum density length
+        # calculating streetlight density per minimum density length
         light_density = (lights / length) * min_density_length
         
-        # apply weight
+        # applying weight
         safety_score = self.alpha * light_density
         
         return safety_score
     
     def calculate_edge_cost(self, lights, length):
         """
-        calculate routing cost based on safety.
+        calculating routing cost based on safety.
         
         formula used:
             cost = length / (1 + safety_score)
@@ -88,14 +90,14 @@ class SafetyModel:
         """
         safety_score = self.calculate_edge_safety(lights, length)
         
-        # transform safety into cost
+        # transforming safety into cost
         cost = length / (1 + safety_score)
         
         return cost
     
     def classify_edge_safety(self, lights, length):
         """
-        Classify edge into safety categories.
+        Classifyi ng edge into safety categories.
         Useful for visualization and reporting.
         
         Args:
@@ -124,6 +126,7 @@ class SafetyModel:
             # light density meets or exceeds safe threshold 
             return 'safe'
     
+    #(AI GENERATED)
     def add_safety_scores_to_graph(self, graph):
         """
         add safety scores to all edges in the graph by modifying the graph in 
@@ -209,7 +212,7 @@ class SafetyModel:
         }
 
 
-# Placeholder test
+# MOCK DATA PLACEHOLDER TEST ( AI GENERATED FOR TESTING PURPOSES ONLY )
 if __name__ == "__main__":
     print("=" * 70)
     print("Safety Scoring Model Test (Streetlights Only)")

@@ -1,3 +1,5 @@
+# Pydantic schemas for API requests and responses.
+# Pydantic means data validation and settings management using Python type annotations.
 from pydantic import BaseModel
 from typing import Optional
 
