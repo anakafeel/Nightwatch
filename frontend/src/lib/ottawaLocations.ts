@@ -14,6 +14,7 @@ export const CARLETON: DemoLocation = {
 
 export const OTTAWA_LOCATIONS: DemoLocation[] = [
   CARLETON,
+
   { id: "uottawa", label: "University of Ottawa", lat: 45.4231, lng: -75.6831 },
   { id: "rideau", label: "CF Rideau Centre", lat: 45.4256, lng: -75.6924 },
   { id: "byward", label: "ByWard Market", lat: 45.4277, lng: -75.6922 },
@@ -25,4 +26,8 @@ export const OTTAWA_LOCATIONS: DemoLocation[] = [
     lat: 45.4166,
     lng: -75.6513,
   },
+  { id: "orleans", label: "Orléans", lat: 45.4765, lng: -75.5119 },
+  { id: "mooneys_bay", label: "Mooney’s Bay", lat: 45.3666, lng: -75.684 },
+  { id: "kanata", label: "Kanata", lat: 45.309, lng: -75.898 },
+  { id: "bayshore", label: "Bayshore", lat: 45.3484, lng: -75.8079 },
 ];

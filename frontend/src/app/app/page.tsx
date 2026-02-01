@@ -50,6 +50,10 @@ const OTTAWA_LOCATIONS: DemoLocation[] = [
     lat: 45.4166,
     lng: -75.6513,
   },
+  { id: "orleans", label: "Orléans", lat: 45.4765, lng: -75.5119 },
+  { id: "mooneys_bay", label: "Mooney’s Bay", lat: 45.3666, lng: -75.684 },
+  { id: "kanata", label: "Kanata", lat: 45.309, lng: -75.898 },
+  { id: "bayshore", label: "Bayshore", lat: 45.3484, lng: -75.8079 },
 ];
 
 /** Simple distance helpers (for “X km from Carleton”) */
@@ -102,7 +106,10 @@ export default function AppPage() {
   const addToHistory = useSavedRoutesStore((s) => s.addToHistory);
 
   // Find closest matching location by coordinates
-  const findClosestLocation = (lat: number, lng: number): DemoLocation | null => {
+  const findClosestLocation = (
+    lat: number,
+    lng: number,
+  ): DemoLocation | null => {
     let closest: DemoLocation | null = null;
     let minDistance = Infinity;
     const threshold = 500; // 500 meters tolerance
@@ -121,17 +128,25 @@ export default function AppPage() {
   useEffect(() => {
     const rerunData = consumeRerunData();
     if (rerunData) {
-      const startMatch = findClosestLocation(rerunData.start.lat, rerunData.start.lng);
-      const endMatch = findClosestLocation(rerunData.end.lat, rerunData.end.lng);
+      const startMatch = findClosestLocation(
+        rerunData.start.lat,
+        rerunData.start.lng,
+      );
+      const endMatch = findClosestLocation(
+        rerunData.end.lat,
+        rerunData.end.lng,
+      );
 
       if (startMatch && endMatch) {
         setStartId(startMatch.id);
         setEndId(endMatch.id);
-        setRerunNotice(`Loaded route: ${rerunData.startAddress} to ${rerunData.endAddress}`);
+        setRerunNotice(
+          `Loaded route: ${rerunData.startAddress} to ${rerunData.endAddress}`,
+        );
       } else {
         // Coordinates don't match known locations
         setRerunNotice(
-          "Route locations not available in demo. Select from the dropdown options."
+          "Route locations not available in demo. Select from the dropdown options.",
         );
       }
 
@@ -214,12 +229,14 @@ export default function AppPage() {
 
       <div className="flex flex-1 overflow-hidden relative">
         {/* Sidebar */}
-        <aside className="w-full md:w-[420px] flex flex-col z-20 
+        <aside
+          className="w-full md:w-[420px] flex flex-col z-20 
                   bg-gradient-to-br from-[#0F2326]/90 to-[#1A363B]/85 
                   backdrop-blur-xl border-r border-[#0F7A82]/50 
                   h-full overflow-y-auto custom-scrollbar 
                   shadow-[0_25px_50px_rgba(15,122,130,0.35)] 
-                  ring-1 ring-[#0F7A82]/40">
+                  ring-1 ring-[#0F7A82]/40"
+        >
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -303,7 +320,7 @@ export default function AppPage() {
                               hover:from-[#0F7A82]/95 hover:via-[#37B8A6]/95 hover:to-[#1AC6E6]/95 
                               shadow-lg hover:shadow-xl text-black font-bold rounded-xl 
                               backdrop-blur transition-all duration-300 
-                              focus:ring-4 focus:ring-[#0F7A82]/50 border-transparent"              
+                              focus:ring-4 focus:ring-[#0F7A82]/50 border-transparent"
               isLoading={isLoading}
               leftIcon={
                 <span className="material-symbols-outlined">security</span>

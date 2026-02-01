@@ -49,3 +49,8 @@ __pycache__/
 .venv/
 venv/
 *.egg-info/
+
+# env files ( backend)
+backend/.env
+backend/.venv
+backend/venv
