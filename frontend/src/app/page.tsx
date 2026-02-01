@@ -2,6 +2,7 @@ import Link from "next/link";
 import { MarketingNav } from "@/components/layout/MarketingNav";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui";
+import { SnowBackground } from "@/components/ui/snow";
 
 export default function LandingPage() {
   return (
@@ -11,13 +12,18 @@ export default function LandingPage() {
       <main className="relative z-10">
         {/* Hero Section */}
         <section className="relative h-screen w-full overflow-hidden isolate">
-          {/* Abstract City Background */}
-          <div className="absolute inset-0">
+          {/* Background Scene (everything behind snow) */}
+          <div className="absolute inset-0 z-0">
             {/* Base gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#050A14] via-[#0F2326] to-[#0B1221]" />
 
+            {/* Ambient glows */}
+            <div className="absolute top-[20%] right-[20%] w-[500px] h-[300px] bg-primary/5 rounded-full blur-3xl" />
+            <div className="absolute top-[40%] left-[10%] w-[400px] h-[250px] bg-noor-gold/3 rounded-full blur-3xl" />
+            <div className="absolute bottom-[30%] right-[30%] w-[300px] h-[200px] bg-primary/8 rounded-full blur-2xl" />
+
             {/* City silhouette shapes */}
-            <div className="absolute bottom-0 left-0 right-0 h-[60%]">
+            <div className="absolute bottom-0 left-0 right-0 h-[60%] z-10">
               {/* Building silhouettes */}
               <div className="absolute bottom-0 left-[5%] w-16 h-[45%] bg-[#0c1a2a] rounded-t-sm" />
               <div className="absolute bottom-0 left-[10%] w-24 h-[65%] bg-[#0a1525] rounded-t-sm" />
@@ -37,27 +43,17 @@ export default function LandingPage() {
               <div className="absolute bottom-[15%] right-[22%] w-1 h-1 bg-primary/50 rounded-full shadow-[0_0_6px_#13c8ec]" />
             </div>
 
-            {/* Ambient glows */}
-            <div className="absolute top-[20%] right-[20%] w-[500px] h-[300px] bg-primary/5 rounded-full blur-3xl" />
-            <div className="absolute top-[40%] left-[10%] w-[400px] h-[250px] bg-noor-gold/3 rounded-full blur-3xl" />
-            <div className="absolute bottom-[30%] right-[30%] w-[300px] h-[200px] bg-primary/8 rounded-full blur-2xl" />
-
             {/* Bottom fade */}
             <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent" />
           </div>
 
-          {/* Hero Content */}
-          <div className="absolute inset-0 flex flex-col justify-end">
+          {/* Snow Overlay (in front of background scene, behind content) */}
+          <SnowBackground className="absolute inset-0 z-20 pointer-events-none" />
+
+          {/* Hero Content (in front of snow) */}
+          <div className="absolute inset-0 z-30 flex flex-col justify-end">
             <div className="max-w-7xl mx-auto px-6 w-full pb-20 lg:pb-32">
               <div className="max-w-4xl space-y-8">
-                {/* Live Badge */}
-                {/*                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-md">
-                  <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                  <span className="text-xs font-medium text-primary uppercase tracking-wider">
-                    Live in 12 Cities
-                  </span>
-                </div> */}
-
                 {/* Headline */}
                 <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight text-white drop-shadow-2xl">
                   Walk with <br />
@@ -127,9 +123,7 @@ export default function LandingPage() {
                       />
                     ))}
                   </div>
-                  <p className="font-medium">
-                    Trusted by 3+ people ( Us )
-                  </p>
+                  <p className="font-medium">Trusted by 3+ people ( Us )</p>
                 </div>
               </div>
             </div>
@@ -244,9 +238,7 @@ export default function LandingPage() {
                   >
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 rounded-lg bg-[#0F7A82]/20 flex items-center justify-center text-[#37B8A6]">
-                        <span className="material-symbols-outlined">
-                          shield
-                        </span>
+                        <span className="material-symbols-outlined">shield</span>
                       </div>
                       <div>
                         <p className="text-white font-bold">Community Alert</p>
@@ -309,7 +301,6 @@ export default function LandingPage() {
                 you can walk with your head up.
               </p>
               <div className="flex flex-col gap-6 pt-4">
-                {/* Safest Route Card */}
                 <div
                   className="flex items-center gap-4 p-6 rounded-xl bg-[#1A363B]/80
                                border border-[#0F7A82]/50 shadow-lg shadow-[#0F7A82]/10
@@ -320,21 +311,16 @@ export default function LandingPage() {
                                  shadow-[0_0_15px_rgba(15,122,130,0.6)]"
                   />
                   <div>
-                    <h4 className="text-white text-lg font-bold">
-                      Safest Route
-                    </h4>
+                    <h4 className="text-white text-lg font-bold">Safest Route</h4>
                     <p className="text-sm text-text-muted">
                       Well-lit main avenues • 12 mins
                     </p>
                   </div>
                 </div>
-                {/* Shortest Route Card */}
                 <div className="flex items-center gap-4 p-6 rounded-xl border border-[#0F7A82]/20 opacity-50">
                   <div className="w-2 h-12 rounded-full bg-gray-600" />
                   <div>
-                    <h4 className="text-white text-lg font-bold">
-                      Shortest Route
-                    </h4>
+                    <h4 className="text-white text-lg font-bold">Shortest Route</h4>
                     <p className="text-sm text-text-muted">
                       Unlit shortcuts • 9 mins
                     </p>
@@ -347,7 +333,6 @@ export default function LandingPage() {
                 className="relative rounded-2xl overflow-hidden border border-[#0F7A82]/40
                              shadow-2xl shadow-[#0F7A82]/10 bg-[#0F2326] aspect-[4/3]"
               >
-                {/* Map Preview */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#1A363B]/60 to-[#0F2326]/80 opacity-60" />
                 <svg
                   className="absolute inset-0 w-full h-full drop-shadow-[0_0_12px_rgba(15,122,130,0.8)]"
@@ -363,13 +348,7 @@ export default function LandingPage() {
                     className="route-draw"
                   />
                   <defs>
-                    <linearGradient
-                      id="routeGradient"
-                      x1="0%"
-                      y1="100%"
-                      x2="100%"
-                      y2="0%"
-                    >
+                    <linearGradient id="routeGradient" x1="0%" y1="100%" x2="100%" y2="0%">
                       <stop offset="0%" stopColor="#0F7A82" />
                       <stop offset="100%" stopColor="#37B8A6" />
                     </linearGradient>
@@ -388,12 +367,8 @@ export default function LandingPage() {
                       </span>
                     </div>
                     <div>
-                      <p className="text-white text-base font-bold">
-                        Navigating to Home
-                      </p>
-                      <p className="text-sm text-[#37B8A6]">
-                        Via Main St (Lit)
-                      </p>
+                      <p className="text-white text-base font-bold">Navigating to Home</p>
+                      <p className="text-sm text-[#37B8A6]">Via Main St (Lit)</p>
                     </div>
                   </div>
                   <span className="text-white text-lg font-bold">12 min</span>
@@ -434,11 +409,7 @@ export default function LandingPage() {
                     className="h-16 px-10 text-xl bg-gradient-to-r from-[#0F7A82] via-[#37B8A6] to-[#1AC6E6]
                               text-black font-bold rounded-xl shadow-lg hover:shadow-xl
                               hover:shadow-[#0F7A82]/40 transition-all duration-300"
-                    leftIcon={
-                      <span className="material-symbols-outlined text-2xl">
-                        explore
-                      </span>
-                    }
+                    leftIcon={<span className="material-symbols-outlined text-2xl">explore</span>}
                   >
                     Try the App
                   </Button>
@@ -449,11 +420,7 @@ export default function LandingPage() {
                   className="h-16 px-10 text-xl bg-[#1A363B]/50 border border-[#0F7A82]/50
                             hover:bg-[#1A363B]/80 hover:border-[#0F7A82]/80 rounded-xl
                             transition-all duration-200"
-                  leftIcon={
-                    <span className="material-symbols-outlined text-2xl">
-                      play_apps
-                    </span>
-                  }
+                  leftIcon={<span className="material-symbols-outlined text-2xl">play_apps</span>}
                 >
                   Coming Soon
                 </Button>

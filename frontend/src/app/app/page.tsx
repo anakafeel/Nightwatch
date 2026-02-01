@@ -19,6 +19,7 @@ import { useRouteSessionStore } from "@/lib/stores/routeSession";
 import { useSavedRoutesStore } from "@/lib/stores/savedRoutes";
 import { isDemoMode } from "@/lib/api";
 
+
 /**
  * Demo: Ottawa-only dropdown choices measured from Carleton University.
  * No geocoding required — each option includes lat/lng.
