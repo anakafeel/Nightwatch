@@ -41,8 +41,9 @@ df = pd.DataFrame(streetlights)
 tags_df = pd.json_normalize(df["tags"])
 df = df.drop(columns=["tags"]).join(tags_df)
 
-df.to_csv("ottawa_steet_lights.csv", index = False)
+OUT = "ottawa_street_lights.csv"
+df.to_csv(OUT, index=False)
+print(f"Saved {len(df)} streetlights to {OUT}")
 
-print(f"Saved {len(df)} streetlights to ottawa_street_lights.csv")
 
 
