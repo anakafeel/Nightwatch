@@ -9,13 +9,18 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 import { AppNav } from "@/components/layout/AppNav";
 import { Button, Badge, Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui";
 import { useSavedRoutesStore, type HistoryEntry } from "@/lib/stores/savedRoutes";
 import type { SavedRoute } from "@/lib/routes";
+import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
+import { staggerContainer, routeCardVariants, getMotionProps } from "@/lib/motion";
 
 export default function SavedRoutesPage() {
   const router = useRouter();
+  const reducedMotion = useReducedMotion();
+  const motionProps = getMotionProps(reducedMotion);
 
   // Hydration state - prevents SSR mismatch
   const [hydrated, setHydrated] = useState(false);
@@ -91,12 +96,14 @@ export default function SavedRoutesPage() {
     showRemove?: boolean;
     showFavoriteToggle?: boolean;
   }) => (
-    <article
+    <motion.article
       key={route.id}
+      variants={routeCardVariants}
+      whileHover={reducedMotion ? undefined : { y: -4, transition: { duration: 0.2 } }}
       className="group relative flex flex-col overflow-hidden rounded-xl
                 bg-gradient-to-br from-[#1A363B]/80 to-[#0F2326]/60
                 border border-[#0F7A82]/40 shadow-lg shadow-[#0F7A82]/5
-                transition-all duration-300 hover:-translate-y-1
+                transition-colors duration-300
                 hover:border-[#0F7A82]/70 hover:shadow-xl hover:shadow-[#0F7A82]/10"
     >
       {/* Map Preview */}
@@ -212,17 +219,19 @@ export default function SavedRoutesPage() {
           </Button>
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 
   // History card component (simpler than saved route card)
   const HistoryCard = ({ entry }: { entry: HistoryEntry }) => (
-    <article
+    <motion.article
       key={entry.id}
+      variants={routeCardVariants}
+      whileHover={reducedMotion ? undefined : { y: -4, transition: { duration: 0.2 } }}
       className="group relative flex flex-col overflow-hidden rounded-xl
                 bg-gradient-to-br from-[#1A363B]/80 to-[#0F2326]/60
                 border border-[#0F7A82]/40 shadow-lg shadow-[#0F7A82]/5
-                transition-all duration-300 hover:-translate-y-1
+                transition-colors duration-300
                 hover:border-[#0F7A82]/70 hover:shadow-xl hover:shadow-[#0F7A82]/10"
     >
       {/* Map Preview */}
@@ -290,7 +299,7 @@ export default function SavedRoutesPage() {
           </Button>
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 
   // Empty state component
@@ -408,11 +417,17 @@ export default function SavedRoutesPage() {
             {/* Saved Routes Tab */}
             <TabsContent value="saved" className="mt-8">
               {savedRoutes.length > 0 ? (
-                <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                <motion.div
+                  className="grid grid-cols-1 gap-6 lg:grid-cols-3"
+                  initial="hidden"
+                  animate="visible"
+                  variants={staggerContainer}
+                  {...motionProps}
+                >
                   {savedRoutes.map((route) => (
                     <RouteCard key={route.id} route={route} showRemove />
                   ))}
-                </div>
+                </motion.div>
               ) : (
                 <EmptyState
                   icon="bookmark_border"
@@ -425,11 +440,17 @@ export default function SavedRoutesPage() {
             {/* Recent History Tab */}
             <TabsContent value="history" className="mt-8">
               {history.length > 0 ? (
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <motion.div
+                  className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4"
+                  initial="hidden"
+                  animate="visible"
+                  variants={staggerContainer}
+                  {...motionProps}
+                >
                   {history.map((entry) => (
                     <HistoryCard key={entry.id} entry={entry} />
                   ))}
-                </div>
+                </motion.div>
               ) : (
                 <EmptyState
                   icon="history"
@@ -442,7 +463,13 @@ export default function SavedRoutesPage() {
             {/* Favorites Tab */}
             <TabsContent value="favorites" className="mt-8">
               {favoriteRoutes.length > 0 ? (
-                <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                <motion.div
+                  className="grid grid-cols-1 gap-6 lg:grid-cols-3"
+                  initial="hidden"
+                  animate="visible"
+                  variants={staggerContainer}
+                  {...motionProps}
+                >
                   {favoriteRoutes.map((route) => (
                     <RouteCard
                       key={route.id}
@@ -450,7 +477,7 @@ export default function SavedRoutesPage() {
                       showFavoriteToggle
                     />
                   ))}
-                </div>
+                </motion.div>
               ) : (
                 <EmptyState
                   icon="star_border"

@@ -1,9 +1,17 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { MarketingNav } from "@/components/layout/MarketingNav";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui";
+import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
+import { fadeInUp, staggerContainer, getMotionProps } from "@/lib/motion";
 
 export default function LandingPage() {
+  const reducedMotion = useReducedMotion();
+  const motionProps = getMotionProps(reducedMotion);
+
   return (
     <div className="relative min-h-screen w-full bg-gradient-to-b from-[#050A14] via-[#0F2326] to-[#0B1221]">
       <MarketingNav />
@@ -48,7 +56,13 @@ export default function LandingPage() {
 
           {/* Hero Content */}
           <div className="absolute inset-0 flex flex-col justify-end">
-            <div className="max-w-7xl mx-auto px-6 w-full pb-20 lg:pb-32">
+            <motion.div
+              className="max-w-7xl mx-auto px-6 w-full pb-20 lg:pb-32"
+              initial="hidden"
+              animate="visible"
+              variants={staggerContainer}
+              {...motionProps}
+            >
               <div className="max-w-4xl space-y-8">
                 {/* Live Badge */}
                 {/*                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-md">
@@ -59,7 +73,10 @@ export default function LandingPage() {
                 </div> */}
 
                 {/* Headline */}
-                <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight text-white drop-shadow-2xl">
+                <motion.h1
+                  variants={fadeInUp}
+                  className="text-5xl sm:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight text-white drop-shadow-2xl"
+                >
                   Walk with <br />
                   <span
                     className="inline-block"
@@ -74,18 +91,21 @@ export default function LandingPage() {
                   </span>{" "}
                   <br />
                   after dark.
-                </h1>
+                </motion.h1>
 
                 {/* Subheadline */}
-                <p className="text-xl text-gray-200 max-w-2xl leading-relaxed font-medium drop-shadow-md">
+                <motion.p
+                  variants={fadeInUp}
+                  className="text-xl text-gray-200 max-w-2xl leading-relaxed font-medium drop-shadow-md"
+                >
                   AI-driven navigation that prioritizes well-lit streets over
                   shortcuts. Let{" "}
                   <span className="text-primary font-bold">Nightwatch</span>{" "}
                   guide your way home safely.
-                </p>
+                </motion.p>
 
                 {/* CTAs */}
-                <div className="flex flex-wrap gap-4 pt-4">
+                <motion.div variants={fadeInUp} className="flex flex-wrap gap-4 pt-4">
                   <Link href="/app">
                     <Button
                       size="lg"
@@ -113,10 +133,10 @@ export default function LandingPage() {
                       How it Works
                     </Button>
                   </a>
-                </div>
+                </motion.div>
 
                 {/* Social Proof */}
-                <div className="flex items-center gap-4 mt-8 text-sm text-gray-300">
+                <motion.div variants={fadeInUp} className="flex items-center gap-4 mt-8 text-sm text-gray-300">
                   <div className="flex -space-x-3">
                     {[1, 2, 3].map((i) => (
                       <img
@@ -130,18 +150,23 @@ export default function LandingPage() {
                   <p className="font-medium">
                     Trusted by 3+ people ( Us )
                   </p>
-                </div>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
 
         {/* How It Works Section */}
-        <section
+        <motion.section
           className="w-full max-w-7xl mx-auto px-6 py-32 space-y-32"
           id="how-it-works"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+          {...motionProps}
         >
-          <div className="text-center max-w-3xl mx-auto space-y-4 mb-24">
+          <motion.div variants={fadeInUp} className="text-center max-w-3xl mx-auto space-y-4 mb-24">
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
               Illuminating the unseen
             </h2>
@@ -149,10 +174,10 @@ export default function LandingPage() {
               Our AI analyzes multiple layers of city data to ensure your
               journey is as safe as it is efficient.
             </p>
-          </div>
+          </motion.div>
 
           {/* Feature 1: Smart Routing */}
-          <div className="flex flex-col md:flex-row items-center gap-16 lg:gap-24">
+          <motion.div variants={fadeInUp} className="flex flex-col md:flex-row items-center gap-16 lg:gap-24">
             <div className="flex-1 w-full order-2 md:order-1">
               <div
                 className="relative group aspect-[4/3] rounded-2xl overflow-hidden
@@ -188,10 +213,10 @@ export default function LandingPage() {
               </p>
               <div className="w-20 h-1 bg-gradient-to-r from-[#0F7A82] to-[#37B8A6] rounded-full" />
             </div>
-          </div>
+          </motion.div>
 
           {/* Feature 2: Safety vs Speed */}
-          <div className="flex flex-col md:flex-row items-center gap-16 lg:gap-24">
+          <motion.div variants={fadeInUp} className="flex flex-col md:flex-row items-center gap-16 lg:gap-24">
             <div className="flex-1 space-y-6">
               <h3 className="text-3xl md:text-4xl font-bold text-white">
                 Safety vs Speed
@@ -227,10 +252,10 @@ export default function LandingPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Feature 3: Community Verified */}
-          <div className="flex flex-col md:flex-row items-center gap-16 lg:gap-24">
+          <motion.div variants={fadeInUp} className="flex flex-col md:flex-row items-center gap-16 lg:gap-24">
             <div className="flex-1 w-full order-2 md:order-1">
               <div
                 className="relative group aspect-[4/3] rounded-2xl overflow-hidden
@@ -280,8 +305,8 @@ export default function LandingPage() {
               </p>
               <div className="w-20 h-1 bg-gradient-to-r from-[#0F7A82] to-[#37B8A6] rounded-full" />
             </div>
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
 
         {/* App Preview Section */}
         <section

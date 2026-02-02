@@ -4,8 +4,11 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { BrandLogo } from "./BrandLogo";
+import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
+import { dropdownVariants, getMotionProps } from "@/lib/motion";
 
 const navLinks = [
   { href: "/app", label: "Route" },
@@ -17,6 +20,8 @@ function AppNav() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const reducedMotion = useReducedMotion();
+  const motionProps = getMotionProps(reducedMotion);
 
   //Avatar URL
   const avatarUrl = "/images/avatar.png";
@@ -105,69 +110,76 @@ function AppNav() {
             )}
           </button>
 
-          {menuOpen && (
-            <div
-              role="dialog"
-              aria-label="User menu"
-              className="absolute right-0 top-12 w-56 rounded-xl
-                         bg-[#0F2326]/95 backdrop-blur-xl border border-[#0F7A82]/30
-                         shadow-xl ring-1 ring-[#0F7A82]/20 overflow-hidden"
-            >
-              <div className="px-4 py-4 border-b border-[#0F7A82]/20 flex flex-col items-center gap-3">
-                <div className="relative size-24 rounded-full overflow-hidden ring-2 ring-[#0F7A82]/40 bg-surface-dark">
-                  {avatarOk ? (
-                    <Image
-                      src={avatarUrl}
-                      alt="User avatar"
-                      fill
-                      sizes="96px"
-                      className="object-cover"
-                      onError={() => setAvatarOk(false)}
-                    />
-                  ) : (
-                    <div className="absolute inset-0 flex items-center justify-center text-lg font-semibold text-white/80">
-                      Us
-                    </div>
-                  )}
+          <AnimatePresence>
+            {menuOpen && (
+              <motion.div
+                role="dialog"
+                aria-label="User menu"
+                className="absolute right-0 top-12 w-56 rounded-xl
+                           bg-[#0F2326]/95 backdrop-blur-xl border border-[#0F7A82]/30
+                           shadow-xl ring-1 ring-[#0F7A82]/20 overflow-hidden"
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                variants={dropdownVariants}
+                {...motionProps}
+              >
+                <div className="px-4 py-4 border-b border-[#0F7A82]/20 flex flex-col items-center gap-3">
+                  <div className="relative size-24 rounded-full overflow-hidden ring-2 ring-[#0F7A82]/40 bg-surface-dark">
+                    {avatarOk ? (
+                      <Image
+                        src={avatarUrl}
+                        alt="User avatar"
+                        fill
+                        sizes="96px"
+                        className="object-cover"
+                        onError={() => setAvatarOk(false)}
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center text-lg font-semibold text-white/80">
+                        Us
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="text-center">
+                    <p className="text-xs text-text-muted">Signed in</p>
+                    <p className="text-sm text-white font-medium truncate">
+                      anakafeel@gmail.com
+                    </p>
+                  </div>
                 </div>
 
-                <div className="text-center">
-                  <p className="text-xs text-text-muted">Signed in</p>
-                  <p className="text-sm text-white font-medium truncate">
-                    anakafeel@gmail.com
-                  </p>
+                <div className="py-1">
+                  <Link
+                    href="/saved"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-text-muted
+                               hover:text-white hover:bg-white/5 transition-all duration-200"
+                  >
+                    <span className="material-symbols-outlined text-lg">
+                      bookmark
+                    </span>
+                    Saved Routes
+                  </Link>
+
+                  <button
+                    onClick={() => {
+                      console.log("logout");
+                      setMenuOpen(false);
+                    }}
+                    className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-text-muted
+                               hover:text-white hover:bg-white/5 transition-all duration-200"
+                  >
+                    <span className="material-symbols-outlined text-lg">
+                      logout
+                    </span>
+                    Logout
+                  </button>
                 </div>
-              </div>
-
-              <div className="py-1">
-                <Link
-                  href="/saved"
-                  onClick={() => setMenuOpen(false)}
-                  className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-text-muted
-                             hover:text-white hover:bg-white/5 transition-all duration-200"
-                >
-                  <span className="material-symbols-outlined text-lg">
-                    bookmark
-                  </span>
-                  Saved Routes
-                </Link>
-
-                <button
-                  onClick={() => {
-                    console.log("logout");
-                    setMenuOpen(false);
-                  }}
-                  className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-text-muted
-                             hover:text-white hover:bg-white/5 transition-all duration-200"
-                >
-                  <span className="material-symbols-outlined text-lg">
-                    logout
-                  </span>
-                  Logout
-                </button>
-              </div>
-            </div>
-          )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </header>
