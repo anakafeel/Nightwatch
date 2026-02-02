@@ -1,125 +1,80 @@
-![IMG_7055](https://github.com/user-attachments/assets/33e223f9-de34-4883-b40c-2d8b41af8b04)
-![new](https://github.com/user-attachments/assets/019d26dd-d166-4eb5-aa5b-2ee25f752381)
+![Nightwatch App](https://github.com/user-attachments/assets/33e223f9-de34-4883-b40c-2d8b41af8b04)
 
 # Nightwatch
 
-Nightwatch keeps nighttime walkers safe by finding routes that maximize streetlight 
-converage. Unlike some navigation services, our app uses streetlight density as a 
-safety score to prevent people from walking into a dark alley.
+Safe navigation for nighttime walks. Finds routes that maximize streetlight coverage instead of just the fastest path.
 
-## Setup instructions to run the app locally
+## Quick Start
 
-**Frontend:**
-1. create a virtual environment
-   - if using MacOS, Linux, or WSL:
-    ```bash
-    cd backend
-    python3 -m venv .venv
-    source .venv/bin/activate
-    ```
-   - if using windows powershell in administrator mode: 
-   ```bash
-    cd backend
-    py -m venv .venv
-    ..venv\Scripts\Activate.ps1
-   ```
+### Backend
 
-   if the activation is blocked on windows, run the following in powershell:
-   ```bash
-    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-   ```
+**One command (recommended):**
 
-2. install the necessary python libraries highlighted in the requirements.txt file:
-    ```bash    
-    pip install -r requirements.txt
-    ```
+```bash
+# macOS/Linux/WSL
+./backend/scripts/run_backend.sh
 
-3. create your environment file by copying the example env file:
-   - if using MacOS, Linux, or WSL:
-    ```bash
-    cp env.local.example .env.local
-    ```
-   - if using windows powershell in administrator mode:
-    ```bash
-    Copy-Item env.local.example .env.local
-    ```
+# Windows PowerShell
+.\backend\scripts\run_backend.ps1
+```
 
-4. finally run the frontend locally:
-    ```bash
-    npm i && npm run dev
-    ```
+This creates the venv, installs dependencies, and starts the server automatically.
 
-**Backend:**
-1. create a virtual environment
-   - if using MacOS, Linux, or WSL:
-    ```bash
-    cd backend
-    python3 -m venv .venv
-    source .venv/bin/activate
-    ```
-   - if using windows powershell in administrator mode: 
-   ```bash
-    cd backend
-    py -m venv .venv
-    ..venv\Scripts\Activate.ps1
-   ```
+> **Note:** If PowerShell blocks script execution, run:
+> `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
 
-   if the activation is blocked on windows, run the following in powershell:
-   ```bash
-    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-   ```
-2. install the necessary python libraries highlighted in the requirements.txt file:
-```bash    
+**Manual setup (alternative):**
+
+```bash
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate      # macOS/Linux/WSL
+# .venv\Scripts\Activate.ps1   # Windows PowerShell
 pip install -r requirements.txt
-```
-1. create your environment file by copying the example env file:
-   - if using MacOS, Linux, or WSL:
-    ```bash
-    cp env.example .env
-    ```
-   - if using windows powershell in administrator mode:
-    ```bash
-    Copy-Item env.example .env
-    ```
-
-    FYI:
-     - `DEMO_MODE = 1` uses hardcoded mock data for generating paths. used for quick debugging.
-     - `DEMO_MODE = 0` uses real routing calls fetched from the OpenStreetMap API
-
-2. finally run the backend locally:
-   - if using MacOS, Linux, or WSL:
-    ```bash
-    DEMO_MODE=0 uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-    ```
-   - if using windows powershell in administrator mode:
-    ```bash
-    $env:DEMO_MODE="0"; uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-    ```
-
-Finally, verify that the app is actually running by opening the following link 
-in your browser
-
-if a root route exists:
-```
-http://127.0.0.1:8000/ 
+DEMO_MODE=0 uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-health endpoint:
-```
-http://127.0.0.1:8000/v1/health
+> **Note:** `DEMO_MODE=1` uses mock data for quick testing. `DEMO_MODE=0` uses real OpenStreetMap routing.
+
+### Frontend
+
+```bash
+cd frontend
+cp env.local.example .env.local
+npm i && npm run dev
 ```
 
-swagger UI:
+Open [http://localhost:3000](http://localhost:3000).
+
+## Verify It's Running
+
+- Health check: [http://127.0.0.1:8000/v1/health](http://127.0.0.1:8000/v1/health)
+- API docs: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+
+## Algorithm
+
+The routing engine scores paths based on streetlight density along the route.
+
+![Route Visualization](https://github.com/user-attachments/assets/019d26dd-d166-4eb5-aa5b-2ee25f752381)
+
+## Project Structure
+
 ```
-http://127.0.0.1:8000/docs
+frontend/                 → Next.js app
+backend/app/api/          → API routes
+backend/app/services/     → Business logic + routing_engine.py
+backend/app/data/         → Data layer
+backend/scripts/          → Utility scripts
+design/                   → Design mockups
 ```
 
-## General directory structure
+---
 
-- `frontend/` - Next.js app
-- `backend/app/api/` - API routes
-- `backend/app/services/` - Business logic
-- `backend/app/data/` - Data layer
-- `backend/scripts/` - Utility scripts
-- `backend/app/services/routing_engine.py` - Routing algorithm
-- `design/` - Design mockups
+## Dev Checklist (Claude)
+
+- [ ] README.md — fixed markdown rendering, cleaned up structure
+- [ ] frontend/package.json — added framer-motion dependency
+- [ ] frontend/src/lib/motion.ts — motion variants + reduced motion util
+- [ ] frontend/src/app/page.tsx — landing page fade/slide animations
+- [ ] frontend/src/components/layout/AppNav.tsx — dropdown animation
+- [ ] frontend/src/app/saved/page.tsx — route card hover animations
