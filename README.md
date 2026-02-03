@@ -40,7 +40,7 @@ DEMO_MODE=0 uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 
 ```bash
 cd frontend
-cp env.local.example .env.local
+cp .env.example .env.local
 npm i && npm run dev
 ```
 
@@ -50,6 +50,36 @@ Open [http://localhost:3000](http://localhost:3000).
 
 - Health check: [http://127.0.0.1:8000/v1/health](http://127.0.0.1:8000/v1/health)
 - API docs: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+
+## Deployment
+
+### Backend (Render)
+
+| Setting | Value |
+|---------|-------|
+| **Root Directory** | `backend` |
+| **Build Command** | `pip install -r requirements.txt` |
+| **Start Command** | `uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
+
+**Environment Variables:**
+| Key | Value |
+|-----|-------|
+| `DEMO_MODE` | `0` |
+| `CORS_ORIGINS` | `https://your-app.vercel.app` |
+
+### Frontend (Vercel)
+
+| Setting | Value |
+|---------|-------|
+| **Root Directory** | `frontend` |
+| **Build Command** | (default) |
+
+**Environment Variables:**
+| Key | Value |
+|-----|-------|
+| `NEXT_PUBLIC_API_URL` | `https://your-render-app.onrender.com` |
+| `NEXT_PUBLIC_API_PREFIX` | `/v1` |
+| `NEXT_PUBLIC_USE_MOCK` | `false` |
 
 ## Algorithm
 
