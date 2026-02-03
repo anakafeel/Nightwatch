@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui";
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
 import { fadeInUp, staggerContainer, getMotionProps } from "@/lib/motion";
+import { Meteors } from "@/components/ui/meteors";
 
 export default function LandingPage() {
   const reducedMotion = useReducedMotion();
@@ -16,9 +17,10 @@ export default function LandingPage() {
     <div className="relative min-h-screen w-full bg-gradient-to-b from-[#050A14] via-[#0F2326] to-[#0B1221]">
       <MarketingNav />
 
+      <Meteors overlay className="!bg-transparent pointer-events-none z-20" />
       <main className="relative z-10">
         {/* Hero Section */}
-        <section className="relative h-screen w-full overflow-hidden isolate">
+        <section className="relative min-h-screen w-full overflow-hidden isolate pt-16">
           {/* Abstract City Background */}
           <div className="absolute inset-0">
             {/* Base gradient */}
@@ -55,9 +57,9 @@ export default function LandingPage() {
           </div>
 
           {/* Hero Content */}
-          <div className="absolute inset-0 flex flex-col justify-end">
+          <div className="absolute inset-0 flex flex-col justify-end pt-20 sm:pt-16">
             <motion.div
-              className="max-w-7xl mx-auto px-6 w-full pb-20 lg:pb-32"
+              className="max-w-7xl mx-auto px-4 sm:px-6 w-full pb-16 sm:pb-20 lg:pb-32"
               initial="hidden"
               animate="visible"
               variants={staggerContainer}
@@ -75,7 +77,7 @@ export default function LandingPage() {
                 {/* Headline */}
                 <motion.h1
                   variants={fadeInUp}
-                  className="text-5xl sm:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight text-white drop-shadow-2xl"
+                  className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight text-white drop-shadow-2xl"
                 >
                   Walk with <br />
                   <span
@@ -105,7 +107,10 @@ export default function LandingPage() {
                 </motion.p>
 
                 {/* CTAs */}
-                <motion.div variants={fadeInUp} className="flex flex-wrap gap-4 pt-4">
+                <motion.div
+                  variants={fadeInUp}
+                  className="flex flex-wrap gap-4 pt-4"
+                >
                   <Link href="/app">
                     <Button
                       size="lg"
@@ -136,7 +141,10 @@ export default function LandingPage() {
                 </motion.div>
 
                 {/* Social Proof */}
-                <motion.div variants={fadeInUp} className="flex items-center gap-4 mt-8 text-sm text-gray-300">
+                <motion.div
+                  variants={fadeInUp}
+                  className="flex items-center gap-4 mt-8 text-sm text-gray-300"
+                >
                   <div className="flex -space-x-3">
                     {[1, 2, 3].map((i) => (
                       <img
@@ -147,9 +155,7 @@ export default function LandingPage() {
                       />
                     ))}
                   </div>
-                  <p className="font-medium">
-                    Trusted by 3+ people ( Us )
-                  </p>
+                  <p className="font-medium">Trusted by 3+ people ( Us )</p>
                 </motion.div>
               </div>
             </motion.div>
@@ -158,7 +164,7 @@ export default function LandingPage() {
 
         {/* How It Works Section */}
         <motion.section
-          className="w-full max-w-7xl mx-auto px-6 py-32 space-y-32"
+          className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 lg:py-32 space-y-16 sm:space-y-24 lg:space-y-32"
           id="how-it-works"
           initial="hidden"
           whileInView="visible"
@@ -166,7 +172,10 @@ export default function LandingPage() {
           variants={staggerContainer}
           {...motionProps}
         >
-          <motion.div variants={fadeInUp} className="text-center max-w-3xl mx-auto space-y-4 mb-24">
+          <motion.div
+            variants={fadeInUp}
+            className="text-center max-w-3xl mx-auto space-y-4 mb-24"
+          >
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
               Illuminating the unseen
             </h2>
@@ -177,7 +186,10 @@ export default function LandingPage() {
           </motion.div>
 
           {/* Feature 1: Smart Routing */}
-          <motion.div variants={fadeInUp} className="flex flex-col md:flex-row items-center gap-16 lg:gap-24">
+          <motion.div
+            variants={fadeInUp}
+            className="flex flex-col md:flex-row items-center gap-16 lg:gap-24"
+          >
             <div className="flex-1 w-full order-2 md:order-1">
               <div
                 className="relative group aspect-[4/3] rounded-2xl overflow-hidden
@@ -216,7 +228,10 @@ export default function LandingPage() {
           </motion.div>
 
           {/* Feature 2: Safety vs Speed */}
-          <motion.div variants={fadeInUp} className="flex flex-col md:flex-row items-center gap-16 lg:gap-24">
+          <motion.div
+            variants={fadeInUp}
+            className="flex flex-col md:flex-row items-center gap-16 lg:gap-24"
+          >
             <div className="flex-1 space-y-6">
               <h3 className="text-3xl md:text-4xl font-bold text-white">
                 Safety vs Speed
@@ -253,59 +268,6 @@ export default function LandingPage() {
               </div>
             </div>
           </motion.div>
-
-          {/* Feature 3: Community Verified */}
-          <motion.div variants={fadeInUp} className="flex flex-col md:flex-row items-center gap-16 lg:gap-24">
-            <div className="flex-1 w-full order-2 md:order-1">
-              <div
-                className="relative group aspect-[4/3] rounded-2xl overflow-hidden
-                             border border-[#0F7A82]/40 shadow-2xl bg-[#1A363B]/50
-                             hover:border-[#0F7A82]/60 transition-all duration-300"
-              >
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div
-                    className="bg-[#1A363B]/90 backdrop-blur-xl p-6 rounded-xl
-                                 border border-[#0F7A82]/40 shadow-lg"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-lg bg-[#0F7A82]/20 flex items-center justify-center text-[#37B8A6]">
-                        <span className="material-symbols-outlined">
-                          shield
-                        </span>
-                      </div>
-                      <div>
-                        <p className="text-white font-bold">Community Alert</p>
-                        <p className="text-xs text-[#37B8A6]">
-                          Street light out on 5th Ave
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="absolute bottom-8 left-8">
-                  <div
-                    className="w-16 h-16 rounded-xl bg-[#0F7A82]/20 backdrop-blur-md
-                                 border border-[#0F7A82]/40 flex items-center justify-center
-                                 text-[#37B8A6] shadow-lg shadow-[#0F7A82]/20"
-                  >
-                    <span className="material-symbols-outlined text-4xl">
-                      verified_user
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex-1 space-y-6 order-1 md:order-2">
-              <h3 className="text-3xl md:text-4xl font-bold text-white">
-                Community Verified
-              </h3>
-              <p className="text-xl text-text-muted leading-relaxed">
-                Real-time updates on broken lights and safety incidents from
-                verified community reports.
-              </p>
-              <div className="w-20 h-1 bg-gradient-to-r from-[#0F7A82] to-[#37B8A6] rounded-full" />
-            </div>
-          </motion.div>
         </motion.section>
 
         {/* App Preview Section */}
@@ -321,9 +283,9 @@ export default function LandingPage() {
                 "radial-gradient(circle at 50% 50%, rgba(15, 122, 130, 0.08) 0%, transparent 50%)",
             }}
           />
-          <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-10 sm:gap-16 lg:gap-24">
             <div className="flex-1 space-y-8">
-              <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                 See the <span className="text-[#37B8A6] text-glow">light</span>.
                 <br />
                 Avoid the shadows.
@@ -429,9 +391,9 @@ export default function LandingPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="w-full py-32 px-6">
+        <section className="w-full py-16 sm:py-24 lg:py-32 px-4 sm:px-6">
           <div
-            className="max-w-5xl mx-auto rounded-2xl relative overflow-hidden p-16 lg:p-24 text-center
+            className="max-w-5xl mx-auto rounded-2xl relative overflow-hidden p-8 sm:p-12 md:p-16 lg:p-24 text-center
                          border border-[#0F7A82]/40 bg-gradient-to-b from-[#1A363B]/50 to-[#0F2326]/80
                          shadow-2xl shadow-[#0F7A82]/10"
           >
@@ -444,12 +406,12 @@ export default function LandingPage() {
                 lightbulb
               </span>
               <div className="space-y-4">
-                <h2 className="text-4xl md:text-6xl font-black text-white">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white">
                   Ready to light your path?
                 </h2>
                 <p className="text-text-muted max-w-lg mx-auto text-xl">
-                  Join thousands of users who are reclaiming the night. Try
-                  Nightwatch today.
+                  Join our users who are reclaiming the night. Try Nightwatch
+                  today.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-6 mt-4 w-full justify-center">
@@ -468,20 +430,6 @@ export default function LandingPage() {
                     Try the App
                   </Button>
                 </Link>
-                <Button
-                  variant="ghost"
-                  size="lg"
-                  className="h-16 px-10 text-xl bg-[#1A363B]/50 border border-[#0F7A82]/50
-                            hover:bg-[#1A363B]/80 hover:border-[#0F7A82]/80 rounded-xl
-                            transition-all duration-200"
-                  leftIcon={
-                    <span className="material-symbols-outlined text-2xl">
-                      play_apps
-                    </span>
-                  }
-                >
-                  Coming Soon
-                </Button>
               </div>
             </div>
           </div>
