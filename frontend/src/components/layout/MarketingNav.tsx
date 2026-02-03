@@ -44,7 +44,7 @@ function MarketingNav() {
         <div className="hidden md:flex items-center gap-3">
           {/* GitHub Icon */}
           <a
-            href="https://github.com/SrivathsanMurali/Pathify"
+            href="https://github.com/anakafeel/Nightwatch"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View source on GitHub"
