@@ -331,7 +331,7 @@ export default function SavedRoutesPage() {
     return (
       <div className="bg-background-dark min-h-screen flex flex-col">
         <AppNav />
-        <main className="flex-1 px-6 py-8 lg:px-40">
+        <main className="flex-1 px-4 sm:px-6 py-6 sm:py-8 lg:px-40">
           <div className="mx-auto max-w-6xl">
             <div className="mb-8">
               <h1 className="text-3xl font-black text-white md:text-4xl tracking-tight">
@@ -359,7 +359,7 @@ export default function SavedRoutesPage() {
     <div className="bg-background-dark min-h-screen flex flex-col">
       <AppNav />
 
-      <main className="flex-1 px-6 py-8 lg:px-40">
+      <main className="flex-1 px-4 sm:px-6 py-6 sm:py-8 lg:px-40">
         <div className="mx-auto max-w-6xl">
           {/* Page Heading */}
           <div className="mb-8 flex flex-col gap-1 md:flex-row md:items-end md:justify-between">
@@ -418,7 +418,7 @@ export default function SavedRoutesPage() {
             <TabsContent value="saved" className="mt-8">
               {savedRoutes.length > 0 ? (
                 <motion.div
-                  className="grid grid-cols-1 gap-6 lg:grid-cols-3"
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
                   initial="hidden"
                   animate="visible"
                   variants={staggerContainer}
@@ -441,7 +441,7 @@ export default function SavedRoutesPage() {
             <TabsContent value="history" className="mt-8">
               {history.length > 0 ? (
                 <motion.div
-                  className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4"
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
                   initial="hidden"
                   animate="visible"
                   variants={staggerContainer}
@@ -464,7 +464,7 @@ export default function SavedRoutesPage() {
             <TabsContent value="favorites" className="mt-8">
               {favoriteRoutes.length > 0 ? (
                 <motion.div
-                  className="grid grid-cols-1 gap-6 lg:grid-cols-3"
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
                   initial="hidden"
                   animate="visible"
                   variants={staggerContainer}

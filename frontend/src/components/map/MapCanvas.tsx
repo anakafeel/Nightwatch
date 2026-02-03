@@ -345,10 +345,13 @@ function MapCanvas({
         position: "relative",
         width: "100%",
         height: "100%",
-        minHeight: 300,
+        minHeight: 200,
       }}
     >
-      <div ref={mapContainer} style={{ position: "absolute", inset: 0 }} />
+      <div
+        ref={mapContainer}
+        style={{ position: "absolute", inset: 0, zIndex: 1 }}
+      />
     </div>
   );
 }

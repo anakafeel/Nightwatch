@@ -227,22 +227,23 @@ export default function AppPage() {
         </div>
       )}
 
-      <div className="flex flex-1 overflow-hidden relative">
+      <div className="flex flex-col md:flex-row flex-1 overflow-hidden relative">
         {/* Sidebar */}
         <aside
-          className="w-full md:w-[420px] flex flex-col z-20 
-                  bg-gradient-to-br from-[#0F2326]/90 to-[#1A363B]/85 
-                  backdrop-blur-xl border-r border-[#0F7A82]/50 
-                  h-full overflow-y-auto custom-scrollbar 
-                  shadow-[0_25px_50px_rgba(15,122,130,0.35)] 
-                  ring-1 ring-[#0F7A82]/40"
+          className="w-full md:w-[380px] lg:w-[420px] flex flex-col z-20
+                  bg-gradient-to-br from-[#0F2326]/95 to-[#1A363B]/90
+                  backdrop-blur-xl md:border-r border-b md:border-b-0 border-[#0F7A82]/50
+                  overflow-y-auto custom-scrollbar
+                  shadow-lg
+                  ring-1 ring-[#0F7A82]/40
+                  shrink-0"
         >
           <form
             onSubmit={(e) => {
               e.preventDefault();
               void onSubmit();
             }}
-            className="p-8 space-y-8 rounded-2xl border-0 shadow-inner"
+            className="p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6"
           >
             {/* Navigation Inputs */}
             <div className="space-y-4">
@@ -332,80 +333,128 @@ export default function AppPage() {
         </aside>
 
         {/* Map View */}
-        <main className="flex-1 relative bg-[#0b1215] overflow-hidden hidden md:block">
-          {/* ✅ Map Canvas — required wiring */}
+        <main className="flex-1 min-h-[50vh] md:min-h-0 relative bg-[#0b1215] overflow-hidden">
+          {/* Map Canvas */}
           <MapCanvas
             routeData={routeData}
             start={{ lat: startLoc.lat, lng: startLoc.lng }}
             end={{ lat: endLoc.lat, lng: endLoc.lng }}
             center={[CARLETON.lng, CARLETON.lat]}
-            zoom={13}
+            zoom={12}
             selectedRoute={selectedRoute}
-            fitOnRoute={false}
+            fitOnRoute={true}
             className="absolute inset-0 z-10"
           />
 
-          {/* Route Recommendation Card */}
+          {/* Route Recommendation Card - Desktop */}
           {routeData && (
             <RouteCard
               safest={routeData.safest}
               shortest={routeData.shortest}
               selectedRoute={selectedRoute}
               onSelectRoute={setSelectedRoute}
-              className="absolute top-8 left-8 z-20"
+              className="absolute top-4 left-4 z-20 hidden md:block md:top-8 md:left-8"
             />
           )}
 
-          {/* Why This Route Tooltip */}
+          {/* Why This Route Tooltip - Desktop only */}
           {routeData && selectedRoute === "safest" && (
-            <div className="absolute top-[35%] left-[50%] z-20 transform -translate-x-1/2 -translate-y-full">
+            <div className="absolute top-[35%] left-[50%] z-20 transform -translate-x-1/2 -translate-y-full hidden md:block">
               <WhyThisRoute reasons={routeData.safest.reasons} />
             </div>
           )}
 
           {/* Map Controls */}
           <MapControls
-            className="absolute bottom-8 right-8 z-20"
+            className="absolute bottom-36 md:bottom-8 right-4 md:right-8 z-20"
             onZoomIn={() => console.log("Zoom in")}
             onZoomOut={() => console.log("Zoom out")}
             onRecenter={() => console.log("Recenter")}
           />
-        </main>
 
-        {/* Mobile Map (UI placeholder) */}
-        <div className="flex-1 relative bg-[#0b1215] md:hidden">
-          <div className="absolute inset-0 bg-map-pattern" />
-          <div className="absolute bottom-0 left-0 right-0 bg-background-dark/95 backdrop-blur-lg border-t border-border-dark rounded-t-3xl p-6 z-20">
-            <div className="w-12 h-1 bg-border-dark rounded-full mx-auto mb-4" />
-            {routeData ? (
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-primary font-bold text-lg">
-                    Safest Route
-                  </span>
-                  <span className="text-white font-bold">
-                    {routeData.safest.eta_min} min
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="h-1.5 flex-1 bg-surface-dark rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-primary"
-                      style={{ width: `${routeData.safest.safety_score}%` }}
-                    />
-                  </div>
-                  <span className="text-primary font-bold text-xs">
-                    {routeData.safest.safety_score}% Safety
-                  </span>
-                </div>
+          {/* Mobile Route Selection Card */}
+          {routeData && (
+            <div className="absolute bottom-0 left-0 right-0 bg-background-dark/95 backdrop-blur-xl border-t border-[#0F7A82]/30 rounded-t-2xl z-20 md:hidden">
+              {/* Toggle Buttons */}
+              <div className="flex border-b border-border-dark/50">
+                <button
+                  onClick={() => setSelectedRoute("safest")}
+                  className={`flex-1 py-3 px-4 text-sm font-semibold transition-colors ${
+                    selectedRoute === "safest"
+                      ? "text-primary border-b-2 border-primary bg-primary/5"
+                      : "text-text-muted"
+                  }`}
+                >
+                  Safest
+                </button>
+                <button
+                  onClick={() => setSelectedRoute("shortest")}
+                  className={`flex-1 py-3 px-4 text-sm font-semibold transition-colors ${
+                    selectedRoute === "shortest"
+                      ? "text-white border-b-2 border-white bg-white/5"
+                      : "text-text-muted"
+                  }`}
+                >
+                  Shortest
+                </button>
               </div>
-            ) : (
-              <p className="text-text-muted text-center">
-                Pick locations and find your safest route
-              </p>
-            )}
-          </div>
-        </div>
+
+              {/* Route Info */}
+              <div className="p-4">
+                {selectedRoute === "safest" ? (
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-2">
+                        <span className="text-primary font-bold">Safest Route</span>
+                        <span className="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded-full">
+                          RECOMMENDED
+                        </span>
+                      </div>
+                      <span className="text-white font-bold">
+                        {routeData.safest.eta_min} min
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm text-text-muted">
+                      <span>{(routeData.safest.distance_m / 1000).toFixed(1)} km</span>
+                      <span>•</span>
+                      <span className="text-primary font-semibold">
+                        {routeData.safest.safety_score}% Safety
+                      </span>
+                    </div>
+                    <div className="h-1.5 bg-surface-dark rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-primary transition-all"
+                        style={{ width: `${routeData.safest.safety_score}%` }}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-white font-bold">Shortest Route</span>
+                      <span className="text-white font-bold">
+                        {routeData.shortest.eta_min} min
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm text-text-muted">
+                      <span>{(routeData.shortest.distance_m / 1000).toFixed(1)} km</span>
+                      <span>•</span>
+                      <span className="text-gray-400 font-semibold">
+                        {routeData.shortest.safety_score}% Safety
+                      </span>
+                    </div>
+                    <div className="h-1.5 bg-surface-dark rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-gray-500 transition-all"
+                        style={{ width: `${routeData.shortest.safety_score}%` }}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </main>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 interface BrandLogoProps {
@@ -57,12 +57,27 @@ export function BrandLogo({
   href = "/",
   showGlow = true,
 }: BrandLogoProps) {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (href === "/" && pathname === "/") {
+      // Already on homepage - scroll to top
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (href) {
+      // Navigate to href
+      e.preventDefault();
+      router.push(href);
+    }
+  };
+
   const content = (
     <div
       className={cn(
         "flex items-center gap-3 group",
         href && "cursor-pointer",
-        className,
+        className
       )}
     >
       {/* Icon with glow effect */}
@@ -80,7 +95,7 @@ export function BrandLogo({
             showGlow && [
               "drop-shadow-[0_0_8px_rgba(19,200,236,0.5)]",
               "group-hover:drop-shadow-[0_0_14px_rgba(19,200,236,0.7)]",
-            ],
+            ]
           )}
         />
       </div>
@@ -95,7 +110,15 @@ export function BrandLogo({
   );
 
   if (href) {
-    return <Link href={href}>{content}</Link>;
+    return (
+      <button
+        onClick={handleClick}
+        aria-label="Go to homepage"
+        className="focus:outline-none focus:ring-2 focus:ring-[#0F7A82]/50 rounded-lg"
+      >
+        {content}
+      </button>
+    );
   }
 
   return content;

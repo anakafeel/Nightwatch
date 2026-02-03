@@ -286,57 +286,61 @@ export default function InsightsPage() {
       <header className="sticky top-0 z-50 w-full border-b border-[#0F7A82]/30
                         bg-gradient-to-r from-[#0F2326]/95 to-[#1A363B]/90
                         backdrop-blur-xl shadow-lg ring-1 ring-[#0F7A82]/20">
-        <div className="px-6 md:px-10 py-4 flex items-center justify-between max-w-[1440px] mx-auto">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center justify-center w-10 h-10 rounded-lg
+        <div className="px-4 sm:px-6 md:px-10 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 max-w-[1440px] mx-auto">
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+            <div className="flex-shrink-0 flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-lg
                            bg-[#0F7A82]/20 text-[#37B8A6] border border-[#0F7A82]/40">
-              <span className="material-symbols-outlined">insights</span>
+              <span className="material-symbols-outlined text-lg sm:text-xl">insights</span>
             </div>
-            <div>
-              <h1 className="text-xl font-bold leading-tight tracking-tight text-white">
+            <div className="min-w-0">
+              <h1 className="text-lg sm:text-xl font-bold leading-tight tracking-tight text-white truncate">
                 Route Safety Insights
               </h1>
-              <p className="text-xs text-text-muted font-medium">
+              <p className="text-xs text-text-muted font-medium truncate">
                 Route ID: {routeId}
                 {!hasReal && (
                   <span className="ml-2 text-[11px] text-secondary">
-                    (no route data — run a route first)
+                    (no data)
                   </span>
                 )}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
             {hasReal && (
               <Button
                 variant={isSaved ? "ghost" : "primary"}
+                size="sm"
                 onClick={handleSaveRoute}
                 disabled={isSaved}
                 className={!isSaved ? `bg-gradient-to-r from-[#0F7A82] via-[#37B8A6] to-[#1AC6E6]
                           text-black font-bold rounded-xl shadow-lg hover:shadow-xl
-                          transition-all duration-300` : ""}
+                          transition-all duration-300 flex-1 sm:flex-none` : "flex-1 sm:flex-none"}
                 leftIcon={
-                  <span className="material-symbols-outlined text-[20px]">
+                  <span className="material-symbols-outlined text-[18px] sm:text-[20px]">
                     {isSaved ? "bookmark" : "bookmark_border"}
                   </span>
                 }
               >
-                {isSaved ? "Saved" : "Save Route"}
+                <span className="hidden sm:inline">{isSaved ? "Saved" : "Save Route"}</span>
+                <span className="sm:hidden">{isSaved ? "Saved" : "Save"}</span>
               </Button>
             )}
-            <Link href="/app">
+            <Link href="/app" className="flex-1 sm:flex-none">
               <Button
                 variant="ghost"
-                className="hover:bg-[#1A363B]/50 border border-transparent hover:border-[#0F7A82]/40
+                size="sm"
+                className="w-full hover:bg-[#1A363B]/50 border border-transparent hover:border-[#0F7A82]/40
                           rounded-xl transition-all duration-200"
                 leftIcon={
-                  <span className="material-symbols-outlined text-[20px]">
+                  <span className="material-symbols-outlined text-[18px] sm:text-[20px]">
                     map
                   </span>
                 }
               >
-                Back to Map
+                <span className="hidden sm:inline">Back to Map</span>
+                <span className="sm:hidden">Map</span>
               </Button>
             </Link>
           </div>
