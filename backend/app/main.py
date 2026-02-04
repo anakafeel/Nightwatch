@@ -19,3 +19,9 @@ app.include_router(api_router, prefix="/v1")
 @app.get("/")
 def root():
     return {"message": "Pathify API", "base": "/v1"}
+
+
+@app.get("/health")
+def health():
+    """Fast health check - does NOT trigger data loading."""
+    return {"status": "ok"}

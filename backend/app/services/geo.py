@@ -1,27 +1,46 @@
-from fastapi import Path
-import networkx as nx # for creating graphs and working with djikstra's algorithm
-import random # for generating random numbers
-import pandas as pd
-import numpy as np
-from math import radians
-from scipy.spatial import KDTree
+from __future__ import annotations
 
-# Set a fixed seed for reproducibility
-#seed = random.randint(0, 10000)
+import networkx as nx
+import random
+import numpy as np
+import time
+from functools import lru_cache
+from pathlib import Path
+from scipy.spatial import KDTree
+from typing import Tuple
+
+# Path to streetlights CSV
+CSV_PATH = Path(__file__).resolve().parents[2] / "scripts" / "ottawa_street_lights.csv"
+
 seed = 42
 
-# 50 nodes by default, unless specified otherwise
+
+@lru_cache(maxsize=1)
+def _load_streetlight_coords() -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Load lat/lon from CSV once, cache forever.
+    Only loads the 2 columns we need with explicit dtypes.
+    """
+    import pandas as pd
+
+    start = time.perf_counter()
+    df = pd.read_csv(
+        CSV_PATH,
+        usecols=["lat", "lon"],
+        dtype={"lat": "float64", "lon": "float64"},
+    )
+    elapsed = time.perf_counter() - start
+    print(f"[geo] Loaded {len(df)} streetlights in {elapsed:.2f}s (cached)")
+    return df["lat"].values, df["lon"].values
+
+
 def create_mock_graph(num_nodes=50, seed=seed):
-    """Creates a random graph with specified number of nodes and edges."""
+    """Creates a graph from cached streetlight coordinates."""
     random.seed(seed)
-    newGraph = nx.Graph() # create a new empty graph
-    
-    from pathlib import Path
-    CSV_PATH = Path(__file__).resolve().parents[2] / "scripts" / "ottawa_street_lights.csv"
-    df = pd.read_csv(CSV_PATH)
-    num_nodes = len(df) # limit to available streetlights
-    latitude = df['lat'].values[:num_nodes]
-    longitude = df['lon'].values[:num_nodes]
+    newGraph = nx.Graph()
+
+    latitude, longitude = _load_streetlight_coords()
+    num_nodes = len(latitude)
     
     # Convert lat/lon → flat XY coordinates (meters) for KDTree
     def latlon_to_xy(lat, lon, lat0):
@@ -29,14 +48,14 @@ def create_mock_graph(num_nodes=50, seed=seed):
         x = R * np.radians(lon) * np.cos(np.radians(lat0))
         y = R * np.radians(lat)
         return x, y
-    
-    lat0 = df["lat"].iloc[:num_nodes].mean()  # Reference latitude
-    coords = np.array([latlon_to_xy(row.lat, row.lon, lat0) 
-                      for _, row in df.head(num_nodes).iterrows()])
-    
+
+    lat0 = float(np.mean(latitude))  # Reference latitude
+    coords = np.array([latlon_to_xy(latitude[i], longitude[i], lat0)
+                       for i in range(num_nodes)])
+
     # Create nodes with real coordinates
     for i in range(num_nodes):
-        newGraph.add_node(i, pos=(df.iloc[i]['lat'], df.iloc[i]['lon']))
+        newGraph.add_node(i, pos=(latitude[i], longitude[i]))
     
     # Build KDTree for fast nearest neighbor search
     tree = KDTree(coords)
