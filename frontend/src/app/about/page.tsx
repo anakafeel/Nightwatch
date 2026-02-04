@@ -17,17 +17,17 @@ const team = [
   {
     name: "Senura Dissanayake",
     role: "API Data Extraction",
-    linkedin: "https://www.linkedin.com/in/senura-dissanayake-702580243/",
+    linkedin: "https://www.linkedin.com/in/senura-dissanayake-73113626a/",
   },
   {
     name: "Jad Moi El Din",
     role: "Graph Calculations",
-    linkedin: "https://www.linkedin.com/in/anaskafeel/",
+    linkedin: "https://www.linkedin.com/in/jad-mohi-el-din-4411b7264/",
   },
   {
     name: "Arsh Jameel",
     role: "Frontend & Graph Building",
-    linkedin: "https://www.linkedin.com/in/arsh-jameel-702580243/",
+    linkedin: "https://www.linkedin.com/in/arshjameel/",
   },
 ];
 
