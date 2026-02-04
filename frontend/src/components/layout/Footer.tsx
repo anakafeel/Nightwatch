@@ -6,8 +6,8 @@ import { BrandLogo } from "./BrandLogo";
 function Footer() {
   return (
     <footer
-      className="w-full bg-gradient-to-b from-[#0F2326] to-[#050A14]
-                      border-t border-[#0F7A82]/30 pt-12 pb-8"
+      className="w-full bg-gradient-to-b from-[#0B1220] to-[#070A12]
+                      border-t border-[#7C5CFF]/30 pt-12 pb-8"
     >
       <div className="max-w-7xl mx-auto px-6">
         {/* Top Section */}
@@ -25,25 +25,25 @@ function Footer() {
           <nav className="flex flex-wrap gap-x-10 gap-y-4 text-sm">
             <Link
               href="/app"
-              className="text-text-muted hover:text-[#37B8A6] transition-colors duration-200
-                        focus:outline-none focus:ring-2 focus:ring-[#0F7A82]/50 focus:ring-offset-2
-                        focus:ring-offset-[#0F2326] rounded"
+              className="text-text-muted hover:text-[#8B74FF] transition-colors duration-200
+                        focus:outline-none focus:ring-2 focus:ring-[#7C5CFF]/50 focus:ring-offset-2
+                        focus:ring-offset-[#0B1220] rounded"
             >
               Try App
             </Link>
             <a
               href="#how-it-works"
-              className="text-text-muted hover:text-[#37B8A6] transition-colors duration-200
-                        focus:outline-none focus:ring-2 focus:ring-[#0F7A82]/50 focus:ring-offset-2
-                        focus:ring-offset-[#0F2326] rounded"
+              className="text-text-muted hover:text-[#8B74FF] transition-colors duration-200
+                        focus:outline-none focus:ring-2 focus:ring-[#7C5CFF]/50 focus:ring-offset-2
+                        focus:ring-offset-[#0B1220] rounded"
             >
               How it Works
             </a>
             <Link
               href="/about"
-              className="text-text-muted hover:text-[#37B8A6] transition-colors duration-200
-                        focus:outline-none focus:ring-2 focus:ring-[#0F7A82]/50 focus:ring-offset-2
-                        focus:ring-offset-[#0F2326] rounded"
+              className="text-text-muted hover:text-[#8B74FF] transition-colors duration-200
+                        focus:outline-none focus:ring-2 focus:ring-[#7C5CFF]/50 focus:ring-offset-2
+                        focus:ring-offset-[#0B1220] rounded"
             >
               About
             </Link>
@@ -53,7 +53,7 @@ function Footer() {
         {/* Bottom */}
         <div
           className="flex flex-col sm:flex-row items-center justify-between pt-6
-                        border-t border-[#0F7A82]/20 gap-4 text-sm"
+                        border-t border-[#7C5CFF]/20 gap-4 text-sm"
         >
           <p className="text-text-muted/60 font-medium">
             &copy; 2026 Nightwatch. All rights reserved.
@@ -70,8 +70,8 @@ function Footer() {
               href="https://www.linkedin.com/in/saim-hashmi-2230b6243"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#37B8A6] hover:text-[#37B8A6]/80 transition-colors duration-200
-                        focus:outline-none focus:ring-2 focus:ring-[#0F7A82]/50 rounded"
+              className="text-[#8B74FF] hover:text-[#8B74FF]/80 transition-colors duration-200
+                        focus:outline-none focus:ring-2 focus:ring-[#7C5CFF]/50 rounded"
             >
               Saim Hashmi
             </a>

@@ -18,9 +18,9 @@ function AppNav() {
 
   return (
     <header
-      className="flex flex-col bg-gradient-to-r from-[#0F2326]/95 to-[#1A363B]/90
-                 backdrop-blur-xl border-b border-[#0F7A82]/30
-                 z-30 shrink-0 shadow-lg ring-1 ring-[#0F7A82]/20"
+      className="flex flex-col bg-gradient-to-r from-[#0B1220]/95 to-[#14213A]/90
+                 backdrop-blur-xl border-b border-[#7C5CFF]/30
+                 z-30 shrink-0 shadow-lg ring-1 ring-[#7C5CFF]/20"
     >
       {/* Main nav bar */}
       <div className="flex items-center justify-between whitespace-nowrap px-4 sm:px-8 py-2">
@@ -53,7 +53,7 @@ function AppNav() {
           {/* Mobile Menu Button */}
           <button
             className="md:hidden text-white p-2 rounded-lg hover:bg-white/5 transition-colors
-                      focus:outline-none focus:ring-2 focus:ring-[#0F7A82]/50"
+                      focus:outline-none focus:ring-2 focus:ring-[#7C5CFF]/50"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
             aria-expanded={mobileMenuOpen}
@@ -72,7 +72,7 @@ function AppNav() {
           mobileMenuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
         )}
       >
-        <div className="px-4 pb-4 space-y-1 border-t border-[#0F7A82]/20">
+        <div className="px-4 pb-4 space-y-1 border-t border-[#7C5CFF]/20">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (

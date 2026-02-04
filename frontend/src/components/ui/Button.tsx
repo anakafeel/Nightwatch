@@ -27,17 +27,17 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      "inline-flex items-center justify-center font-bold transition-all duration-200 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background-dark";
+      "inline-flex items-center justify-center font-bold transition-all duration-200 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background-dark";
 
     const variants = {
       primary:
-        "bg-primary text-background-dark hover:bg-[#34d9fa] shadow-glow-primary hover:shadow-lg hover:-translate-y-0.5",
+        "bg-primary text-white hover:bg-primary-hover shadow-premium hover:shadow-lg hover:-translate-y-0.5",
       secondary:
-        "border border-primary text-primary hover:bg-primary/10 bg-transparent",
+        "border border-primary/40 text-primary hover:bg-primary/10 bg-transparent hover:border-primary/60",
       ghost:
         "text-gray-300 hover:text-white hover:bg-white/5 bg-transparent",
       danger:
-        "bg-rose-500 text-white hover:bg-rose-600 shadow-glow-danger",
+        "bg-[#FF6B8A] text-white hover:bg-[#ff7f9a] shadow-glow-danger",
     };
 
     const sizes = {

@@ -93,8 +93,8 @@ export function BrandLogo({
           className={cn(
             "relative z-10 text-white transition-all duration-300",
             showGlow && [
-              "drop-shadow-[0_0_8px_rgba(19,200,236,0.5)]",
-              "group-hover:drop-shadow-[0_0_14px_rgba(19,200,236,0.7)]",
+              "drop-shadow-[0_0_8px_rgba(124,92,255,0.12)]",
+              "group-hover:drop-shadow-[0_0_14px_rgba(124,92,255,0.2)]",
             ]
           )}
         />
@@ -114,7 +114,7 @@ export function BrandLogo({
       <button
         onClick={handleClick}
         aria-label="Go to homepage"
-        className="focus:outline-none focus:ring-2 focus:ring-[#0F7A82]/50 rounded-lg"
+        className="focus:outline-none focus:ring-2 focus:ring-primary/45 rounded-lg"
       >
         {content}
       </button>

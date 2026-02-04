@@ -10,24 +10,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Primary Colors
+        // Primary Colors (soft violet)
         primary: "var(--color-primary)",
         "primary-glow": "var(--color-primary-glow)",
         "primary-dark": "var(--color-primary-dark)",
+        "primary-hover": "var(--color-primary-hover)",
+
+        // Secondary (muted blue)
+        secondary: "var(--color-secondary)",
+        "secondary-hover": "var(--color-secondary-hover)",
 
         // Accent Colors
         "noor-gold": "var(--color-noor-gold)",
-        secondary: "var(--color-secondary)",
-
-        // Teal Accent System
-        "teal-dark": "var(--color-teal-dark)",
-        "teal-mid": "var(--color-teal-mid)",
-        "teal-accent": "var(--color-teal-accent)",
-        "teal-light": "var(--color-teal-light)",
-        "teal-bright": "var(--color-teal-bright)",
 
         // Background Colors
-        "background-light": "var(--color-background-light)",
         "background-dark": "var(--color-background-dark)",
         "background-dark-end": "var(--color-background-dark-end)",
 
@@ -58,15 +54,18 @@ const config: Config = {
         glow: "0 0 20px -5px var(--tw-shadow-color)",
         "glow-lg": "0 0 40px -10px var(--tw-shadow-color)",
         "glow-sm": "0 0 8px var(--tw-shadow-color)",
-        "glow-primary": "0 0 15px rgba(19, 200, 236, 0.5)",
-        "glow-secondary": "0 0 15px rgba(45, 212, 191, 0.4)",
-        "glow-success": "0 0 12px rgba(52, 211, 153, 0.3)",
-        "glow-warning": "0 0 12px rgba(251, 191, 36, 0.3)",
-        "glow-danger": "0 0 12px rgba(244, 63, 94, 0.3)",
+        "glow-primary": "0 10px 30px rgba(0, 0, 0, 0.35)",
+        "glow-secondary": "0 10px 30px rgba(0, 0, 0, 0.35)",
+        "glow-success": "0 0 10px rgba(60, 203, 154, 0.12)",
+        "glow-warning": "0 0 10px rgba(242, 193, 78, 0.12)",
+        "glow-danger": "0 0 10px rgba(255, 107, 138, 0.12)",
+        "premium": "0 10px 30px rgba(0, 0, 0, 0.35)",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-dark": "linear-gradient(to bottom, var(--color-background-dark), var(--color-background-dark-end))",
+        "grad-primary": "linear-gradient(135deg, #7C5CFF 0%, #4C7DFF 100%)",
+        "grad-hero": "linear-gradient(90deg, rgba(124,92,255,0.95) 0%, rgba(76,125,255,0.95) 60%, rgba(255,255,255,0.92) 120%)",
       },
       animation: {
         "pulse-glow": "pulse-glow 2s infinite",
@@ -77,8 +76,8 @@ const config: Config = {
       },
       keyframes: {
         "pulse-glow": {
-          "0%, 100%": { opacity: "1", filter: "drop-shadow(0 0 4px rgba(19, 200, 236, 0.8))" },
-          "50%": { opacity: "0.6", filter: "drop-shadow(0 0 8px rgba(19, 200, 236, 0.8))" },
+          "0%, 100%": { opacity: "1", filter: "drop-shadow(0 0 4px rgba(124, 92, 255, 0.12))" },
+          "50%": { opacity: "0.6", filter: "drop-shadow(0 0 6px rgba(124, 92, 255, 0.12))" },
         },
         dash: {
           to: { strokeDashoffset: "-100" },

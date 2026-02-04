@@ -101,10 +101,10 @@ export default function SavedRoutesPage() {
       variants={routeCardVariants}
       whileHover={reducedMotion ? undefined : { y: -4, transition: { duration: 0.2 } }}
       className="group relative flex flex-col overflow-hidden rounded-xl
-                bg-gradient-to-br from-[#1A363B]/80 to-[#0F2326]/60
-                border border-[#0F7A82]/40 shadow-lg shadow-[#0F7A82]/5
+                bg-gradient-to-br from-[#14213A]/80 to-[#0B1220]/60
+                border border-[#7C5CFF]/40 shadow-lg shadow-[#7C5CFF]/5
                 transition-colors duration-300
-                hover:border-[#0F7A82]/70 hover:shadow-xl hover:shadow-[#0F7A82]/10"
+                hover:border-[#7C5CFF]/70 hover:shadow-xl hover:shadow-[#7C5CFF]/10"
     >
       {/* Map Preview */}
       <div className="relative h-40 w-full overflow-hidden bg-surface-darker">
@@ -204,9 +204,9 @@ export default function SavedRoutesPage() {
           <Button
             size="sm"
             variant="ghost"
-            className="bg-[#0F7A82]/20 text-[#37B8A6] border border-[#0F7A82]/40
-                      hover:bg-gradient-to-r hover:from-[#0F7A82] hover:to-[#37B8A6]
-                      hover:text-black hover:border-transparent rounded-lg
+            className="bg-[#7C5CFF]/20 text-[#8B74FF] border border-[#7C5CFF]/40
+                      hover:bg-gradient-to-r hover:from-[#7C5CFF] hover:to-[#8B74FF]
+                      hover:text-white hover:border-transparent rounded-lg
                       transition-all duration-200"
             leftIcon={
               <span className="material-symbols-outlined text-[16px]">
@@ -229,10 +229,10 @@ export default function SavedRoutesPage() {
       variants={routeCardVariants}
       whileHover={reducedMotion ? undefined : { y: -4, transition: { duration: 0.2 } }}
       className="group relative flex flex-col overflow-hidden rounded-xl
-                bg-gradient-to-br from-[#1A363B]/80 to-[#0F2326]/60
-                border border-[#0F7A82]/40 shadow-lg shadow-[#0F7A82]/5
+                bg-gradient-to-br from-[#14213A]/80 to-[#0B1220]/60
+                border border-[#7C5CFF]/40 shadow-lg shadow-[#7C5CFF]/5
                 transition-colors duration-300
-                hover:border-[#0F7A82]/70 hover:shadow-xl hover:shadow-[#0F7A82]/10"
+                hover:border-[#7C5CFF]/70 hover:shadow-xl hover:shadow-[#7C5CFF]/10"
     >
       {/* Map Preview */}
       <div className="relative h-32 w-full overflow-hidden bg-surface-darker">
@@ -284,9 +284,9 @@ export default function SavedRoutesPage() {
           <Button
             size="sm"
             variant="ghost"
-            className="bg-[#0F7A82]/20 text-[#37B8A6] border border-[#0F7A82]/40
-                      hover:bg-gradient-to-r hover:from-[#0F7A82] hover:to-[#37B8A6]
-                      hover:text-black hover:border-transparent rounded-lg
+            className="bg-[#7C5CFF]/20 text-[#8B74FF] border border-[#7C5CFF]/40
+                      hover:bg-gradient-to-r hover:from-[#7C5CFF] hover:to-[#8B74FF]
+                      hover:text-white hover:border-transparent rounded-lg
                       transition-all duration-200 text-xs"
             leftIcon={
               <span className="material-symbols-outlined text-[14px]">
@@ -373,9 +373,9 @@ export default function SavedRoutesPage() {
             </div>
             <Link href="/app">
               <Button
-                className="mt-4 md:mt-0 bg-gradient-to-r from-[#0F7A82] via-[#37B8A6] to-[#1AC6E6]
-                          text-black font-bold rounded-xl shadow-lg hover:shadow-xl
-                          hover:shadow-[#0F7A82]/30 transition-all duration-300"
+                className="mt-4 md:mt-0 bg-gradient-to-r from-[#7C5CFF] via-[#8B74FF] to-[#4C7DFF]
+                          text-white font-bold rounded-xl shadow-lg hover:shadow-xl
+                          hover:shadow-[#7C5CFF]/30 transition-all duration-300"
                 leftIcon={
                   <span className="material-symbols-outlined text-[20px]">add</span>
                 }
@@ -491,16 +491,16 @@ export default function SavedRoutesPage() {
           {/* Discovery Section - only show when all tabs are empty */}
           {savedRoutes.length === 0 && history.length === 0 && (
             <div className="mt-12 flex flex-col items-center justify-center rounded-2xl
-                           border border-dashed border-[#0F7A82]/40
-                           bg-gradient-to-br from-[#1A363B]/30 to-[#0F2326]/30 p-12 text-center">
+                           border border-dashed border-[#7C5CFF]/40
+                           bg-gradient-to-br from-[#14213A]/30 to-[#0B1220]/30 p-12 text-center">
               <div className="relative mb-6 h-48 w-48">
                 <div className="absolute left-1/2 top-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2
-                               rounded-full bg-[#0F7A82]/20 blur-3xl" />
+                               rounded-full bg-[#7C5CFF]/20 blur-3xl" />
                 <div className="absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2
                                items-center justify-center rounded-full
-                               bg-gradient-to-br from-[#1A363B] to-[#0F2326]
-                               shadow-2xl border border-[#0F7A82]/40">
-                  <span className="material-symbols-outlined text-[48px] text-[#37B8A6] animate-pulse">
+                               bg-gradient-to-br from-[#14213A] to-[#0B1220]
+                               shadow-2xl border border-[#7C5CFF]/40">
+                  <span className="material-symbols-outlined text-[48px] text-[#8B74FF] animate-pulse">
                     location_searching
                   </span>
                 </div>
@@ -511,8 +511,8 @@ export default function SavedRoutesPage() {
                 destination to build your history.
               </p>
               <Link href="/app" className="mt-6">
-                <Button variant="ghost" className="text-[#37B8A6] hover:text-white
-                               border border-[#0F7A82]/40 hover:bg-[#1A363B]/50
+                <Button variant="ghost" className="text-[#8B74FF] hover:text-white
+                               border border-[#7C5CFF]/40 hover:bg-[#14213A]/50
                                rounded-xl transition-all duration-200">
                   Browse Popular Routes
                 </Button>

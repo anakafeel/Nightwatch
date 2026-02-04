@@ -1,67 +1,81 @@
-/* Nightwatch Design Tokens */
+/* Calm Premium Design Tokens */
 
 :root {
-  /* Primary Colors */
-  --color-primary: #13c8ec;
-  --color-primary-glow: rgba(19, 200, 236, 0.5);
-  --color-primary-dark: #0ea5c3;
+  /* Core Backgrounds (deep, clean) */
+  --color-bg-0: #070A12;
+  --color-bg-1: #0B1220;
+  --color-bg-2: #101A2D;
+  --color-bg-3: #14213A;
 
-  /* Accent Colors */
-  --color-noor-gold: #fffacd;
-  --color-secondary: #fbbf24;
+  /* Glass Card */
+  --color-card: rgba(16, 26, 45, 0.72);
+  --color-card-strong: rgba(16, 26, 45, 0.86);
 
-  /* Teal Accent System (source-of-truth) */
-  --color-teal-dark: #0F2326;
-  --color-teal-mid: #1A363B;
-  --color-teal-accent: #0F7A82;
-  --color-teal-light: #37B8A6;
-  --color-teal-bright: #1AC6E6;
+  /* Borders / Dividers */
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.12);
 
-  /* Background Colors */
-  --color-background-light: #f6f8f8;
-  --color-background-dark: #050a14;
-  --color-background-dark-end: #0b1221;
+  /* Text (premium contrast) */
+  --color-text-1: rgba(255, 255, 255, 0.92);
+  --color-text-2: rgba(255, 255, 255, 0.72);
+  --color-text-3: rgba(255, 255, 255, 0.52);
 
-  /* Surface Colors */
-  --color-surface-dark: #1c2e33;
-  --color-surface-darker: #111f22;
+  /* Accent (soft violet + slate-blue) */
+  --color-primary: #7C5CFF;
+  --color-primary-hover: #8B74FF;
+  --color-primary-dark: #6A4AE8;
+  --color-primary-glow: rgba(124, 92, 255, 0.12);
+  --color-secondary: #4C7DFF;
+  --color-secondary-hover: #5A8BFF;
 
-  /* Border Colors */
-  --color-border-dark: #2a4248;
-  --color-glass-border: rgba(255, 255, 255, 0.1);
-  --color-glass-bg: rgba(255, 255, 255, 0.03);
+  /* Focus ring */
+  --color-focus: rgba(124, 92, 255, 0.45);
+  --color-focus-2: rgba(76, 125, 255, 0.40);
 
-  /* Text Colors */
-  --color-text-muted: #92c0c9;
+  /* Status (subdued) */
+  --color-success: #3CCB9A;
+  --color-warning: #F2C14E;
+  --color-danger: #FF6B8A;
+
+  /* Legacy aliases (used by tailwind config + components) */
+  --color-background-dark: #070A12;
+  --color-background-dark-end: #0B1220;
+  --color-surface-dark: #101A2D;
+  --color-surface-darker: #0B1220;
+  --color-border-dark: rgba(255, 255, 255, 0.08);
+  --color-glass-border: rgba(255, 255, 255, 0.08);
+  --color-glass-bg: rgba(16, 26, 45, 0.72);
+  --color-text-muted: rgba(255, 255, 255, 0.52);
+  --color-noor-gold: #F2C14E;
 }
 
 /* Glass Panel Effect */
 .glass-panel {
-  background: rgba(16, 31, 34, 0.85);
+  background: var(--color-card-strong);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--color-border);
 }
 
 /* Navigation Glass Effect */
 .nav-glass {
-  background: linear-gradient(to right, rgba(15, 35, 38, 0.95), rgba(26, 54, 59, 0.90));
+  background: linear-gradient(to right, rgba(11, 18, 32, 0.95), rgba(16, 26, 45, 0.90));
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(15, 122, 130, 0.3);
-  box-shadow: 0 4px 30px rgba(15, 122, 130, 0.15);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
 }
 
-/* Text Glow Effect */
+/* Text Glow Effect (subtle) */
 .text-glow {
-  text-shadow: 0 0 20px rgba(19, 200, 236, 0.4);
+  text-shadow: 0 0 20px rgba(124, 92, 255, 0.12);
 }
 
 /* Map Pattern Background */
 .bg-map-pattern {
-  background-color: #0e1a1d;
-  background-image: radial-gradient(#192f33 1px, transparent 1px),
-    radial-gradient(#192f33 1px, transparent 1px);
+  background-color: #0B1220;
+  background-image: radial-gradient(rgba(20, 33, 58, 0.6) 1px, transparent 1px),
+    radial-gradient(rgba(20, 33, 58, 0.6) 1px, transparent 1px);
   background-size: 20px 20px;
   background-position: 0 0, 10px 10px;
 }
@@ -72,16 +86,16 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: var(--color-background-dark);
+  background: var(--color-bg-0);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 /* Range Slider Styling */
@@ -98,14 +112,14 @@ input[type="range"]::-webkit-slider-thumb {
   background: var(--color-primary);
   cursor: pointer;
   margin-top: -8px;
-  box-shadow: 0 0 10px rgba(19, 200, 236, 0.5);
+  box-shadow: 0 0 8px rgba(124, 92, 255, 0.12);
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
   width: 100%;
   height: 4px;
   cursor: pointer;
-  background: #334155;
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 2px;
 }
 
@@ -116,14 +130,14 @@ input[type="range"]::-moz-range-thumb {
   background: var(--color-primary);
   cursor: pointer;
   border: none;
-  box-shadow: 0 0 10px rgba(19, 200, 236, 0.5);
+  box-shadow: 0 0 8px rgba(124, 92, 255, 0.12);
 }
 
 input[type="range"]::-moz-range-track {
   width: 100%;
   height: 4px;
   cursor: pointer;
-  background: #334155;
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 2px;
 }
 
@@ -164,7 +178,7 @@ input[type="range"]::-moz-range-track {
   width: 80%;
   height: 60%;
   transform: translate(-50%, -50%);
-  background: radial-gradient(ellipse at center, rgba(19, 200, 236, 0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(124, 92, 255, 0.06) 0%, transparent 70%);
   pointer-events: none;
   z-index: 1;
 }
@@ -191,17 +205,17 @@ input[type="range"]::-moz-range-track {
   0% {
     r: 4;
     opacity: 1;
-    filter: drop-shadow(0 0 4px #13c8ec);
+    filter: drop-shadow(0 0 4px #7C5CFF);
   }
   50% {
     r: 6;
     opacity: 0.6;
-    filter: drop-shadow(0 0 8px #13c8ec);
+    filter: drop-shadow(0 0 6px rgba(124, 92, 255, 0.12));
   }
   100% {
     r: 4;
     opacity: 1;
-    filter: drop-shadow(0 0 4px #13c8ec);
+    filter: drop-shadow(0 0 4px #7C5CFF);
   }
 }
 

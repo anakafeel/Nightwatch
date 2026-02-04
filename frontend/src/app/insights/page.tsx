@@ -283,13 +283,13 @@ export default function InsightsPage() {
   return (
     <div className="bg-background-dark min-h-screen flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b border-[#0F7A82]/30
-                        bg-gradient-to-r from-[#0F2326]/95 to-[#1A363B]/90
-                        backdrop-blur-xl shadow-lg ring-1 ring-[#0F7A82]/20">
+      <header className="sticky top-0 z-50 w-full border-b border-[#7C5CFF]/30
+                        bg-gradient-to-r from-[#0B1220]/95 to-[#14213A]/90
+                        backdrop-blur-xl shadow-lg ring-1 ring-[#7C5CFF]/20">
         <div className="px-4 sm:px-6 md:px-10 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 max-w-[1440px] mx-auto">
           <div className="flex items-center gap-3 sm:gap-4 min-w-0">
             <div className="flex-shrink-0 flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-lg
-                           bg-[#0F7A82]/20 text-[#37B8A6] border border-[#0F7A82]/40">
+                           bg-[#7C5CFF]/20 text-[#8B74FF] border border-[#7C5CFF]/40">
               <span className="material-symbols-outlined text-lg sm:text-xl">insights</span>
             </div>
             <div className="min-w-0">
@@ -314,8 +314,8 @@ export default function InsightsPage() {
                 size="sm"
                 onClick={handleSaveRoute}
                 disabled={isSaved}
-                className={!isSaved ? `bg-gradient-to-r from-[#0F7A82] via-[#37B8A6] to-[#1AC6E6]
-                          text-black font-bold rounded-xl shadow-lg hover:shadow-xl
+                className={!isSaved ? `bg-gradient-to-r from-[#7C5CFF] via-[#8B74FF] to-[#4C7DFF]
+                          text-white font-bold rounded-xl shadow-lg hover:shadow-xl
                           transition-all duration-300 flex-1 sm:flex-none` : "flex-1 sm:flex-none"}
                 leftIcon={
                   <span className="material-symbols-outlined text-[18px] sm:text-[20px]">
@@ -331,7 +331,7 @@ export default function InsightsPage() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="w-full hover:bg-[#1A363B]/50 border border-transparent hover:border-[#0F7A82]/40
+                className="w-full hover:bg-[#14213A]/50 border border-transparent hover:border-[#7C5CFF]/40
                           rounded-xl transition-all duration-200"
                 leftIcon={
                   <span className="material-symbols-outlined text-[18px] sm:text-[20px]">
@@ -349,8 +349,8 @@ export default function InsightsPage() {
         {/* Save Notice */}
         {saveNotice && (
           <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-4 py-2
-                         rounded-xl bg-[#0F7A82]/20 border border-[#0F7A82]/40
-                         text-[#37B8A6] text-sm font-medium animate-pulse">
+                         rounded-xl bg-[#7C5CFF]/20 border border-[#7C5CFF]/40
+                         text-[#8B74FF] text-sm font-medium animate-pulse">
             {saveNotice}
           </div>
         )}
@@ -374,10 +374,10 @@ export default function InsightsPage() {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Safety Score Card */}
-            <div className="lg:col-span-4 flex flex-col rounded-xl border border-[#0F7A82]/40
-                           bg-gradient-to-br from-[#1A363B]/80 to-[#0F2326]/60
-                           backdrop-blur-sm p-5 shadow-lg shadow-[#0F7A82]/5
-                           hover:border-[#0F7A82]/60 transition-all duration-200">
+            <div className="lg:col-span-4 flex flex-col rounded-xl border border-[#7C5CFF]/40
+                           bg-gradient-to-br from-[#14213A]/80 to-[#0B1220]/60
+                           backdrop-blur-sm p-5 shadow-lg shadow-[#7C5CFF]/5
+                           hover:border-[#7C5CFF]/60 transition-all duration-200">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
@@ -453,10 +453,10 @@ export default function InsightsPage() {
             </div>
 
             {/* Route Comparison */}
-            <div className="lg:col-span-5 flex flex-col rounded-xl border border-[#0F7A82]/40
-                           bg-gradient-to-br from-[#1A363B]/80 to-[#0F2326]/60
-                           backdrop-blur-sm p-5 shadow-lg shadow-[#0F7A82]/5
-                           hover:border-[#0F7A82]/60 transition-all duration-200">
+            <div className="lg:col-span-5 flex flex-col rounded-xl border border-[#7C5CFF]/40
+                           bg-gradient-to-br from-[#14213A]/80 to-[#0B1220]/60
+                           backdrop-blur-sm p-5 shadow-lg shadow-[#7C5CFF]/5
+                           hover:border-[#7C5CFF]/60 transition-all duration-200">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
@@ -577,10 +577,10 @@ export default function InsightsPage() {
             {/* Metrics Cards (using real data) */}
             <div className="lg:col-span-3 flex flex-col gap-3">
               {/* Distance Card */}
-              <div className="flex-1 rounded-xl border border-[#0F7A82]/40
-                             bg-gradient-to-br from-[#1A363B]/80 to-[#0F2326]/60
-                             backdrop-blur-sm p-4 shadow-lg shadow-[#0F7A82]/5
-                             hover:border-[#0F7A82]/60 transition-all duration-200
+              <div className="flex-1 rounded-xl border border-[#7C5CFF]/40
+                             bg-gradient-to-br from-[#14213A]/80 to-[#0B1220]/60
+                             backdrop-blur-sm p-4 shadow-lg shadow-[#7C5CFF]/5
+                             hover:border-[#7C5CFF]/60 transition-all duration-200
                              flex flex-col justify-center min-h-[120px]">
                 <div className="flex justify-between items-start mb-3">
                   <div className="p-1.5 rounded-md bg-blue-500/10 text-blue-400">
@@ -605,10 +605,10 @@ export default function InsightsPage() {
               </div>
 
               {/* ETA Card */}
-              <div className="flex-1 rounded-xl border border-[#0F7A82]/40
-                             bg-gradient-to-br from-[#1A363B]/80 to-[#0F2326]/60
-                             backdrop-blur-sm p-4 shadow-lg shadow-[#0F7A82]/5
-                             hover:border-[#0F7A82]/60 transition-all duration-200
+              <div className="flex-1 rounded-xl border border-[#7C5CFF]/40
+                             bg-gradient-to-br from-[#14213A]/80 to-[#0B1220]/60
+                             backdrop-blur-sm p-4 shadow-lg shadow-[#7C5CFF]/5
+                             hover:border-[#7C5CFF]/60 transition-all duration-200
                              flex flex-col justify-center min-h-[120px]">
                 <div className="flex justify-between items-start mb-3">
                   <div className="p-1.5 rounded-md bg-purple-500/10 text-purple-400">
@@ -633,10 +633,10 @@ export default function InsightsPage() {
               </div>
 
               {/* Coverage Card */}
-              <div className="flex-1 rounded-xl border border-[#0F7A82]/40
-                             bg-gradient-to-br from-[#1A363B]/80 to-[#0F2326]/60
-                             backdrop-blur-sm p-4 shadow-lg shadow-[#0F7A82]/5
-                             hover:border-[#0F7A82]/60 transition-all duration-200
+              <div className="flex-1 rounded-xl border border-[#7C5CFF]/40
+                             bg-gradient-to-br from-[#14213A]/80 to-[#0B1220]/60
+                             backdrop-blur-sm p-4 shadow-lg shadow-[#7C5CFF]/5
+                             hover:border-[#7C5CFF]/60 transition-all duration-200
                              flex flex-col justify-center min-h-[120px]">
                 <div className="flex justify-between items-start mb-3">
                   <div className="p-1.5 rounded-md bg-emerald-500/10 text-emerald-400">
@@ -662,12 +662,12 @@ export default function InsightsPage() {
             </div>
 
             {/* Route Visualization Map */}
-            <div className="lg:col-span-12 rounded-xl border border-[#0F7A82]/40
-                           bg-gradient-to-br from-[#1A363B]/50 to-[#0F2326]/50
+            <div className="lg:col-span-12 rounded-xl border border-[#7C5CFF]/40
+                           bg-gradient-to-br from-[#14213A]/50 to-[#0B1220]/50
                            backdrop-blur-sm overflow-hidden flex flex-col relative h-[400px]
-                           shadow-lg shadow-[#0F7A82]/5">
-              <div className="absolute top-3 left-3 z-10 bg-[#0F2326]/95 backdrop-blur-sm
-                             px-3 py-2.5 rounded-lg border border-[#0F7A82]/40 shadow-xl">
+                           shadow-lg shadow-[#7C5CFF]/5">
+              <div className="absolute top-3 left-3 z-10 bg-[#0B1220]/95 backdrop-blur-sm
+                             px-3 py-2.5 rounded-lg border border-[#7C5CFF]/40 shadow-xl">
                 <h3 className="text-xs font-semibold text-white mb-2 uppercase tracking-wide">
                   Legend
                 </h3>
@@ -704,7 +704,7 @@ export default function InsightsPage() {
             </div>
 
             {/* Debug Section */}
-            <div className="lg:col-span-12 rounded-xl border border-[#0F7A82]/30 bg-[#1A363B]/30 p-3">
+            <div className="lg:col-span-12 rounded-xl border border-[#7C5CFF]/30 bg-[#14213A]/30 p-3">
               <button
                 onClick={() => setShowDebug(!showDebug)}
                 className="flex items-center gap-2 text-xs text-text-muted/70
@@ -716,7 +716,7 @@ export default function InsightsPage() {
                 Debug: Raw Backend Response
               </button>
               {showDebug && (
-                <pre className="mt-3 p-3 bg-[#0F2326]/80 rounded-lg border border-[#0F7A82]/30
+                <pre className="mt-3 p-3 bg-[#0B1220]/80 rounded-lg border border-[#7C5CFF]/30
                                overflow-auto text-[10px] text-text-muted/60 max-h-[300px] font-mono">
                   {JSON.stringify(routeData, null, 2)}
                 </pre>

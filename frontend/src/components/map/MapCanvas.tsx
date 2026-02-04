@@ -104,7 +104,7 @@ function ensureRouteLayers(map: MapLibreMap) {
       source: SOURCES.safest,
       layout: { "line-join": "round", "line-cap": "round" },
       paint: {
-        "line-color": "#13c8ec",
+        "line-color": "#7C5CFF",
         "line-width": 12,
         "line-blur": 8,
         "line-opacity": 0.35,
@@ -118,7 +118,7 @@ function ensureRouteLayers(map: MapLibreMap) {
       type: "line",
       source: SOURCES.safest,
       layout: { "line-join": "round", "line-cap": "round" },
-      paint: { "line-color": "#13c8ec", "line-width": 6 },
+      paint: { "line-color": "#7C5CFF", "line-width": 6 },
     });
   }
 }
@@ -260,7 +260,7 @@ function MapCanvas({
 
     if (end) {
       if (!endMarker.current) {
-        endMarker.current = new maplibregl.Marker({ color: "#13c8ec" })
+        endMarker.current = new maplibregl.Marker({ color: "#7C5CFF" })
           .setLngLat([end.lng, end.lat])
           .addTo(m);
       } else {

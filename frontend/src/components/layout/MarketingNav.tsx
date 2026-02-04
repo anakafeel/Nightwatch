@@ -18,9 +18,9 @@ function MarketingNav() {
 
   return (
     <nav
-      className="fixed top-0 w-full z-50 bg-gradient-to-r from-[#0F2326]/95 to-[#1A363B]/90
-                    backdrop-blur-xl border-b border-[#0F7A82]/30
-                    shadow-lg ring-1 ring-[#0F7A82]/20 transition-all duration-300"
+      className="fixed top-0 w-full z-50 bg-gradient-to-r from-[#0B1220]/95 to-[#14213A]/90
+                    backdrop-blur-xl border-b border-[#7C5CFF]/30
+                    shadow-lg ring-1 ring-[#7C5CFF]/20 transition-all duration-300"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         <BrandLogo variant="lockup" size={32} href="/" />
@@ -33,7 +33,7 @@ function MarketingNav() {
               href={link.href}
               className="px-4 py-2 rounded-lg text-sm font-medium text-text-muted
                         hover:text-white hover:bg-white/5 transition-all duration-200
-                        focus:outline-none focus:ring-2 focus:ring-[#0F7A82]/50"
+                        focus:outline-none focus:ring-2 focus:ring-[#7C5CFF]/50"
             >
               {link.label}
             </a>
@@ -50,7 +50,7 @@ function MarketingNav() {
             aria-label="View source on GitHub"
             className="p-2 rounded-lg text-text-muted hover:text-white hover:bg-white/5
                       transition-all duration-200
-                      focus:outline-none focus:ring-2 focus:ring-[#0F7A82]/50"
+                      focus:outline-none focus:ring-2 focus:ring-[#7C5CFF]/50"
           >
             <Github className="w-5 h-5" />
           </a>
@@ -58,11 +58,11 @@ function MarketingNav() {
           <Link href="/app">
             <Button
               size="md"
-              className="bg-gradient-to-r from-[#0F7A82] via-[#37B8A6] to-[#1AC6E6]
-                        text-black font-bold rounded-xl shadow-lg hover:shadow-xl
+              className="bg-gradient-to-r from-[#7C5CFF] via-[#8B74FF] to-[#4C7DFF]
+                        text-white font-bold rounded-xl shadow-lg hover:shadow-xl
                         transition-all duration-300 hover:-translate-y-0.5
-                        focus:ring-2 focus:ring-[#0F7A82]/50 focus:ring-offset-2
-                        focus:ring-offset-[#0F2326]"
+                        focus:ring-2 focus:ring-[#7C5CFF]/50 focus:ring-offset-2
+                        focus:ring-offset-[#0B1220]"
             >
               Get Started
             </Button>
@@ -79,7 +79,7 @@ function MarketingNav() {
             aria-label="View source on GitHub"
             className="p-2 rounded-lg text-text-muted hover:text-white hover:bg-white/5
                       transition-all duration-200
-                      focus:outline-none focus:ring-2 focus:ring-[#0F7A82]/50"
+                      focus:outline-none focus:ring-2 focus:ring-[#7C5CFF]/50"
           >
             <Github className="w-5 h-5" />
           </a>
@@ -87,7 +87,7 @@ function MarketingNav() {
           {/* Mobile Menu Button */}
           <button
             className="text-white p-2 rounded-lg hover:bg-white/5 transition-colors
-                      focus:outline-none focus:ring-2 focus:ring-[#0F7A82]/50"
+                      focus:outline-none focus:ring-2 focus:ring-[#7C5CFF]/50"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
             aria-expanded={isMobileMenuOpen}
@@ -106,14 +106,14 @@ function MarketingNav() {
           isMobileMenuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0",
         )}
       >
-        <div className="px-4 sm:px-6 pb-6 space-y-2 bg-[#0F2326]/95 backdrop-blur-lg border-t border-[#0F7A82]/20">
+        <div className="px-4 sm:px-6 pb-6 space-y-2 bg-[#0B1220]/95 backdrop-blur-lg border-t border-[#7C5CFF]/20">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               className="block text-sm font-medium text-text-muted hover:text-white
                         hover:bg-white/5 rounded-lg px-4 py-3 transition-all duration-200
-                        focus:outline-none focus:ring-2 focus:ring-[#0F7A82]/50"
+                        focus:outline-none focus:ring-2 focus:ring-[#7C5CFF]/50"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {link.label}
@@ -121,8 +121,8 @@ function MarketingNav() {
           ))}
           <Link href="/app" className="block pt-2">
             <Button
-              className="w-full bg-gradient-to-r from-[#0F7A82] via-[#37B8A6] to-[#1AC6E6]
-                              text-black font-bold rounded-xl"
+              className="w-full bg-gradient-to-r from-[#7C5CFF] via-[#8B74FF] to-[#4C7DFF]
+                              text-white font-bold rounded-xl"
             >
               Get Started
             </Button>

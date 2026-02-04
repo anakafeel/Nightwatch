@@ -30,8 +30,8 @@ export function Meteors({
   children,
   count = 20,
   angle = 215,
-  color = "#64748b",
-  tailColor = "#64748b",
+  color = "#4C7DFF",
+  tailColor = "#4C7DFF",
   overlay = false,
 }: MeteorsProps) {
   const [meteors, setMeteors] = useState<MeteorData[]>([])

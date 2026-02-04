@@ -14,7 +14,7 @@ export default function LandingPage() {
   const motionProps = getMotionProps(reducedMotion);
 
   return (
-    <div className="relative min-h-screen w-full bg-gradient-to-b from-[#050A14] via-[#0F2326] to-[#0B1221]">
+    <div className="relative min-h-screen w-full bg-gradient-to-b from-[#070A12] via-[#0B1220] to-[#101A2D]">
       <MarketingNav />
 
       <Meteors overlay className="!bg-transparent pointer-events-none z-20" />
@@ -24,33 +24,33 @@ export default function LandingPage() {
           {/* Abstract City Background */}
           <div className="absolute inset-0">
             {/* Base gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#050A14] via-[#0F2326] to-[#0B1221]" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#070A12] via-[#0B1220] to-[#101A2D]" />
 
             {/* City silhouette shapes */}
             <div className="absolute bottom-0 left-0 right-0 h-[60%]">
               {/* Building silhouettes */}
-              <div className="absolute bottom-0 left-[5%] w-16 h-[45%] bg-[#0c1a2a] rounded-t-sm" />
-              <div className="absolute bottom-0 left-[10%] w-24 h-[65%] bg-[#0a1525] rounded-t-sm" />
-              <div className="absolute bottom-0 left-[18%] w-12 h-[35%] bg-[#0d1c2d] rounded-t-sm" />
-              <div className="absolute bottom-0 left-[25%] w-20 h-[55%] bg-[#091320] rounded-t-sm" />
-              <div className="absolute bottom-0 right-[30%] w-32 h-[70%] bg-[#0b1826] rounded-t-sm" />
-              <div className="absolute bottom-0 right-[20%] w-16 h-[50%] bg-[#0c1a29] rounded-t-sm" />
-              <div className="absolute bottom-0 right-[10%] w-28 h-[60%] bg-[#0a1422] rounded-t-sm" />
-              <div className="absolute bottom-0 right-[5%] w-14 h-[40%] bg-[#0d1d2f] rounded-t-sm" />
+              <div className="absolute bottom-0 left-[5%] w-16 h-[45%] bg-[#0a1225] rounded-t-sm" />
+              <div className="absolute bottom-0 left-[10%] w-24 h-[65%] bg-[#08101e] rounded-t-sm" />
+              <div className="absolute bottom-0 left-[18%] w-12 h-[35%] bg-[#0b1428] rounded-t-sm" />
+              <div className="absolute bottom-0 left-[25%] w-20 h-[55%] bg-[#07101c] rounded-t-sm" />
+              <div className="absolute bottom-0 right-[30%] w-32 h-[70%] bg-[#091320] rounded-t-sm" />
+              <div className="absolute bottom-0 right-[20%] w-16 h-[50%] bg-[#0a1224] rounded-t-sm" />
+              <div className="absolute bottom-0 right-[10%] w-28 h-[60%] bg-[#08101d] rounded-t-sm" />
+              <div className="absolute bottom-0 right-[5%] w-14 h-[40%] bg-[#0b1529] rounded-t-sm" />
 
               {/* Window lights */}
-              <div className="absolute bottom-[20%] left-[11%] w-1 h-1 bg-primary/60 rounded-full shadow-[0_0_6px_#13c8ec]" />
-              <div className="absolute bottom-[35%] left-[12%] w-1 h-1 bg-noor-gold/50 rounded-full shadow-[0_0_4px_#fffacd]" />
-              <div className="absolute bottom-[25%] right-[32%] w-1 h-1 bg-primary/40 rounded-full shadow-[0_0_6px_#13c8ec]" />
-              <div className="absolute bottom-[45%] right-[33%] w-1 h-1 bg-white/30 rounded-full" />
-              <div className="absolute bottom-[30%] right-[12%] w-1 h-1 bg-noor-gold/40 rounded-full shadow-[0_0_4px_#fffacd]" />
-              <div className="absolute bottom-[15%] right-[22%] w-1 h-1 bg-primary/50 rounded-full shadow-[0_0_6px_#13c8ec]" />
+              <div className="absolute bottom-[20%] left-[11%] w-1 h-1 bg-primary/40 rounded-full" />
+              <div className="absolute bottom-[35%] left-[12%] w-1 h-1 bg-secondary/30 rounded-full" />
+              <div className="absolute bottom-[25%] right-[32%] w-1 h-1 bg-primary/30 rounded-full" />
+              <div className="absolute bottom-[45%] right-[33%] w-1 h-1 bg-white/20 rounded-full" />
+              <div className="absolute bottom-[30%] right-[12%] w-1 h-1 bg-secondary/30 rounded-full" />
+              <div className="absolute bottom-[15%] right-[22%] w-1 h-1 bg-primary/30 rounded-full" />
             </div>
 
             {/* Ambient glows */}
-            <div className="absolute top-[20%] right-[20%] w-[500px] h-[300px] bg-primary/5 rounded-full blur-3xl" />
-            <div className="absolute top-[40%] left-[10%] w-[400px] h-[250px] bg-noor-gold/3 rounded-full blur-3xl" />
-            <div className="absolute bottom-[30%] right-[30%] w-[300px] h-[200px] bg-primary/8 rounded-full blur-2xl" />
+            <div className="absolute top-[20%] right-[20%] w-[500px] h-[300px] bg-primary/3 rounded-full blur-3xl" />
+            <div className="absolute top-[40%] left-[10%] w-[400px] h-[250px] bg-secondary/3 rounded-full blur-3xl" />
+            <div className="absolute bottom-[30%] right-[30%] w-[300px] h-[200px] bg-primary/5 rounded-full blur-2xl" />
 
             {/* Bottom fade */}
             <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent" />
@@ -66,14 +66,6 @@ export default function LandingPage() {
               {...motionProps}
             >
               <div className="max-w-4xl space-y-8">
-                {/* Live Badge */}
-                {/*                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-md">
-                  <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                  <span className="text-xs font-medium text-primary uppercase tracking-wider">
-                    Live in 12 Cities
-                  </span>
-                </div> */}
-
                 {/* Headline */}
                 <motion.h1
                   variants={fadeInUp}
@@ -83,7 +75,7 @@ export default function LandingPage() {
                   <span
                     className="inline-block"
                     style={{
-                      background: "linear-gradient(to right, #13c8ec, #fffacd)",
+                      background: "linear-gradient(90deg, rgba(124,92,255,0.95) 0%, rgba(76,125,255,0.95) 60%, rgba(255,255,255,0.92) 120%)",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
@@ -114,9 +106,9 @@ export default function LandingPage() {
                   <Link href="/app">
                     <Button
                       size="lg"
-                      className="bg-gradient-to-r from-[#0F7A82] via-[#37B8A6] to-[#1AC6E6]
-                                text-black font-bold rounded-xl shadow-lg hover:shadow-xl
-                                hover:shadow-[#0F7A82]/40 transition-all duration-300
+                      className="bg-gradient-to-r from-[#7C5CFF] to-[#4C7DFF]
+                                text-white font-bold rounded-xl shadow-premium hover:shadow-lg
+                                transition-all duration-300
                                 hover:-translate-y-0.5"
                     >
                       Try Live Demo
@@ -126,8 +118,8 @@ export default function LandingPage() {
                     <Button
                       variant="secondary"
                       size="lg"
-                      className="border-[#0F7A82]/50 bg-[#1A363B]/50 backdrop-blur-md text-white
-                                hover:bg-[#1A363B]/80 hover:border-[#0F7A82]/80 rounded-xl
+                      className="border-primary/40 bg-[#14213A]/50 backdrop-blur-md text-white
+                                hover:bg-[#14213A]/80 hover:border-primary/60 rounded-xl
                                 transition-all duration-200"
                       rightIcon={
                         <span className="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">
@@ -179,7 +171,7 @@ export default function LandingPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
               Illuminating the unseen
             </h2>
-            <p className="text-gray-400 text-xl">
+            <p className="text-text-muted text-xl">
               Our AI analyzes multiple layers of city data to ensure your
               journey is as safe as it is efficient.
             </p>
@@ -193,20 +185,20 @@ export default function LandingPage() {
             <div className="flex-1 w-full order-2 md:order-1">
               <div
                 className="relative group aspect-[4/3] rounded-2xl overflow-hidden
-                             border border-[#0F7A82]/40 shadow-2xl bg-[#1A363B]/50
-                             hover:border-[#0F7A82]/60 transition-all duration-300"
+                             border border-white/[0.08] shadow-premium bg-[#14213A]/50
+                             hover:border-white/[0.12] transition-all duration-300"
               >
                 <img
                   src="/images/map-card-1.png"
                   alt="Smart routing"
                   className="w-full h-full object-cover opacity-60"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0F2326]/90 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1220]/90 to-transparent" />
                 <div className="absolute bottom-8 left-8 flex items-center gap-4">
                   <div
-                    className="w-16 h-16 rounded-xl bg-[#0F7A82]/20 backdrop-blur-md
-                                 border border-[#0F7A82]/40 flex items-center justify-center
-                                 text-[#37B8A6] shadow-lg shadow-[#0F7A82]/20"
+                    className="w-16 h-16 rounded-xl bg-primary/10 backdrop-blur-md
+                                 border border-primary/20 flex items-center justify-center
+                                 text-primary shadow-premium"
                   >
                     <span className="material-symbols-outlined text-4xl">
                       location_on
@@ -223,7 +215,7 @@ export default function LandingPage() {
                 Analyzes municipal street light data and real-time foot traffic
                 to find the most illuminated paths.
               </p>
-              <div className="w-20 h-1 bg-gradient-to-r from-[#0F7A82] to-[#37B8A6] rounded-full" />
+              <div className="w-20 h-1 bg-gradient-to-r from-[#7C5CFF] to-[#4C7DFF] rounded-full" />
             </div>
           </motion.div>
 
@@ -240,25 +232,25 @@ export default function LandingPage() {
                 Customize your preference. Choose the brightest path, not just
                 the fastest one available.
               </p>
-              <div className="w-20 h-1 bg-gradient-to-r from-noor-gold/50 to-noor-gold/20 rounded-full" />
+              <div className="w-20 h-1 bg-gradient-to-r from-secondary/50 to-secondary/20 rounded-full" />
             </div>
             <div className="flex-1 w-full">
               <div
                 className="relative group aspect-[4/3] rounded-2xl overflow-hidden
-                             border border-[#0F7A82]/40 shadow-2xl bg-[#1A363B]/50
-                             hover:border-[#0F7A82]/60 transition-all duration-300"
+                             border border-white/[0.08] shadow-premium bg-[#14213A]/50
+                             hover:border-white/[0.12] transition-all duration-300"
               >
                 <img
                   src="/images/map-card-2.png"
                   alt="Safety preferences"
                   className="w-full h-full object-cover opacity-60"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0F2326]/90 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1220]/90 to-transparent" />
                 <div className="absolute bottom-8 right-8 flex items-center gap-4">
                   <div
-                    className="w-16 h-16 rounded-xl bg-noor-gold/15 backdrop-blur-md
-                                 border border-noor-gold/30 flex items-center justify-center
-                                 text-noor-gold shadow-lg shadow-noor-gold/15"
+                    className="w-16 h-16 rounded-xl bg-secondary/10 backdrop-blur-md
+                                 border border-secondary/20 flex items-center justify-center
+                                 text-secondary shadow-premium"
                   >
                     <span className="material-symbols-outlined text-4xl">
                       balance
@@ -272,21 +264,21 @@ export default function LandingPage() {
 
         {/* App Preview Section */}
         <section
-          className="w-full bg-gradient-to-b from-[#0F2326]/50 to-[#050A14]/50
-                     border-y border-[#0F7A82]/20 py-32 relative overflow-hidden"
+          className="w-full bg-gradient-to-b from-[#101A2D]/50 to-[#070A12]/50
+                     border-y border-white/[0.08] py-32 relative overflow-hidden"
           id="app"
         >
           <div
             className="absolute top-0 left-0 w-full h-full opacity-30 pointer-events-none"
             style={{
               backgroundImage:
-                "radial-gradient(circle at 50% 50%, rgba(15, 122, 130, 0.08) 0%, transparent 50%)",
+                "radial-gradient(circle at 50% 50%, rgba(124, 92, 255, 0.06) 0%, transparent 50%)",
             }}
           />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-10 sm:gap-16 lg:gap-24">
             <div className="flex-1 space-y-8">
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                See the <span className="text-[#37B8A6] text-glow">light</span>.
+                See the <span className="text-primary text-glow">light</span>.
                 <br />
                 Avoid the shadows.
               </h2>
@@ -298,32 +290,31 @@ export default function LandingPage() {
               <div className="flex flex-col gap-6 pt-4">
                 {/* Safest Route Card */}
                 <div
-                  className="flex items-center gap-4 p-6 rounded-xl bg-[#1A363B]/80
-                               border border-[#0F7A82]/50 shadow-lg shadow-[#0F7A82]/10
-                               hover:border-[#0F7A82]/70 transition-all duration-200"
+                  className="flex items-center gap-4 p-6 rounded-xl bg-[#14213A]/60
+                               border border-primary/20 shadow-premium
+                               hover:border-primary/30 transition-all duration-200"
                 >
                   <div
-                    className="w-2 h-12 rounded-full bg-gradient-to-b from-[#0F7A82] to-[#37B8A6]
-                                 shadow-[0_0_15px_rgba(15,122,130,0.6)]"
+                    className="w-2 h-12 rounded-full bg-gradient-to-b from-[#7C5CFF] to-[#4C7DFF]"
                   />
                   <div>
                     <h4 className="text-white text-lg font-bold">
                       Safest Route
                     </h4>
                     <p className="text-sm text-text-muted">
-                      Well-lit main avenues • 12 mins
+                      Well-lit main avenues · 12 mins
                     </p>
                   </div>
                 </div>
                 {/* Shortest Route Card */}
-                <div className="flex items-center gap-4 p-6 rounded-xl border border-[#0F7A82]/20 opacity-50">
+                <div className="flex items-center gap-4 p-6 rounded-xl border border-white/[0.06] opacity-50">
                   <div className="w-2 h-12 rounded-full bg-gray-600" />
                   <div>
                     <h4 className="text-white text-lg font-bold">
                       Shortest Route
                     </h4>
                     <p className="text-sm text-text-muted">
-                      Unlit shortcuts • 9 mins
+                      Unlit shortcuts · 9 mins
                     </p>
                   </div>
                 </div>
@@ -331,13 +322,13 @@ export default function LandingPage() {
             </div>
             <div className="flex-1 w-full">
               <div
-                className="relative rounded-2xl overflow-hidden border border-[#0F7A82]/40
-                             shadow-2xl shadow-[#0F7A82]/10 bg-[#0F2326] aspect-[4/3]"
+                className="relative rounded-2xl overflow-hidden border border-white/[0.08]
+                             shadow-premium bg-[#0B1220] aspect-[4/3]"
               >
                 {/* Map Preview */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#1A363B]/60 to-[#0F2326]/80 opacity-60" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#14213A]/60 to-[#0B1220]/80 opacity-60" />
                 <svg
-                  className="absolute inset-0 w-full h-full drop-shadow-[0_0_12px_rgba(15,122,130,0.8)]"
+                  className="absolute inset-0 w-full h-full"
                   preserveAspectRatio="none"
                   viewBox="0 0 400 300"
                 >
@@ -357,19 +348,19 @@ export default function LandingPage() {
                       x2="100%"
                       y2="0%"
                     >
-                      <stop offset="0%" stopColor="#0F7A82" />
-                      <stop offset="100%" stopColor="#37B8A6" />
+                      <stop offset="0%" stopColor="#7C5CFF" />
+                      <stop offset="100%" stopColor="#4C7DFF" />
                     </linearGradient>
                   </defs>
-                  <circle cx="350" cy="50" fill="#37B8A6" r="8" />
+                  <circle cx="350" cy="50" fill="#8B74FF" r="8" />
                   <circle cx="50" cy="250" fill="white" r="8" />
                 </svg>
                 <div
-                  className="absolute bottom-8 left-8 right-8 p-6 bg-[#0F2326]/95 backdrop-blur-xl
-                               border border-[#0F7A82]/40 rounded-xl flex items-center justify-between"
+                  className="absolute bottom-8 left-8 right-8 p-6 bg-[#0B1220]/95 backdrop-blur-xl
+                               border border-white/[0.08] rounded-xl flex items-center justify-between"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="p-3 rounded-lg bg-[#0F7A82]/20 text-[#37B8A6]">
+                    <div className="p-3 rounded-lg bg-primary/10 text-primary">
                       <span className="material-symbols-outlined text-2xl font-bold">
                         directions_walk
                       </span>
@@ -378,7 +369,7 @@ export default function LandingPage() {
                       <p className="text-white text-base font-bold">
                         Navigating to Home
                       </p>
-                      <p className="text-sm text-[#37B8A6]">
+                      <p className="text-sm text-primary">
                         Via Main St (Lit)
                       </p>
                     </div>
@@ -394,15 +385,15 @@ export default function LandingPage() {
         <section className="w-full py-16 sm:py-24 lg:py-32 px-4 sm:px-6">
           <div
             className="max-w-5xl mx-auto rounded-2xl relative overflow-hidden p-8 sm:p-12 md:p-16 lg:p-24 text-center
-                         border border-[#0F7A82]/40 bg-gradient-to-b from-[#1A363B]/50 to-[#0F2326]/80
-                         shadow-2xl shadow-[#0F7A82]/10"
+                         border border-white/[0.08] bg-gradient-to-b from-[#14213A]/50 to-[#0B1220]/80
+                         shadow-premium"
           >
             <div
               className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full
-                           bg-gradient-radial from-[#0F7A82]/15 to-transparent opacity-50"
+                           bg-gradient-radial from-primary/8 to-transparent opacity-50"
             />
             <div className="relative z-10 flex flex-col items-center gap-10">
-              <span className="material-symbols-outlined text-7xl text-noor-gold">
+              <span className="material-symbols-outlined text-7xl text-secondary">
                 lightbulb
               </span>
               <div className="space-y-4">
@@ -418,9 +409,9 @@ export default function LandingPage() {
                 <Link href="/app">
                   <Button
                     size="lg"
-                    className="h-16 px-10 text-xl bg-gradient-to-r from-[#0F7A82] via-[#37B8A6] to-[#1AC6E6]
-                              text-black font-bold rounded-xl shadow-lg hover:shadow-xl
-                              hover:shadow-[#0F7A82]/40 transition-all duration-300"
+                    className="h-16 px-10 text-xl bg-gradient-to-r from-[#7C5CFF] to-[#4C7DFF]
+                              text-white font-bold rounded-xl shadow-premium hover:shadow-lg
+                              transition-all duration-300"
                     leftIcon={
                       <span className="material-symbols-outlined text-2xl">
                         explore

@@ -9,7 +9,7 @@ export default function StatesPage() {
   const [showToasts, setShowToasts] = useState(true);
 
   return (
-    <div className="bg-[#0b1416] text-white font-display overflow-x-hidden">
+    <div className="bg-[#070A12] text-white font-display overflow-x-hidden">
       {/* Page Header */}
       <div className="px-6 py-6 bg-background-dark border-b border-border-dark">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -27,7 +27,7 @@ export default function StatesPage() {
 
       {/* VARIANT 1: LOADING STATE */}
       <div className="flex flex-col w-full h-screen max-h-[900px] border-b border-gray-800 mb-10">
-        <div className="px-6 py-4 bg-[#0b1416] text-gray-500 text-sm font-bold uppercase tracking-wider">
+        <div className="px-6 py-4 bg-[#070A12] text-gray-500 text-sm font-bold uppercase tracking-wider">
           Variant 1: Loading (Skeleton + AI Animation)
         </div>
 
@@ -65,7 +65,7 @@ export default function StatesPage() {
                   <path
                     d="M10,50 C50,10 90,90 130,50 S190,10 190,50"
                     fill="none"
-                    stroke="#234248"
+                    stroke="#1E2942"
                     strokeWidth="4"
                     strokeLinecap="round"
                   />
@@ -73,10 +73,10 @@ export default function StatesPage() {
                     className="path-line opacity-50"
                     d="M10,50 C50,10 90,90 130,50 S190,10 190,50"
                     fill="none"
-                    stroke="#13c8ec"
+                    stroke="#7C5CFF"
                     strokeWidth="2"
                   />
-                  <circle className="pulse-point" fill="#13c8ec" r="6">
+                  <circle className="pulse-point" fill="#7C5CFF" r="6">
                     <animateMotion
                       dur="2.5s"
                       path="M10,50 C50,10 90,90 130,50 S190,10 190,50"
@@ -98,7 +98,7 @@ export default function StatesPage() {
 
       {/* VARIANT 2: ERROR STATE */}
       <div className="flex flex-col w-full h-screen max-h-[900px] border-b border-gray-800 mb-10">
-        <div className="px-6 py-4 bg-[#0b1416] text-gray-500 text-sm font-bold uppercase tracking-wider">
+        <div className="px-6 py-4 bg-[#070A12] text-gray-500 text-sm font-bold uppercase tracking-wider">
           Variant 2: No Route Found (Error)
         </div>
 
@@ -192,7 +192,7 @@ export default function StatesPage() {
 
       {/* VARIANT 3: LOW COVERAGE STATE */}
       <div className="flex flex-col w-full h-screen max-h-[900px] border-b border-gray-800 mb-10">
-        <div className="px-6 py-4 bg-[#0b1416] text-gray-500 text-sm font-bold uppercase tracking-wider">
+        <div className="px-6 py-4 bg-[#070A12] text-gray-500 text-sm font-bold uppercase tracking-wider">
           Variant 3: Low Coverage (Warning)
         </div>
 

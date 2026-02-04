@@ -22,7 +22,7 @@ function AnimatedOwl() {
           viewBox="0 0 230 372"
           width={size}
           height={size * (372 / 230)}
-          className="text-white drop-shadow-[0_0_20px_rgba(19,200,236,0.6)]"
+          className="text-white drop-shadow-[0_0_20px_rgba(124,92,255,0.12)]"
           fill="currentColor"
         >
           <g transform="translate(-141.145307,443.000000) scale(0.100000,-0.100000)">

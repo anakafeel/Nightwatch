@@ -45,7 +45,7 @@ export default function DesignSystemPage() {
                 <div className="h-32 w-full rounded-xl bg-background-dark border border-white/10 shadow-lg" />
                 <div className="flex flex-col px-1">
                   <span className="text-white font-bold">Midnight</span>
-                  <span className="text-text-muted text-sm font-mono">#050A14</span>
+                  <span className="text-text-muted text-sm font-mono">#070A12</span>
                   <span className="text-text-muted text-xs mt-1">Background / Surface</span>
                 </div>
               </div>
@@ -53,8 +53,8 @@ export default function DesignSystemPage() {
               <div className="flex flex-col gap-3">
                 <div className="h-32 w-full rounded-xl bg-primary shadow-glow-primary" />
                 <div className="flex flex-col px-1">
-                  <span className="text-white font-bold">Owl Cyan</span>
-                  <span className="text-text-muted text-sm font-mono">#13c8ec</span>
+                  <span className="text-white font-bold">Soft Violet</span>
+                  <span className="text-text-muted text-sm font-mono">#7C5CFF</span>
                   <span className="text-text-muted text-xs mt-1">Primary / Action</span>
                 </div>
               </div>
@@ -62,8 +62,8 @@ export default function DesignSystemPage() {
               <div className="flex flex-col gap-3">
                 <div className="h-32 w-full rounded-xl bg-noor-gold shadow-glow-warning" />
                 <div className="flex flex-col px-1">
-                  <span className="text-white font-bold">Owl Gold</span>
-                  <span className="text-text-muted text-sm font-mono">#FFFACD</span>
+                  <span className="text-white font-bold">Warm Accent</span>
+                  <span className="text-text-muted text-sm font-mono">#F2C14E</span>
                   <span className="text-text-muted text-xs mt-1">Accent / Highlight</span>
                 </div>
               </div>

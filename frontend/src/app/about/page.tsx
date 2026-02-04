@@ -36,7 +36,7 @@ export default function AboutPage() {
   const motionProps = getMotionProps(reducedMotion);
 
   return (
-    <div className="relative min-h-screen w-full bg-gradient-to-b from-[#050A14] via-[#0F2326] to-[#0B1221]">
+    <div className="relative min-h-screen w-full bg-gradient-to-b from-[#070A12] via-[#0B1220] to-[#0B1220]">
       <MarketingNav />
 
       <main className="relative z-10 pt-24 pb-16">
@@ -54,7 +54,7 @@ export default function AboutPage() {
               className="text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tight mb-6"
             >
               About{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#13c8ec] to-[#37B8A6]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7C5CFF] to-[#8B74FF]">
                 Nightwatch
               </span>
             </motion.h1>
@@ -84,7 +84,7 @@ export default function AboutPage() {
             </motion.h2>
             <motion.div
               variants={fadeInUp}
-              className="rounded-xl border border-[#0F7A82]/40 bg-gradient-to-br from-[#1A363B]/60 to-[#0F2326]/40 p-6 sm:p-8"
+              className="rounded-xl border border-[#7C5CFF]/40 bg-gradient-to-br from-[#14213A]/60 to-[#0B1220]/40 p-6 sm:p-8"
             >
               <p className="text-text-muted leading-relaxed mb-4">
                 Nightwatch analyzes streetlight data from municipal sources to
@@ -119,9 +119,9 @@ export default function AboutPage() {
             </motion.h2>
             <motion.div variants={fadeInUp} className="space-y-6">
               {/* Step 1 */}
-              <div className="rounded-xl border border-[#0F7A82]/40 bg-gradient-to-br from-[#1A363B]/60 to-[#0F2326]/40 p-6">
+              <div className="rounded-xl border border-[#7C5CFF]/40 bg-gradient-to-br from-[#14213A]/60 to-[#0B1220]/40 p-6">
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#0F7A82]/30 flex items-center justify-center text-[#37B8A6] font-bold text-sm">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#7C5CFF]/30 flex items-center justify-center text-[#8B74FF] font-bold text-sm">
                     1
                   </div>
                   <div>
@@ -133,7 +133,7 @@ export default function AboutPage() {
                       streetlight density. More lights per 100 meters = higher
                       score.
                     </p>
-                    <code className="block bg-[#0F2326]/80 text-[#37B8A6] text-xs sm:text-sm px-4 py-2 rounded-lg font-mono overflow-x-auto">
+                    <code className="block bg-[#0B1220]/80 text-[#8B74FF] text-xs sm:text-sm px-4 py-2 rounded-lg font-mono overflow-x-auto">
                       safety_score = lights_count / (segment_length / 100)
                     </code>
                   </div>
@@ -141,9 +141,9 @@ export default function AboutPage() {
               </div>
 
               {/* Step 2 */}
-              <div className="rounded-xl border border-[#0F7A82]/40 bg-gradient-to-br from-[#1A363B]/60 to-[#0F2326]/40 p-6">
+              <div className="rounded-xl border border-[#7C5CFF]/40 bg-gradient-to-br from-[#14213A]/60 to-[#0B1220]/40 p-6">
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#0F7A82]/30 flex items-center justify-center text-[#37B8A6] font-bold text-sm">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#7C5CFF]/30 flex items-center justify-center text-[#8B74FF] font-bold text-sm">
                     2
                   </div>
                   <div>
@@ -155,7 +155,7 @@ export default function AboutPage() {
                       Safer roads become &quot;cheaper&quot; to traverse,
                       encouraging the algorithm to prefer them.
                     </p>
-                    <code className="block bg-[#0F2326]/80 text-[#37B8A6] text-xs sm:text-sm px-4 py-2 rounded-lg font-mono overflow-x-auto">
+                    <code className="block bg-[#0B1220]/80 text-[#8B74FF] text-xs sm:text-sm px-4 py-2 rounded-lg font-mono overflow-x-auto">
                       edge_cost = length / (1 + safety_score)
                     </code>
                   </div>
@@ -163,9 +163,9 @@ export default function AboutPage() {
               </div>
 
               {/* Step 3 */}
-              <div className="rounded-xl border border-[#0F7A82]/40 bg-gradient-to-br from-[#1A363B]/60 to-[#0F2326]/40 p-6">
+              <div className="rounded-xl border border-[#7C5CFF]/40 bg-gradient-to-br from-[#14213A]/60 to-[#0B1220]/40 p-6">
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#0F7A82]/30 flex items-center justify-center text-[#37B8A6] font-bold text-sm">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#7C5CFF]/30 flex items-center justify-center text-[#8B74FF] font-bold text-sm">
                     3
                   </div>
                   <div>
@@ -210,15 +210,15 @@ export default function AboutPage() {
                   href={member.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group rounded-xl border border-[#0F7A82]/40 bg-gradient-to-br from-[#1A363B]/60 to-[#0F2326]/40 p-5
-                            hover:border-[#0F7A82]/70 hover:bg-[#1A363B]/80 transition-all duration-200
-                            focus:outline-none focus:ring-2 focus:ring-[#0F7A82]/50"
+                  className="group rounded-xl border border-[#7C5CFF]/40 bg-gradient-to-br from-[#14213A]/60 to-[#0B1220]/40 p-5
+                            hover:border-[#7C5CFF]/70 hover:bg-[#14213A]/80 transition-all duration-200
+                            focus:outline-none focus:ring-2 focus:ring-[#7C5CFF]/50"
                 >
-                  <h3 className="text-white font-semibold group-hover:text-[#37B8A6] transition-colors">
+                  <h3 className="text-white font-semibold group-hover:text-[#8B74FF] transition-colors">
                     {member.name}
                   </h3>
                   <p className="text-text-muted text-sm mt-1">{member.role}</p>
-                  <p className="text-[#37B8A6] text-xs mt-2 flex items-center gap-1">
+                  <p className="text-[#8B74FF] text-xs mt-2 flex items-center gap-1">
                     <span className="material-symbols-outlined text-sm">
                       open_in_new
                     </span>
@@ -241,9 +241,9 @@ export default function AboutPage() {
             <Link href="/app">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-[#0F7A82] via-[#37B8A6] to-[#1AC6E6]
-                          text-black font-bold rounded-xl shadow-lg hover:shadow-xl
-                          hover:shadow-[#0F7A82]/40 transition-all duration-300"
+                className="bg-gradient-to-r from-[#7C5CFF] via-[#8B74FF] to-[#4C7DFF]
+                          text-white font-bold rounded-xl shadow-lg hover:shadow-xl
+                          hover:shadow-[#7C5CFF]/40 transition-all duration-300"
               >
                 Try the App
               </Button>

@@ -231,11 +231,11 @@ export default function AppPage() {
         {/* Sidebar */}
         <aside
           className="w-full md:w-[380px] lg:w-[420px] flex flex-col z-20
-                  bg-gradient-to-br from-[#0F2326]/95 to-[#1A363B]/90
-                  backdrop-blur-xl md:border-r border-b md:border-b-0 border-[#0F7A82]/50
+                  bg-gradient-to-br from-[#0B1220]/95 to-[#14213A]/90
+                  backdrop-blur-xl md:border-r border-b md:border-b-0 border-[#7C5CFF]/50
                   overflow-y-auto custom-scrollbar
                   shadow-lg
-                  ring-1 ring-[#0F7A82]/40
+                  ring-1 ring-[#7C5CFF]/40
                   shrink-0"
         >
           <form
@@ -270,10 +270,10 @@ export default function AppPage() {
                       if (nextEnd) setEndId(nextEnd);
                     }
                   }}
-                  className="w-full rounded-xl border border-[#0F7A82]/60 bg-[#1A363B]/80 
-                            hover:border-[#0F7A82]/90 px-4 py-3.5 text-white 
+                  className="w-full rounded-xl border border-[#7C5CFF]/60 bg-[#14213A]/80 
+                            hover:border-[#7C5CFF]/90 px-4 py-3.5 text-white 
                             outline-none backdrop-blur transition-all duration-200 
-                            focus:ring-2 focus:ring-[#0F7A82]/60"
+                            focus:ring-2 focus:ring-[#7C5CFF]/60"
                 >
                   {OTTAWA_LOCATIONS.map((loc) => {
                     const d = haversineMeters(CARLETON, loc);
@@ -297,10 +297,10 @@ export default function AppPage() {
                 <select
                   value={endLoc.id}
                   onChange={(e) => setEndId(e.target.value)}
-                  className="w-full rounded-xl border border-[#0F7A82]/60 bg-[#1A363B]/80 
-                            hover:border-[#0F7A82]/90 px-4 py-3.5 text-white 
+                  className="w-full rounded-xl border border-[#7C5CFF]/60 bg-[#14213A]/80 
+                            hover:border-[#7C5CFF]/90 px-4 py-3.5 text-white 
                             outline-none backdrop-blur transition-all duration-200 
-                            focus:ring-2 focus:ring-[#0F7A82]/60"
+                            focus:ring-2 focus:ring-[#7C5CFF]/60"
                 >
                   {endChoices.map((loc) => {
                     const d = haversineMeters(CARLETON, loc);
@@ -317,11 +317,11 @@ export default function AppPage() {
             {/* Primary Action */}
             <Button
               type="submit"
-              className="w-full py-7 h-1.5 bg-gradient-to-r from-[#0F7A82] via-[#37B8A6] to-[#1AC6E6] 
-                              hover:from-[#0F7A82]/95 hover:via-[#37B8A6]/95 hover:to-[#1AC6E6]/95 
-                              shadow-lg hover:shadow-xl text-black font-bold rounded-xl 
+              className="w-full py-7 h-1.5 bg-gradient-to-r from-[#7C5CFF] via-[#8B74FF] to-[#4C7DFF] 
+                              hover:from-[#7C5CFF]/95 hover:via-[#8B74FF]/95 hover:to-[#4C7DFF]/95 
+                              shadow-lg hover:shadow-xl text-white font-bold rounded-xl 
                               backdrop-blur transition-all duration-300 
-                              focus:ring-4 focus:ring-[#0F7A82]/50 border-transparent"
+                              focus:ring-4 focus:ring-[#7C5CFF]/50 border-transparent"
               isLoading={isLoading}
               leftIcon={
                 <span className="material-symbols-outlined">security</span>
@@ -333,7 +333,7 @@ export default function AppPage() {
         </aside>
 
         {/* Map View */}
-        <main className="flex-1 min-h-[50vh] md:min-h-0 relative bg-[#0b1215] overflow-hidden">
+        <main className="flex-1 min-h-[50vh] md:min-h-0 relative bg-[#0B1220] overflow-hidden">
           {/* Map Canvas */}
           <MapCanvas
             routeData={routeData}
@@ -374,7 +374,7 @@ export default function AppPage() {
 
           {/* Mobile Route Selection Card */}
           {routeData && (
-            <div className="absolute bottom-0 left-0 right-0 bg-background-dark/95 backdrop-blur-xl border-t border-[#0F7A82]/30 rounded-t-2xl z-20 md:hidden">
+            <div className="absolute bottom-0 left-0 right-0 bg-background-dark/95 backdrop-blur-xl border-t border-[#7C5CFF]/30 rounded-t-2xl z-20 md:hidden">
               {/* Toggle Buttons */}
               <div className="flex border-b border-border-dark/50">
                 <button

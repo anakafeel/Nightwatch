@@ -20,7 +20,7 @@ body {
 
 /* Selection styling */
 ::selection {
-  background-color: rgba(19, 200, 236, 0.3);
+  background-color: rgba(124, 92, 255, 0.3);
   color: white;
 }
 
