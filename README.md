@@ -1,4 +1,5 @@
-![Nightwatch App](https://github.com/user-attachments/assets/33e223f9-de34-4883-b40c-2d8b41af8b04)
+<img width="1841" height="936" alt="image" src="https://github.com/user-attachments/assets/3ae2f8ee-d737-41cf-84fd-a291d79ecc46" />
+
 
 # Nightwatch
 
@@ -86,7 +87,7 @@ Open [http://localhost:3000](http://localhost:3000).
 The routing engine scores paths based on streetlight density along the route.
 
 ![Route Visualization](https://github.com/user-attachments/assets/019d26dd-d166-4eb5-aa5b-2ee25f752381)
-
+![Nightwatch App](https://github.com/user-attachments/assets/33e223f9-de34-4883-b40c-2d8b41af8b04)
 ## Project Structure
 
 ```
