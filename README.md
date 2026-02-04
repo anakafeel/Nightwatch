@@ -101,11 +101,5 @@ design/                   → Design mockups
 
 ---
 
-## Dev Checklist (Claude)
-
-- [ ] README.md — fixed markdown rendering, cleaned up structure
-- [ ] frontend/package.json — added framer-motion dependency
-- [ ] frontend/src/lib/motion.ts — motion variants + reduced motion util
-- [ ] frontend/src/app/page.tsx — landing page fade/slide animations
-- [ ] frontend/src/components/layout/AppNav.tsx — dropdown animation
-- [ ] frontend/src/app/saved/page.tsx — route card hover animations
+## Desings:
+<img width="748" height="714" alt="image" src="https://github.com/user-attachments/assets/cb9aae34-0f0a-4ec7-85cd-a48067e72a2e" />
