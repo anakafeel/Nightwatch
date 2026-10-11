@@ -18,6 +18,12 @@
   <img src="https://img.shields.io/badge/tested%20with-pytest-0A9EDC?logo=pytest&logoColor=white" alt="pytest">
 </p>
 
+<p align="center">
+  <a href=".github/assets/nightwatch-demo.mp4"><img src=".github/assets/nightwatch-demo.jpg" alt="Nightwatch demo video: click to play" width="85%"></a>
+  <br>
+  <sub>▶ Click the thumbnail to watch the demo video.</sub>
+</p>
+
 # Nightwatch
 
 Nightwatch is a walking-route app for after dark. Instead of only returning the fastest path, it compares the **shortest** route against the **safest** one, scoring paths by streetlight density using the City of Ottawa's Open Data.
