@@ -19,9 +19,9 @@
 </p>
 
 <p align="center">
-  <a href=".github/assets/nightwatch-demo.mp4"><img src=".github/assets/nightwatch-demo.jpg" alt="Nightwatch demo video: click to play" width="85%"></a>
+  <a href=".github/assets/nightwatch-demo.mp4"><img src=".github/assets/nightwatch-demo.gif" alt="Nightwatch demo video: click to play" width="85%"></a>
   <br>
-  <sub>▶ Click the thumbnail to watch the demo video.</sub>
+  <sub>Silent preview. Click it for the full video with sound (MP4).</sub>
 </p>
 
 # Nightwatch
